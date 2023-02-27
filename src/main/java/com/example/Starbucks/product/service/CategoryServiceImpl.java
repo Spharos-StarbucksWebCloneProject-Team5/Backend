@@ -1,9 +1,12 @@
 package com.example.Starbucks.product.service;
 
+import com.example.Starbucks.product.dto.CategoryDto;
 import com.example.Starbucks.product.model.Category;
 import com.example.Starbucks.product.repository.ICategoryRepository;
+import com.example.Starbucks.product.vo.RequestCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +22,10 @@ public class CategoryServiceImpl implements ICategoryService{
 
 
     @Override
-    public void addCategory(Category category) {
+    public void addCategory(RequestCategory requestCategory) {
+        ModelMapper modelMapper = new ModelMapper();
+        Category category = modelMapper.map(requestCategory,Category.class);
+
         iCategoryRepository.save(category);
     }
 
