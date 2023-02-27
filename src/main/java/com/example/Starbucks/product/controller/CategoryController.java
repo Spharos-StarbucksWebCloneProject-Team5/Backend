@@ -2,6 +2,7 @@ package com.example.Starbucks.product.controller;
 
 import com.example.Starbucks.product.model.Category;
 import com.example.Starbucks.product.service.ICategoryService;
+import com.example.Starbucks.product.vo.RequestCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,8 @@ public class CategoryController {
     private final ICategoryService iCategoryService;
 
     @PostMapping("/add")
-    public void addCategory(@RequestBody Category category){
-        iCategoryService.addCategory(category);
+    public void addCategory(@RequestBody RequestCategory requestCategory){
+        iCategoryService.addCategory(requestCategory);
     }
 
     @GetMapping("/get/{categoryId}")
