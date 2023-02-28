@@ -1,17 +1,13 @@
 package com.example.Starbucks.product.service;
 
-import com.example.Starbucks.product.dto.CategoryDto;
-import com.example.Starbucks.product.dto.CategoryTypeDto;
 import com.example.Starbucks.product.model.Category;
 import com.example.Starbucks.product.repository.ICategoryRepository;
 import com.example.Starbucks.product.vo.RequestCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,17 +23,11 @@ public class CategoryServiceImpl implements ICategoryService{
     public void addCategory(RequestCategory requestCategory) {
         ModelMapper modelMapper = new ModelMapper();
         Category category = modelMapper.map(requestCategory,Category.class);
-
         iCategoryRepository.save(category);
     }
 
     @Override
     public Category getCategory(Integer categoryId) {
-//        Category category = iCategoryRepository.findById(categoryId).get();
-//        if(category != null){
-//            log.info("not null");
-//            return null;
-//        }
         return iCategoryRepository.findById(categoryId).get();
     }
 
@@ -46,19 +36,31 @@ public class CategoryServiceImpl implements ICategoryService{
         return iCategoryRepository.findAll();
     }
 
-    @Override
-    public List<CategoryTypeDto> getAllByType(String categoryType) {
+    /*@Override
+    public List<CategoryTypeDto> getAllType(String categoryType) {
         ModelMapper modelMapper = new ModelMapper();
         List<Category> categories = iCategoryRepository.findAllByType(categoryType);
         List<CategoryTypeDto> categoryTypeDtoList = new ArrayList<>();
+
         categories.forEach(category -> {
-            categoryTypeDtoList.add(modelMapper.map(category,CategoryTypeDto.class));
+            categoryTypeDtoList.add (modelMapper.map(category,CategoryTypeDto.class));
+
         });
-        return categoryTypeDtoList;
+        return null;
+    }*/
+    @Override
+    public void updateCategory(Category category){
+
+        Category category1 = iCategoryRepository.findById(category.getId()).get();
+        category1.setName(category.getName());
+
+        iCategoryRepository.save(category1);
     }
 
-    @Override
-    public List<String> getCategoryTypeNames() {
+    /*@Override
+    public List<String> getCategoryTypeName() {
         return iCategoryRepository.groupByType();
-    }
+    }*/
+
+
 }

@@ -6,8 +6,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RequestCategory {
-
+public class ResponseCategory {
+    private Integer id;
     private String name;
     //private String type;
 }

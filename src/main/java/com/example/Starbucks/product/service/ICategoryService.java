@@ -1,7 +1,5 @@
 package com.example.Starbucks.product.service;
 
-import com.example.Starbucks.product.dto.CategoryDto;
-import com.example.Starbucks.product.dto.CategoryTypeDto;
 import com.example.Starbucks.product.model.Category;
 import com.example.Starbucks.product.vo.RequestCategory;
 
@@ -12,7 +10,8 @@ public interface ICategoryService {
     void addCategory(RequestCategory requestCategory);
     Category getCategory(Integer categoryId);
     List<Category> getAll();
-    List<CategoryTypeDto> getAllByType(String categoryType);
+    //List<CategoryTypeDto> getAllType(String categoryType) ;
+    void updateCategory(Category category);
 
-    List<String> getCategoryTypeNames();
+    //List<String> getCategoryTypeName();
 }

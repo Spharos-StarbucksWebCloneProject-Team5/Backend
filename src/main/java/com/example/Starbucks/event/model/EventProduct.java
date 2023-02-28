@@ -1,5 +1,7 @@
-package com.example.Starbucks.product.model;
+package com.example.Starbucks.event.model;
 
+import com.example.Starbucks.event.model.Event;
+import com.example.Starbucks.product.model.Product;
 import com.example.Starbucks.utility.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +15,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCategoryList extends BaseTimeEntity {
+public class EventProduct extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +23,5 @@ public class ProductCategoryList extends BaseTimeEntity {
     @ManyToOne
     private Product product;
     @ManyToOne
-    private Category category;
-    @ManyToOne
-    private MiddleCategory middleCategory;//중분류
+    private Event event;
 }

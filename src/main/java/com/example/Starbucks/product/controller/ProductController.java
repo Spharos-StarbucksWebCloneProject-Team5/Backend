@@ -29,4 +29,9 @@ public class ProductController {
         return iProductService.getAllProduct();
     }
 
+    @PostMapping("/update")
+    public void updateProduct(@RequestBody Product product){
+        iProductService.updateProduct(product);
+    }
+
 }

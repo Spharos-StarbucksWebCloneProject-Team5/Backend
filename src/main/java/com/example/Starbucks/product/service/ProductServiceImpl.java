@@ -4,7 +4,6 @@ import com.example.Starbucks.product.model.Product;
 import com.example.Starbucks.product.repository.IProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,5 +28,14 @@ public class ProductServiceImpl implements IProductService{
     @Override
     public List<Product> getAllProduct() {
         return iProductRepository.findAll();
+    }
+
+    @Override
+    public void updateProduct(Product product){
+
+        Product product1 = iProductRepository.findById(product.getId()).get();
+        product1.setName(product.getName());
+
+        iProductRepository.save(product1);
     }
 }
