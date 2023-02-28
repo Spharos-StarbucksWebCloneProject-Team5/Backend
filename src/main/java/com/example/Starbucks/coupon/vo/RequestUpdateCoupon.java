@@ -1,13 +1,12 @@
 package com.example.Starbucks.coupon.vo;
 
-
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class RequestCoupon {
-
-    private String name;
-    private String type;
+@ToString
+public class RequestUpdateCoupon {
+    private int status;
 }
