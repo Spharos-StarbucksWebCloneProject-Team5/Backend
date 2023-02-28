@@ -53,9 +53,10 @@ public class Payment extends BaseTimeEntity {
 
     private Integer pay_type;
     //결제 방식
-    //private Integer amount;
+    private Integer amount;
     //총계.....Long??? 업체 대량구맨가...?
 
     private Integer pay_status;
     //결제완료, 결제 취소
+
 }
