@@ -3,21 +3,14 @@ package com.example.Starbucks.payment.service;
 import com.example.Starbucks.payment.model.Payment;
 import com.example.Starbucks.payment.repository.IPaymentRepository;
 import com.example.Starbucks.payment.vo.RequestPayment;
+import com.example.Starbucks.payment.vo.RequestPaymentCancel;
 import com.example.Starbucks.payment.vo.ResponsePayment;
-import com.example.Starbucks.product.model.Product;
+import com.example.Starbucks.payment.vo.ResponsePaymentShipping;
 import com.example.Starbucks.product.repository.IProductRepository;
-import com.example.Starbucks.users.model.User;
 import com.example.Starbucks.users.repository.UserRepository;
-import com.example.Starbucks.payment.repository.IPaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -38,16 +31,22 @@ public class PaymentServiceImple implements IPaymentService {
                 .user(userRepository.findById(requestPayment.getUserId()).get())
                 .build();
         log.info(payment.toString());
+        payment.setAmount(payment.getProduct().getPrice() * payment.getProduct_count());
+        payment.setShipping_status(1);
+        payment.setPay_status(1);
         iPaymentRepository.save(payment);
         ResponsePayment responsePayment = ResponsePayment.builder()
                 .pay_type(requestPayment.getPay_type())
                 .userId(payment.getUser().getId())
+                .product_count(requestPayment.getProduct_count())
+                .productId(requestPayment.getProductId())
+                .productPrice(payment.getProduct().getPrice())
                 .shipping_phone(requestPayment.getShipping_phone())
                 .shipping_address(requestPayment.getShipping_address())
-                .productId(payment.getProduct().getId())
-                .productId(requestPayment.getProductId())
+                .shipping_status(payment.getShipping_status())
+                .pay_status(payment.getPay_status())
+                .amount(payment.getAmount())
                 .build();
-
         /*
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
@@ -60,7 +59,21 @@ public class PaymentServiceImple implements IPaymentService {
         //responsePayment.setProductPrice(pr);
         //responsePayment.setAmount(pr * requestPayment.getProduct_count())
         */
-
         return responsePayment;
+    }
+
+    @Override
+    public void cancelPayment(RequestPaymentCancel requestPaymentCancel) {
+        Payment payment = iPaymentRepository.findById(requestPaymentCancel.getId()).get();
+        payment.setPay_status(0);
+        payment.setShipping_status(0);
+        iPaymentRepository.save(payment);
+    }
+
+    @Override
+    public void shippingPayment(ResponsePaymentShipping responsePaymentShipping) {
+        Payment payment = iPaymentRepository.findById(responsePaymentShipping.getId()).get();
+        payment.setShipping_status(responsePaymentShipping.getShipping_status());
+        iPaymentRepository.save(payment);
     }
 }

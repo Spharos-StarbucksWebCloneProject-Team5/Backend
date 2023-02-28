@@ -1,12 +1,13 @@
 package com.example.Starbucks.payment.service;
 
 import com.example.Starbucks.payment.vo.RequestPayment;
-import com.example.Starbucks.payment.model.Payment;
+import com.example.Starbucks.payment.vo.RequestPaymentCancel;
 import com.example.Starbucks.payment.vo.ResponsePayment;
-
-import java.util.List;
+import com.example.Starbucks.payment.vo.ResponsePaymentShipping;
 
 public interface IPaymentService {
     ResponsePayment addPayment(RequestPayment requestPayment);
-    //List<Payment> getByPaymentId(Long paymentId);
+    //ResponseUser getUser(Long id);
+    void cancelPayment(RequestPaymentCancel requestPaymentCancel);
+    void shippingPayment(ResponsePaymentShipping responsePaymentShipping);
 }
