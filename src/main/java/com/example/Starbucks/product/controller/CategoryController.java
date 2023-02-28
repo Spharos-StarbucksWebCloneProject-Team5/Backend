@@ -1,5 +1,7 @@
 package com.example.Starbucks.product.controller;
 
+import com.example.Starbucks.product.dto.CategoryDto;
+import com.example.Starbucks.product.dto.CategoryTypeDto;
 import com.example.Starbucks.product.model.Category;
 import com.example.Starbucks.product.service.ICategoryService;
 import com.example.Starbucks.product.vo.RequestCategory;
@@ -30,9 +32,13 @@ public class CategoryController {
         return iCategoryService.getAll();
     }
 
-    @GetMapping("/get/type{type}")
-    public List<Category> getAllByType(@PathVariable String type){
-        return iCategoryService.getAllType(type);
+    @GetMapping("/get/type/{type}")
+    public List<CategoryTypeDto> getAllByType(@PathVariable String type){
+        return iCategoryService.getAllByType(type);
     }
 
+    @GetMapping("/typename")
+    public List<String> getCategoryTypeNames(){
+        return iCategoryService.getCategoryTypeNames();
+    }
 }
