@@ -61,6 +61,8 @@ public class CouponServiceImpl implements ICouponService {
     public void updateCoupon(Long id, RequestUpdateCoupon requestUpdateCoupon) {
         Coupon coupon = iCouponRepository.findById(id).get();
         coupon.setStatus(requestUpdateCoupon.getStatus());
+        log.info(requestUpdateCoupon.toString());
+        log.info(coupon.toString());
         iCouponRepository.save(coupon);
     }
 

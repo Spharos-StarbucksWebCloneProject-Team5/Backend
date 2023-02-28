@@ -33,9 +33,14 @@ public class CouponController {
     }
 
     @PutMapping("/{id}")
-    public void updateCoupon(@PathVariable Long id , RequestUpdateCoupon requestUpdateCoupon){
+    public void updateCoupon(@PathVariable Long id , @RequestBody RequestUpdateCoupon requestUpdateCoupon){
         iCouponService.updateCoupon(id, requestUpdateCoupon);
 
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCoupon(@PathVariable Long id){
+        iCouponService.deleteCoupon(id);
     }
 
 

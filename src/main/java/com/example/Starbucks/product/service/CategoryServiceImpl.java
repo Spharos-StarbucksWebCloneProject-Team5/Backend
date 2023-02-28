@@ -1,6 +1,7 @@
 package com.example.Starbucks.product.service;
 
 import com.example.Starbucks.product.dto.CategoryDto;
+import com.example.Starbucks.product.dto.CategoryTypeDto;
 import com.example.Starbucks.product.model.Category;
 import com.example.Starbucks.product.repository.ICategoryRepository;
 import com.example.Starbucks.product.vo.RequestCategory;
@@ -10,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -45,7 +47,18 @@ public class CategoryServiceImpl implements ICategoryService{
     }
 
     @Override
-    public List<Category> getAllType(String categoryType) {
-        return iCategoryRepository.findAllByType(categoryType);
+    public List<CategoryTypeDto> getAllByType(String categoryType) {
+        ModelMapper modelMapper = new ModelMapper();
+        List<Category> categories = iCategoryRepository.findAllByType(categoryType);
+        List<CategoryTypeDto> categoryTypeDtoList = new ArrayList<>();
+        categories.forEach(category -> {
+            categoryTypeDtoList.add(modelMapper.map(category,CategoryTypeDto.class));
+        });
+        return categoryTypeDtoList;
+    }
+
+    @Override
+    public List<String> getCategoryTypeNames() {
+        return iCategoryRepository.groupByType();
     }
 }
