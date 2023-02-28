@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ICategoryRepository extends JpaRepository<Category,Integer> {
 
-    List<Category> findAllByType(String type);
+    /*List<Category> findAllByType(String type);
 
     @Query(value = "select type from category group by type",nativeQuery = true)
-    List<String> groupByType();
+    List<String> groupByType();*/
 }
