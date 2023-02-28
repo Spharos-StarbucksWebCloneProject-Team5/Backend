@@ -1,7 +1,6 @@
 package com.example.Starbucks.users.service;
 
 import com.example.Starbucks.users.model.User;
-import com.example.Starbucks.users.repository.UserRepository;
 import com.example.Starbucks.users.vo.RequestUser;
 import com.example.Starbucks.users.vo.ResponseUser;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
-    private final UserRepository UserRepository;
+    private final com.example.Starbucks.users.repository.UserRepository UserRepository;
 
     @Override
     public ResponseUser addUser(RequestUser requestUser) {

@@ -27,6 +27,7 @@ public class CouponController {
         return iCouponService.getCoupon(id);
     }
 
+
     @GetMapping("/all")
     public List<Coupon> getAllCoupon(){
         return iCouponService.getAllCoupon();
