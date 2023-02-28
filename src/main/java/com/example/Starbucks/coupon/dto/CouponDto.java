@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class CouponDto {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String type;
 }
