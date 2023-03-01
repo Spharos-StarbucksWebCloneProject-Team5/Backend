@@ -2,13 +2,15 @@ package com.example.Starbucks.product.controller;
 
 import com.example.Starbucks.product.model.MiddleCategory;
 import com.example.Starbucks.product.service.IMiddleCategoryService;
+import com.example.Starbucks.product.vo.ResponseMiddleCategory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api/category/middle")
+@RequestMapping("/v1/api/categories/middle")
 @RequiredArgsConstructor
 public class MiddleCategoryController {
 
@@ -24,9 +26,9 @@ public class MiddleCategoryController {
         return iMiddleCategoryService.getMiddleCategory(middleCategoryId);
     }
 
-    @GetMapping("/get/all")
-    public List<MiddleCategory> getAllMiddleCategory(){
-        return iMiddleCategoryService.getAll();
+    @GetMapping("")
+    public ResponseEntity<List<ResponseMiddleCategory>> getAllMiddleCategory(){
+        return ResponseEntity.ok(iMiddleCategoryService.getAllMiddleCategory());
     }
 
     @PostMapping("/update")

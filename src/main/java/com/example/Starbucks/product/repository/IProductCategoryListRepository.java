@@ -1,17 +1,17 @@
 package com.example.Starbucks.product.repository;
 
-import com.example.Starbucks.product.model.ProductCategoryList;
+import com.example.Starbucks.product.model.CategoryList;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface IProductCategoryListRepository extends JpaRepository<ProductCategoryList,Long> {
+public interface IProductCategoryListRepository extends JpaRepository<CategoryList,Long> {
 
-    List<ProductCategoryList> findAllByProductId(Long productId);
+    List<CategoryList> findAllByProductId(Long productId);
 
-    List<ProductCategoryList> findAllByCategoryId(Integer categoryId);
+    List<CategoryList> findAllById(Integer categoryId);
     //List<ProductCategoryList> findAllByMiddleCategoryId(Integer middleCategoryId);
-    List<ProductCategoryList> findAll(Specification<ProductCategoryList> spec);
+    List<CategoryList> findAll(Specification<CategoryList> spec);
 
 }

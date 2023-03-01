@@ -2,10 +2,13 @@ package com.example.Starbucks.product.service;
 
 import com.example.Starbucks.product.model.MiddleCategory;
 import com.example.Starbucks.product.repository.IMiddleCategoryRepository;
+import com.example.Starbucks.product.vo.ResponseMiddleCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -45,4 +48,20 @@ public class MiddleCategoryServiceImpl implements IMiddleCategoryService{
 
        iMiddleCategoryRepository.save(middleCategory1);
    }
+
+    @Override
+    public List<ResponseMiddleCategory> getAllMiddleCategory() {
+        List<MiddleCategory> middleCategories = iMiddleCategoryRepository.findAll();
+        List<ResponseMiddleCategory> responseMiddleCategoryList = new ArrayList<>();
+        for (MiddleCategory middleCategory : middleCategories) {
+            ResponseMiddleCategory responseMiddleCategory = ResponseMiddleCategory.builder()
+                    .id(middleCategory.getId())
+                    .name(middleCategory.getName())
+                    .mainCategoryId(middleCategory.getMainCategory().getId())
+                    .build();
+            responseMiddleCategoryList.add(responseMiddleCategory);
+        }
+
+        return responseMiddleCategoryList;
+    }
 }

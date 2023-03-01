@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCategoryList extends BaseTimeEntity {
+public class CategoryList extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +21,7 @@ public class ProductCategoryList extends BaseTimeEntity {
     @ManyToOne
     private Product product;
     @ManyToOne
-    private Category category;
+    private MainCategory mainCategory;
     @ManyToOne
     private MiddleCategory middleCategory;//중분류
 }
