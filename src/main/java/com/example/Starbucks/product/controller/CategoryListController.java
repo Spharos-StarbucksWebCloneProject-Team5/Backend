@@ -3,6 +3,11 @@ package com.example.Starbucks.product.controller;
 import com.example.Starbucks.product.service.ICategoryListService;
 import com.example.Starbucks.product.vo.ResponseCategoryList;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +23,15 @@ public class CategoryListController {
 
     private final ICategoryListService iCategoryListService;
 
-    @GetMapping("{mainId}&{middleId}")
-    public ResponseEntity<List<ResponseCategoryList.categorySearchInfo>> searchProductByCategories(@PathVariable Integer mainId, @PathVariable Integer middleId) {
-        return ResponseEntity.ok(iCategoryListService.searchByCategory(mainId, middleId));
+    @GetMapping("/category/{mainId}/{middleId}")
+    public ResponseEntity<Page<ResponseCategoryList.categorySearchInfo>> searchProductByCategories(@PathVariable Integer mainId, @PathVariable Integer middleId,  @PageableDefault (page=0, size=10, sort="name", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(iCategoryListService.searchByCategory(mainId, middleId, pageable));
+    }
+
+    @GetMapping("/search/{keyword}&{pageNum}")
+    public ResponseEntity<Page<ResponseCategoryList.categorySearchInfo>> searchProductByKeyword
+            (@PathVariable String keyword, @PathVariable Integer pageNum, @PageableDefault (page=0, size=3, sort="productName", direction = Sort.Direction.DESC) Pageable pageable) {
+        pageable = PageRequest.of(pageNum, 3);
+        return ResponseEntity.ok(iCategoryListService.searchByNameOrDescription(keyword, keyword, pageable));
     }
 }

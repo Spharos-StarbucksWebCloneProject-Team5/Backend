@@ -14,6 +14,7 @@ public class ResponseCategoryList {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    @ToString
     public static class categorySearchInfo {
         private Long productId;
         private String productName;
