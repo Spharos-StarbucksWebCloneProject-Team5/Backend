@@ -15,5 +15,5 @@ public class MiddleCategory extends BaseTimeEntity {
     private String name;
 
     @ManyToOne
-    private Category category;//대분류
+    private MainCategory mainCategory;//대분류
 }

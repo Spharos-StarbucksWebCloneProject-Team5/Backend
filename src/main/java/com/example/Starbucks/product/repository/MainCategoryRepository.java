@@ -1,13 +1,9 @@
 package com.example.Starbucks.product.repository;
 
-import com.example.Starbucks.product.dto.CategoryDto;
-import com.example.Starbucks.product.model.Category;
+import com.example.Starbucks.product.model.MainCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
-
-public interface ICategoryRepository extends JpaRepository<Category,Integer> {
+public interface MainCategoryRepository extends JpaRepository<MainCategory,Integer> {
 
     /*List<Category> findAllByType(String type);
 

@@ -1,7 +1,7 @@
 package com.example.Starbucks.product.controller;
 
-import com.example.Starbucks.product.model.Category;
-import com.example.Starbucks.product.service.ICategoryService;
+import com.example.Starbucks.product.model.MainCategory;
+import com.example.Starbucks.product.service.ICategoryListService;
 import com.example.Starbucks.product.vo.RequestCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,21 +13,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    private final ICategoryService iCategoryService;
+    private final ICategoryListService iCategoryListService;
 
     @PostMapping("/add")
     public void addCategory(@RequestBody RequestCategory requestCategory){
-        iCategoryService.addCategory(requestCategory);
+        iCategoryListService.addCategory(requestCategory);
     }
 
     @GetMapping("/get/{categoryId}")
-    public Category getCategory(@PathVariable Integer categoryId){
-        return iCategoryService.getCategory(categoryId);
+    public MainCategory getCategory(@PathVariable Integer categoryId){
+        return iCategoryListService.getCategory(categoryId);
     }
 
     @GetMapping("/get/all")
-    public List<Category> getAllCategory(){
-        return iCategoryService.getAll();
+    public List<MainCategory> getAllCategory(){
+        return iCategoryListService.getAll();
     }
 
     /*    @GetMapping("/get/type/{type}")
@@ -41,8 +41,8 @@ public class CategoryController {
         }
     */
     @PostMapping("/update")
-    public void updateCategory(@RequestBody Category category){
-        iCategoryService.updateCategory(category);
+    public void updateCategory(@RequestBody MainCategory mainCategory){
+        iCategoryListService.updateCategory(mainCategory);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.Starbucks.product.controller;
 
-import com.example.Starbucks.product.model.ProductCategoryList;
+import com.example.Starbucks.product.model.CategoryList;
 import com.example.Starbucks.product.service.IProductCategoryListService;
 import com.example.Starbucks.product.vo.RequestProductCategoryList;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class ProductCategoryListController {
 
 
     @GetMapping("/get/{productId}")
-    public List<ProductCategoryList> getAllByProduct(@PathVariable Long productId){
+    public List<CategoryList> getAllByProduct(@PathVariable Long productId){
         return iProductCategoryListService.getByProductId(productId);
     }
 
@@ -44,7 +44,7 @@ public class ProductCategoryListController {
     }*/
 
     @GetMapping("/get/{categoryId}&{middleCategoryId}")
-    public List<ProductCategoryList> getByCategory(@PathVariable(required = false) Integer categoryId
+    public List<CategoryList> getByCategory(@PathVariable(required = false) Integer categoryId
             , @PathVariable(required = false) Integer middleCategoryId) {
         /*if(categoryId == null){
             return iProductCategoryListService.getAll();
