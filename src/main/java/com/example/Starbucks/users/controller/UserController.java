@@ -1,6 +1,6 @@
 package com.example.Starbucks.users.controller;
 
-import com.example.Starbucks.jwt.JwtTokenProvider;
+//import com.example.Starbucks.jwt.JwtTokenProvider;
 //import com.example.Starbucks.users.dto.UserResponseDto;
 import com.example.Starbucks.users.model.User;
 import com.example.Starbucks.users.repository.UserRepository;
@@ -25,7 +25,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
+//    private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
 
     @PostMapping("/add")
@@ -60,14 +60,14 @@ public class UserController {
 //    }
 
     // 로그인
-    @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> user) {
-        log.info("user email = {}", user.get("email"));
-        User member = userRepository.findByEmail(user.get("email"))
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
-
-        return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
-    }
+//    @PostMapping("/login")
+//    public String login(@RequestBody Map<String, String> user) {
+//        log.info("user email = {}", user.get("email"));
+//        User member = userRepository.findByEmail(user.get("email"))
+//                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+//
+//        return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
+//    }
 
 
 }
