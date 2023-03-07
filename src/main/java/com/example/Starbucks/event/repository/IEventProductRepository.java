@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface IEventProductRepository extends JpaRepository<EventProduct,Long> {
-    List<EventProduct> findAllByProductId(Long productId);
-    List<EventProduct> findAllByEventId(Long eventId);
+    List<EventProduct> findByProductId(Long productId);
+    List<EventProduct> findByEventId(Long eventId);
 }

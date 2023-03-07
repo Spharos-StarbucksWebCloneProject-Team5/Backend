@@ -25,6 +25,6 @@ public class Event extends BaseTimeEntity {
     private String info_image;
     private Date start_date;
     private Date end_date;
-    private boolean is_now;
+    private boolean isNow;
 
 }

@@ -3,35 +3,36 @@ package com.example.Starbucks.event.controller;
 import com.example.Starbucks.event.model.Event;
 import com.example.Starbucks.event.model.EventImageList;
 import com.example.Starbucks.event.service.IEventImageListService;
+import com.example.Starbucks.event.vo.RequestEvent;
+import com.example.Starbucks.event.vo.RequestEventImageList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api/event-image")
+@RequestMapping("/v1/api/event-images")
 @RequiredArgsConstructor
 public class EventImageListController {
 
     private final IEventImageListService iEventImageListService;
 
-    @PostMapping("/add")
-    public void addEventImage(@RequestBody EventImageList eventImageList){
-        iEventImageListService.addEventImage(eventImageList);
+    @PostMapping("")
+    public void addEventImage(@RequestBody RequestEventImageList requestEventImageList){
+        iEventImageListService.addEventImage(requestEventImageList);
     }
 
-    @GetMapping("/get/{eventId}")
+    @GetMapping("{eventId}")
     public List<EventImageList> getEventImage(@PathVariable Long eventId){
         return iEventImageListService.getByEventId(eventId);
     }
-    @PostMapping("/update")
-    public void updateEventImageList(@RequestBody EventImageList eventImageList){
-        iEventImageListService.updateEventImageList(eventImageList);
+    @PutMapping("{id}")
+    public void updateEventImageList(@PathVariable Long id, @RequestBody RequestEventImageList requestEventImageList){
+        iEventImageListService.updateEventImageList(id, requestEventImageList);
     }
 
-    /*@GetMapping("/get/all")
-    public List<ProductImageList> getAllCategory(){
-        return iProductImageListService.getAll();
+    @DeleteMapping("{id}")
+    public void deleteEventImageList(@PathVariable Long id) {
+        iEventImageListService.deleteEventImageList(id);
     }
-*/
 }

@@ -1,37 +1,43 @@
 package com.example.Starbucks.event.controller;
 
 
-import com.example.Starbucks.event.model.EventImageList;
 import com.example.Starbucks.event.model.EventProduct;
 import com.example.Starbucks.event.service.IEventProductService;
+import com.example.Starbucks.event.vo.RequestEventProduct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api/event-product")
+@RequestMapping("/v1/api/event-products")
 @RequiredArgsConstructor
 public class EventProductController {
 
     final IEventProductService iEventProductService;
 
-    @PostMapping("/add")
-    public void addEventProduct(@RequestBody EventProduct eventProduct){
-        iEventProductService.addEventProduct(eventProduct);
+    @PostMapping("")
+    public void addEventProduct(@RequestBody RequestEventProduct requestEventProduct){
+        iEventProductService.addEventProduct(requestEventProduct);
     }
 
-    @GetMapping("/get/{eventId}")
+    @GetMapping("{eventId}")//이벤트에 해당하는 상품 조회
     public List<EventProduct> getEvent(@PathVariable Long eventId){
         return iEventProductService.getByEventId(eventId);
     }
-    @GetMapping("/getProduct/{productId}")
+    @GetMapping("/product/{productId}")//상품에 해당하는 이벤트 조회
     public List<EventProduct> getProduct(@PathVariable Long productId){
         return iEventProductService.getByProductId(productId);
     }
-    /*@PostMapping("/update")
-    public void updateEventProduct(@RequestBody EventProduct eventProduct){
-        iEventProductService.updateEventProduct(eventProduct);
-    }*/
+    @GetMapping("all")//이벤트에 해당하는 상품 조회
+    public List<EventProduct> getEvent(){
+        return iEventProductService.getAllEventProduct();
+    }
+
+
+    @DeleteMapping("{id}")
+    public void deleteEventProduct(@PathVariable Long id) {
+        iEventProductService.deleteEventProduct(id);
+    }
 
 }

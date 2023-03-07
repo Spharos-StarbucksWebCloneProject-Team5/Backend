@@ -3,9 +3,14 @@ package com.example.Starbucks.event.service;
 
 import com.example.Starbucks.event.model.Event;
 import com.example.Starbucks.event.model.EventImageList;
+import com.example.Starbucks.event.model.EventProduct;
 import com.example.Starbucks.event.repository.IEventImageListRepository;
+import com.example.Starbucks.event.repository.IEventRepository;
+import com.example.Starbucks.event.vo.RequestEvent;
+import com.example.Starbucks.event.vo.RequestEventImageList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,14 +21,20 @@ import java.util.List;
 public class EventImageListServiceImpl implements IEventImageListService {
 
     private final IEventImageListRepository iEventImageListRepository;
-    @Override
-    public void addEventImage(EventImageList eventImageList) {
-        iEventImageListRepository.save(eventImageList);
-    }
+    private final IEventRepository iEventRepository;
 
     @Override
+    public void addEventImage(RequestEventImageList requestEventImageList) {
+        EventImageList eventImageList = EventImageList.builder()
+                .event(iEventRepository.findById(requestEventImageList.getEventId()).get())
+                .image(requestEventImageList.getImage())
+                .build();
+
+        iEventImageListRepository.save(eventImageList);
+    }
+    @Override
     public List<EventImageList> getByEventId(Long eventId) {
-        return iEventImageListRepository.findAllByEventId(eventId);
+        return iEventImageListRepository.findByEventId(eventId);
     }
 
     @Override
@@ -32,13 +43,17 @@ public class EventImageListServiceImpl implements IEventImageListService {
     }
 
     @Override
-    public void updateEventImageList(EventImageList eventImageList){
+    public void updateEventImageList(Long id, RequestEventImageList requestEventImageList){
 
-        EventImageList eventImageList1 = iEventImageListRepository.findById(eventImageList.getId()).get();
-        eventImageList1.setImage(eventImageList.getImage());
-        //eventImageList1.set(eventImageList.getUpdateDate());
+        EventImageList eventImageList = iEventImageListRepository.findById(id).get();
+        eventImageList.setImage(requestEventImageList.getImage());
 
+        iEventImageListRepository.save(eventImageList);
+    }
 
-        iEventImageListRepository.save(eventImageList1);
+    @Override
+    public void deleteEventImageList(Long id) {
+        EventImageList eventImageList = iEventImageListRepository.findById(id).get();
+        iEventImageListRepository.delete(eventImageList);
     }
 }

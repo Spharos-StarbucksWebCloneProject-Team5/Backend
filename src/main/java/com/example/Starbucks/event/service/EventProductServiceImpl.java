@@ -1,8 +1,10 @@
 package com.example.Starbucks.event.service;
 
-import com.example.Starbucks.event.model.EventImageList;
 import com.example.Starbucks.event.model.EventProduct;
 import com.example.Starbucks.event.repository.IEventProductRepository;
+import com.example.Starbucks.event.repository.IEventRepository;
+import com.example.Starbucks.event.vo.RequestEventProduct;
+import com.example.Starbucks.product.repository.IProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,17 @@ import java.util.List;
 public class EventProductServiceImpl implements IEventProductService{
 
     private final IEventProductRepository iEventProductRepository;
+    private final IProductRepository iProductRepository;
+    private final IEventRepository iEventRepository;
 
     @Override
-    public void addEventProduct(EventProduct eventProduct) {
+    public void addEventProduct(RequestEventProduct requestEventProduct) {
+        EventProduct eventProduct = EventProduct.builder()
+                .product(iProductRepository.findById(requestEventProduct.getProductId()).get())
+                .event(iEventRepository.findById(requestEventProduct.getEventId()).get())
+                .build();
         iEventProductRepository.save(eventProduct);
+
     }
 
     /*@Override
@@ -27,26 +36,43 @@ public class EventProductServiceImpl implements IEventProductService{
     }*/
     @Override
     public List<EventProduct> getByProductId(Long productId) {
-        return iEventProductRepository.findAllByProductId(productId);
+        return iEventProductRepository.findByProductId(productId);
     }
 
     @Override
     public List<EventProduct> getByEventId(Long eventId) {
-        return iEventProductRepository.findAllByEventId(eventId);
+        return iEventProductRepository.findByEventId(eventId);
+    }
+
+    @Override
+    public List<EventProduct> getAllEventProduct() {
+        return iEventProductRepository.findAll();
     }
 
     /*@Override
     public List<EventProduct> getAllEventProduct() {
         return iEventProductRepository.findAll();
     }*/
+
     /*@Override
-    public void updateEventProduct(EventProduct eventProduct){
+    public void updateEventProduct(Long id, RequestEvent requestEvent) {
 
-        EventProduct eventProduct1 = iEventProductRepository.findById(eventProduct.getId()).get();
-        eventProduct1.setImage(eventImageList.getImage());
-        //eventImageList1.set(eventImageList.getUpdateDate());
+        EventProduct eventProduct = iEventProductRepository.findById(id).get();
+        eventProduct.set
+        event.setName(requestEvent.getName());
+        event.setTitle_image(requestEvent.getTitle_image());
+        event.setInfo_image(requestEvent.getInfo_image());
+        event.setDescription(requestEvent.getDescription());
+        event.setStart_date(requestEvent.getStart_date());
+        event.setEnd_date(requestEvent.getEnd_date());
+        event.set_now(requestEvent.is_now());
 
-
-        iEventProductRepository.save(eventProduct1);
+        iEventRepository.save(event);
     }*/
+
+    @Override
+    public void deleteEventProduct(Long id) {
+        EventProduct eventProduct = iEventProductRepository.findById(id).get();
+        iEventProductRepository.delete(eventProduct);
+    }
 }

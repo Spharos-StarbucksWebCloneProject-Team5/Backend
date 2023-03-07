@@ -14,4 +14,5 @@ public class RequestEvent {
     private String info_image;
     private Date start_date;
     private Date end_date;
+    private boolean isNow;
 }
