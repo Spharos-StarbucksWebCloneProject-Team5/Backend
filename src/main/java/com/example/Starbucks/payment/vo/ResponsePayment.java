@@ -15,11 +15,12 @@ public class ResponsePayment {
     private Long productId;
     private Integer productPrice;
     private Integer product_count;
-    private Integer shipping_status;
+    private Integer shippingStatus;
     private String shipping_address;
     private String shipping_phone;
-    private Integer pay_type;
-    private Integer pay_status;
+    private Integer payType;
+    private Integer payStatus;
     private Integer amount;
+    private boolean isGift;
 
 }

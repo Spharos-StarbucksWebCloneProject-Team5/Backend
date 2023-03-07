@@ -16,13 +16,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class PaymentServiceImple implements IPaymentService {
+public class PaymentServiceImpl implements IPaymentService {
 
     private final IPaymentRepository iPaymentRepository;
     private final IProductRepository iProductRepository;
     private final UserRepository userRepository;
     @Override
-    public ResponsePayment addPayment(RequestPayment requestPayment) {//isGift 수정해야함
+    public ResponsePayment addPayment(RequestPayment requestPayment) {
         Payment payment = Payment.builder()
                 .payType(requestPayment.getPayType())
                 .shipping_phone(requestPayment.getShipping_phone())
@@ -30,6 +30,7 @@ public class PaymentServiceImple implements IPaymentService {
                 .shipping_address(requestPayment.getShipping_address())
                 .product(iProductRepository.findById(requestPayment.getProductId()).get())
                 .user(userRepository.findById(requestPayment.getUserId()).get())
+                .isGift(requestPayment.isGift())
                 .build();
         log.info(payment.toString());
         payment.setAmount(payment.getProduct().getPrice() * payment.getProduct_count());
@@ -47,19 +48,9 @@ public class PaymentServiceImple implements IPaymentService {
                 .shippingStatus(payment.getShippingStatus())
                 .payStatus(payment.getPayStatus())
                 .amount(payment.getAmount())
+                .isGift(payment.isGift())
                 .build();
-        /*
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        //정확히 일치하는 필드만 매핑
-        ResponsePayment responsePayment = modelMapper.map(requestPayment, ResponsePayment.class);
-        //log.info(requestPayment.toString());
-        //Integer pr = iPaymentRepository.findAllByProductId(requestPayment.getProductId()).getProduct().getPrice();
-        //log.info(pr.toString());
-        //getProductId가 null인 이유는....???
-        //responsePayment.setProductPrice(pr);
-        //responsePayment.setAmount(pr * requestPayment.getProduct_count())
-        */
+
         return responsePayment;
     }
 
@@ -114,10 +105,9 @@ public class PaymentServiceImple implements IPaymentService {
                 .shipping(ship3)
                 .deliveryCompleted(ship4)
                 .build();
-
         return responseShipping;
     }
-    public List<ResponsePayment> getPayment(LocalDateTime date1 , LocalDateTime date2, Long userId, Integer type){
+   /* public List<ResponsePayment> getPayment(LocalDateTime date1 , LocalDateTime date2, Long userId, Integer type){
         List<Payment> payment = new ArrayList<>();
         if(type==0){//전체-전체
             payment = iPaymentRepository.findAllByUserId(userId);
@@ -195,5 +185,5 @@ public class PaymentServiceImple implements IPaymentService {
         }
         return responsePaymentList;
 
-    }
+    }*/
 }

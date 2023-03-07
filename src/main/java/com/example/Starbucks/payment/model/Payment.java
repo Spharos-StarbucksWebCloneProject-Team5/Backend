@@ -1,10 +1,7 @@
 package com.example.Starbucks.payment.model;
 
 import com.example.Starbucks.utility.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import com.example.Starbucks.users.model.User;
 import com.example.Starbucks.product.model.Product;
 import net.bytebuddy.dynamic.loading.InjectionClassLoader;
@@ -14,7 +11,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -48,15 +46,16 @@ public class Payment extends BaseTimeEntity {
     private String shipping_phone;
     //배송연락처
 
-    private Integer shipping_status;
+    private Integer shippingStatus;
     //배송 상태 정보
 
-    private Integer pay_type;
+    private Integer payType;
     //결제 방식
     private Integer amount;
     //총계.....Long??? 업체 대량구맨가...?
 
-    private Integer pay_status;
+    private Integer payStatus;
     //결제완료, 결제 취소
+    private boolean isGift; // true: 선물 false : 일반결제
 
 }

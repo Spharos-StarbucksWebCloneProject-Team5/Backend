@@ -13,5 +13,6 @@ public class RequestPayment {
     private Integer product_count;
     private String shipping_address;
     private String shipping_phone;
-    private Integer pay_type;
+    private Integer payType;
+    private boolean isGift;
 }
