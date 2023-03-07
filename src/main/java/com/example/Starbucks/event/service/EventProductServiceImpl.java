@@ -3,10 +3,13 @@ package com.example.Starbucks.event.service;
 import com.example.Starbucks.event.model.EventImageList;
 import com.example.Starbucks.event.model.EventProduct;
 import com.example.Starbucks.event.repository.IEventProductRepository;
+import com.example.Starbucks.event.vo.ResponseEventProduct;
+import com.example.Starbucks.product.model.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,8 +34,21 @@ public class EventProductServiceImpl implements IEventProductService{
     }
 
     @Override
-    public List<EventProduct> getByEventId(Long eventId) {
-        return iEventProductRepository.findAllByEventId(eventId);
+    public List<ResponseEventProduct> getByEventId(Long eventId) {
+        List<EventProduct> eventProductList = iEventProductRepository.findAllByEventId(eventId);
+        List<ResponseEventProduct> responseEventProductList = new ArrayList<>();
+        for (EventProduct eventProduct : eventProductList) {
+            Product product = eventProduct.getProduct();
+            ResponseEventProduct responseEventProduct = ResponseEventProduct.builder()
+                    .id(product.getId())
+                    .description(product.getDescription())
+                    .name(product.getName())
+                    .price(product.getPrice())
+                    .thumbnail(product.getThumbnail())
+                    .build();
+            responseEventProductList.add(responseEventProduct);
+        }
+        return responseEventProductList;
     }
 
     /*@Override

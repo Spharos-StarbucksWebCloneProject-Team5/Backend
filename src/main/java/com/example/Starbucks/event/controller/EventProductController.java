@@ -4,6 +4,7 @@ package com.example.Starbucks.event.controller;
 import com.example.Starbucks.event.model.EventImageList;
 import com.example.Starbucks.event.model.EventProduct;
 import com.example.Starbucks.event.service.IEventProductService;
+import com.example.Starbucks.event.vo.ResponseEventProduct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class EventProductController {
     }
 
     @GetMapping("/get/{eventId}")
-    public List<EventProduct> getEvent(@PathVariable Long eventId){
+    public List<ResponseEventProduct> getEvent(@PathVariable Long eventId){
         return iEventProductService.getByEventId(eventId);
     }
     @GetMapping("/getProduct/{productId}")
