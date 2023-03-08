@@ -45,6 +45,7 @@ public class EventProductServiceImpl implements IEventProductService{
     @Override
     public List<EventProduct> getAllEventProduct() {
         return iEventProductRepository.findAll();
+    }
 
     public List<ResponseEventProduct> getByEventId(Long eventId) {
         List<EventProduct> eventProductList = iEventProductRepository.findAllByEventId(eventId);
