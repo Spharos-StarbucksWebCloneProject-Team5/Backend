@@ -20,10 +20,10 @@ public class UserServiceImpl implements UserService{
 
         UUID uuid = UUID.randomUUID();
         User user = User.builder()
-                .userEid(uuid.toString())
+//                .userEid(uuid.toString())
                 .name(requestUser.getName())
                 .email(requestUser.getEmail())
-                .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
+//                .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
                 .password(requestUser.getPassword())
                 .build();
 

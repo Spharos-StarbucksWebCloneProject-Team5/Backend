@@ -27,9 +27,6 @@ public class User extends BaseTimeEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String userEid;
-
     @Column(nullable = false, length = 45)
     private String name;
 
@@ -40,15 +37,12 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     private String address;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<String> roles = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
@@ -56,10 +50,10 @@ public class User extends BaseTimeEntity implements UserDetails {
         return getEmail();
     }
 
-    @Override
-    public String getPassword() {
-        return getPassword();
-    }
+//    @Override
+//    public String getPassword() {
+//        return getPassword();
+//    }
 
     @Override
     public boolean isAccountNonExpired() {
