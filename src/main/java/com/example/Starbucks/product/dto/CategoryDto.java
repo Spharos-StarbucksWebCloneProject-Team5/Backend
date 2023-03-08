@@ -11,5 +11,5 @@ public class CategoryDto {
 
     private Integer id;
     private String name;
-    private String type;
+    //private String type;
 }

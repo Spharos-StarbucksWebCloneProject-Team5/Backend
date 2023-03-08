@@ -17,6 +17,4 @@ public interface ICouponService {
 
     void deleteCoupon(Long id);
 
-
-    //List<Category> getAllType(String categoryType);
 }
