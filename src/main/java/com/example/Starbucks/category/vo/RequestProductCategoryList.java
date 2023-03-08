@@ -1,4 +1,4 @@
-package com.example.Starbucks.product.vo;
+package com.example.Starbucks.category.vo;
 
 import lombok.Getter;
 import lombok.Setter;

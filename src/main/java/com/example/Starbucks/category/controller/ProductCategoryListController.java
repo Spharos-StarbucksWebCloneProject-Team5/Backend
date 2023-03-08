@@ -1,8 +1,8 @@
-package com.example.Starbucks.product.controller;
+package com.example.Starbucks.category.controller;
 
-import com.example.Starbucks.product.model.CategoryList;
+import com.example.Starbucks.category.model.CategoryList;
 import com.example.Starbucks.product.service.IProductCategoryListService;
-import com.example.Starbucks.product.vo.RequestProductCategoryList;
+import com.example.Starbucks.category.vo.RequestProductCategoryList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

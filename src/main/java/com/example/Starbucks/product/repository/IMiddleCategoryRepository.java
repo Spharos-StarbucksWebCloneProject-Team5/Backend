@@ -1,6 +1,6 @@
 package com.example.Starbucks.product.repository;
 
-import com.example.Starbucks.product.model.MiddleCategory;
+import com.example.Starbucks.category.model.MiddleCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

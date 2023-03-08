@@ -1,7 +1,7 @@
-package com.example.Starbucks.product.service;
+package com.example.Starbucks.category.service;
 
-import com.example.Starbucks.product.model.MiddleCategory;
-import com.example.Starbucks.product.vo.ResponseMiddleCategory;
+import com.example.Starbucks.category.model.MiddleCategory;
+import com.example.Starbucks.category.vo.ResponseMiddleCategory;
 
 import java.util.List;
 

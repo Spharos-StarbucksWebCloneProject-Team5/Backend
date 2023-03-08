@@ -1,11 +1,8 @@
-package com.example.Starbucks.product.service;
+package com.example.Starbucks.category.service;
 
-import com.example.Starbucks.product.model.MainCategory;
-import com.example.Starbucks.product.vo.RequestCategory;
-import com.example.Starbucks.product.vo.ResponseCategoryList;
+import com.example.Starbucks.category.model.MainCategory;
+import com.example.Starbucks.category.vo.RequestCategory;
 import com.example.Starbucks.product.vo.ResponsePage;
-import org.apache.coyote.Response;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

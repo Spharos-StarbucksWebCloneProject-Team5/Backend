@@ -1,6 +1,6 @@
-package com.example.Starbucks.product.controller;
+package com.example.Starbucks.category.controller;
 
-import com.example.Starbucks.product.service.ICategoryListService;
+import com.example.Starbucks.category.service.ICategoryListService;
 import com.example.Starbucks.product.vo.ResponsePage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

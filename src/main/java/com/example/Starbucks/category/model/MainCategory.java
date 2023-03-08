@@ -1,4 +1,4 @@
-package com.example.Starbucks.product.model;
+package com.example.Starbucks.category.model;
 
 import com.example.Starbucks.utility.BaseTimeEntity;
 import lombok.Data;

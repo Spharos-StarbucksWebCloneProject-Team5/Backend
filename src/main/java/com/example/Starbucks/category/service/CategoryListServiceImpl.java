@@ -1,13 +1,12 @@
-package com.example.Starbucks.product.service;
+package com.example.Starbucks.category.service;
 
-import com.example.Starbucks.product.model.CategoryList;
-import com.example.Starbucks.product.model.MainCategory;
+import com.example.Starbucks.category.model.CategoryList;
+import com.example.Starbucks.category.model.MainCategory;
 import com.example.Starbucks.product.model.Product;
 import com.example.Starbucks.product.repository.CategoryListRepository;
 import com.example.Starbucks.product.repository.MainCategoryRepository;
-import com.example.Starbucks.product.vo.RequestCategory;
-import com.example.Starbucks.product.vo.ResponseCategoryList;
-import com.example.Starbucks.product.vo.ResponseMainCategory;
+import com.example.Starbucks.category.vo.RequestCategory;
+import com.example.Starbucks.category.vo.ResponseCategoryList;
 import com.example.Starbucks.product.vo.ResponsePage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,11 +1,10 @@
-package com.example.Starbucks.product.service;
+package com.example.Starbucks.category.service;
 
-import com.example.Starbucks.product.model.MiddleCategory;
+import com.example.Starbucks.category.model.MiddleCategory;
 import com.example.Starbucks.product.repository.IMiddleCategoryRepository;
-import com.example.Starbucks.product.vo.ResponseMiddleCategory;
+import com.example.Starbucks.category.vo.ResponseMiddleCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

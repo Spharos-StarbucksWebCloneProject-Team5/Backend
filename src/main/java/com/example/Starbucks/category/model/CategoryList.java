@@ -1,11 +1,11 @@
-package com.example.Starbucks.product.model;
+package com.example.Starbucks.category.model;
 
+import com.example.Starbucks.product.model.Product;
 import com.example.Starbucks.utility.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 

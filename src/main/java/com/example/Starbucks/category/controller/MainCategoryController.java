@@ -1,7 +1,7 @@
-package com.example.Starbucks.product.controller;
+package com.example.Starbucks.category.controller;
 
-import com.example.Starbucks.product.service.MainCategoryService;
-import com.example.Starbucks.product.vo.ResponseMainCategory;
+import com.example.Starbucks.category.service.MainCategoryService;
+import com.example.Starbucks.category.vo.ResponseMainCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

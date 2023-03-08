@@ -1,7 +1,7 @@
 package com.example.Starbucks.product.service;
 
-import com.example.Starbucks.product.model.CategoryList;
-import com.example.Starbucks.product.vo.RequestProductCategoryList;
+import com.example.Starbucks.category.model.CategoryList;
+import com.example.Starbucks.category.vo.RequestProductCategoryList;
 
 import java.util.List;
 

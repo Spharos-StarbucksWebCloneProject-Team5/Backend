@@ -1,12 +1,12 @@
 package com.example.Starbucks.product.service;
 
 import com.example.Starbucks.product.ProductCategoryListSpecs;
-import com.example.Starbucks.product.model.CategoryList;
+import com.example.Starbucks.category.model.CategoryList;
 import com.example.Starbucks.product.repository.MainCategoryRepository;
 import com.example.Starbucks.product.repository.IMiddleCategoryRepository;
 import com.example.Starbucks.product.repository.IProductCategoryListRepository;
 import com.example.Starbucks.product.repository.IProductRepository;
-import com.example.Starbucks.product.vo.RequestProductCategoryList;
+import com.example.Starbucks.category.vo.RequestProductCategoryList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
