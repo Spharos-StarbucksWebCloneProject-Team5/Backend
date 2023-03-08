@@ -5,10 +5,13 @@ import com.example.Starbucks.event.repository.IEventProductRepository;
 import com.example.Starbucks.event.repository.IEventRepository;
 import com.example.Starbucks.event.vo.RequestEventProduct;
 import com.example.Starbucks.product.repository.IProductRepository;
+import com.example.Starbucks.event.vo.ResponseEventProduct;
+import com.example.Starbucks.product.model.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -40,13 +43,24 @@ public class EventProductServiceImpl implements IEventProductService{
     }
 
     @Override
-    public List<EventProduct> getByEventId(Long eventId) {
-        return iEventProductRepository.findByEventId(eventId);
-    }
-
-    @Override
     public List<EventProduct> getAllEventProduct() {
         return iEventProductRepository.findAll();
+
+    public List<ResponseEventProduct> getByEventId(Long eventId) {
+        List<EventProduct> eventProductList = iEventProductRepository.findAllByEventId(eventId);
+        List<ResponseEventProduct> responseEventProductList = new ArrayList<>();
+        for (EventProduct eventProduct : eventProductList) {
+            Product product = eventProduct.getProduct();
+            ResponseEventProduct responseEventProduct = ResponseEventProduct.builder()
+                    .id(product.getId())
+                    .description(product.getDescription())
+                    .name(product.getName())
+                    .price(product.getPrice())
+                    .thumbnail(product.getThumbnail())
+                    .build();
+            responseEventProductList.add(responseEventProduct);
+        }
+        return responseEventProductList;
     }
 
     /*@Override
