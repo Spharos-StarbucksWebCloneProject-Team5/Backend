@@ -1,12 +1,11 @@
 package com.example.Starbucks.category.controller;
 
+import com.example.Starbucks.category.model.MainCategory;
 import com.example.Starbucks.category.service.MainCategoryService;
 import com.example.Starbucks.category.vo.ResponseMainCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +18,10 @@ public class MainCategoryController {
     @GetMapping("")
     public ResponseEntity<List<ResponseMainCategory>> getAllMainCategories() {
         return ResponseEntity.ok(mainCategoryService.getAllMainCategories());
+    }
+
+    @PostMapping
+    public ResponseEntity<MainCategory> addMainCategory(@RequestBody MainCategory mainCategory) {
+        return ResponseEntity.ok(mainCategoryService.addMainCategories(mainCategory));
     }
 }

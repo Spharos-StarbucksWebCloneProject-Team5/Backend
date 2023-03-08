@@ -1,4 +1,4 @@
-package com.example.Starbucks.product.repository;
+package com.example.Starbucks.category.repository;
 
 import com.example.Starbucks.category.model.CategoryList;
 import org.springframework.data.domain.Page;
@@ -10,5 +10,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface CategoryListRepository extends JpaRepository<CategoryList, Long>, JpaSpecificationExecutor<CategoryList> {
     Page<CategoryList> findAllByMainCategoryIdAndMiddleCategoryId
             (Integer mainCategoryId, Integer middleCategoryId, Pageable pageable);
+    Page<CategoryList> findAllByMainCategoryId(Integer mainCategoryId, Pageable pageable);
     Page<CategoryList> findByProductNameContainingOrProductDescriptionContaining(String keyword, String keyword2, Pageable pageable);
 }
