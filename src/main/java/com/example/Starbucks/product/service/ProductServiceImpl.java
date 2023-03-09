@@ -1,11 +1,18 @@
 package com.example.Starbucks.product.service;
 
+import com.example.Starbucks.event.model.Event;
+import com.example.Starbucks.event.vo.RequestEvent;
 import com.example.Starbucks.product.model.Product;
+import com.example.Starbucks.product.model.ProductImageList;
 import com.example.Starbucks.product.repository.IProductRepository;
+import com.example.Starbucks.product.vo.RequestProduct;
+import com.example.Starbucks.product.vo.ResponseProduct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,26 +23,58 @@ public class ProductServiceImpl implements IProductService{
     private final IProductRepository iProductRepository;
 
     @Override
-    public void addProduct(Product product) {
+    public void addProduct(RequestProduct requestProduct) {
+        ModelMapper modelMapper = new ModelMapper();
+        Product product = modelMapper.map(requestProduct, Product.class);
         iProductRepository.save(product);
     }
 
     @Override
-    public Product getProduct(Long productId) {
-        return iProductRepository.findById(productId).get();
+    public ResponseProduct getProduct(Long productId) {
+        Product product = iProductRepository.findById(productId).get();
+        ResponseProduct responseProduct = ResponseProduct.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .price(product.getPrice())
+                .description(product.getDescription())
+                .thumbnail(product.getThumbnail())
+                .isShow(product.isShow())
+                .build();
+        return responseProduct;
     }
 
     @Override
-    public List<Product> getAllProduct() {
-        return iProductRepository.findAll();
+    public List<ResponseProduct> getAllProduct() {
+        List<Product> productList = iProductRepository.findAll();
+        List<ResponseProduct> responseProductList =new ArrayList<>();
+        for(int i=0;i<productList.size();i++){
+            responseProductList.add(ResponseProduct.builder()
+                    .id(productList.get(i).getId())
+                    .name(productList.get(i).getName())
+                    .price(productList.get(i).getPrice())
+                    .description(productList.get(i).getDescription())
+                    .thumbnail(productList.get(i).getThumbnail())
+                    .isShow(productList.get(i).isShow())
+                    .build()
+            );
+        }
+        return responseProductList;
     }
 
     @Override
-    public void updateProduct(Product product){
+    public void updateProduct(Long id, RequestProduct requestProduct){
+        Product product = iProductRepository.findById(id).get();
+        product.setName(requestProduct.getName());
+        product.setDescription(requestProduct.getDescription());
+        product.setThumbnail(requestProduct.getThumbnail());
+        product.setPrice(requestProduct.getPrice());
+        product.setShow(requestProduct.isShow());
 
-        Product product1 = iProductRepository.findById(product.getId()).get();
-        product1.setName(product.getName());
-
-        iProductRepository.save(product1);
+        iProductRepository.save(product);
+    }
+    @Override
+    public void deleteProduct(Long id) {
+        Product product = iProductRepository.findById(id).get();
+        iProductRepository.delete(product);
     }
 }

@@ -25,4 +25,5 @@ public class Product extends BaseTimeEntity {
     private Integer price;
     private String description;
     private String thumbnail;
+    private boolean isShow;
 }

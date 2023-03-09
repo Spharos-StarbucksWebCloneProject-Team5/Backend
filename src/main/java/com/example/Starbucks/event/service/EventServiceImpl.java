@@ -8,6 +8,7 @@ import com.example.Starbucks.event.vo.ResponseEventName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -62,8 +63,23 @@ public class EventServiceImpl implements IEventService {
     }
 
     @Override
-    public List<Event> getAllEvent() {
-        return iEventRepository.findAll();
+    public List<ResponseEvent> getAllEvent() {
+        List<Event> eventList = iEventRepository.findAll();
+        List<ResponseEvent> responseEventList = new ArrayList<>();
+        for(int i=0;i<eventList.size();i++){
+            responseEventList.add(ResponseEvent.builder()
+                    .id(eventList.get(i).getId())
+                    .name(eventList.get(i).getName())
+                    .description(eventList.get(i).getDescription())
+                    .title_image(eventList.get(i).getTitle_image())
+                    .info_image(eventList.get(i).getInfo_image())
+                    .start_date(eventList.get(i).getStart_date())
+                    .end_date(eventList.get(i).getEnd_date())
+                    .isNow(eventList.get(i).isNow())
+                    .build());
+
+        }
+        return responseEventList;
     }
 
     @Override

@@ -19,7 +19,6 @@ public class EventProduct extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     private Product product;
     @ManyToOne

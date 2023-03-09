@@ -8,11 +8,14 @@ import com.example.Starbucks.event.repository.IEventImageListRepository;
 import com.example.Starbucks.event.repository.IEventRepository;
 import com.example.Starbucks.event.vo.RequestEvent;
 import com.example.Starbucks.event.vo.RequestEventImageList;
+import com.example.Starbucks.event.vo.ResponseEvent;
+import com.example.Starbucks.event.vo.ResponseEventImageList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,13 +36,33 @@ public class EventImageListServiceImpl implements IEventImageListService {
         iEventImageListRepository.save(eventImageList);
     }
     @Override
-    public List<EventImageList> getByEventId(Long eventId) {
-        return iEventImageListRepository.findByEventId(eventId);
+    public List<ResponseEventImageList> getByEventId(Long eventId) {
+        List<EventImageList> eventImageList = iEventImageListRepository.findAllByEventId(eventId);
+        List<ResponseEventImageList> responseEventImageList = new ArrayList<>();
+        for(int i=0; i<eventImageList.size(); i++){
+            responseEventImageList.add(ResponseEventImageList.builder()
+                    .id(eventImageList.get(i).getId())
+                    .eventId(eventImageList.get(i).getEvent().getId())
+                    .image(eventImageList.get(i).getImage())
+                    .build());
+
+        }
+        return responseEventImageList;
     }
 
     @Override
-    public List<EventImageList> getAll() {
-        return iEventImageListRepository.findAll();
+    public List<ResponseEventImageList> getAll() {
+        List<EventImageList> eventImageList = iEventImageListRepository.findAll();
+        List<ResponseEventImageList> responseEventImageList = new ArrayList<>();
+        for(int i=0; i<eventImageList.size(); i++){
+            responseEventImageList.add(ResponseEventImageList.builder()
+                    .id(eventImageList.get(i).getId())
+                    .eventId(eventImageList.get(i).getEvent().getId())
+                    .image(eventImageList.get(i).getImage())
+                    .build());
+
+        }
+        return responseEventImageList;
     }
 
     @Override

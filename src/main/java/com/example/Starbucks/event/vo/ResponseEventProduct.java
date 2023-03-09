@@ -14,4 +14,5 @@ public class ResponseEventProduct {
     private String name;
     private Integer price;
     private String thumbnail;
+    private boolean isShow;
 }

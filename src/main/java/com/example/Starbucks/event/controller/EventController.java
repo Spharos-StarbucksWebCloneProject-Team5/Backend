@@ -7,6 +7,7 @@ import com.example.Starbucks.event.vo.RequestEvent;
 import com.example.Starbucks.event.vo.ResponseEvent;
 import com.example.Starbucks.event.vo.ResponseEventName;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
@@ -20,34 +21,40 @@ import static java.util.stream.Collectors.toList;
 public class EventController {
     private final IEventService iEventService;
     @PostMapping("")
-    public void addEvent(@RequestBody RequestEvent requestEvent) {
+    public ResponseEntity<?> addEvent(@RequestBody RequestEvent requestEvent) {
         iEventService.addEvent(requestEvent);
+        ResponseEntity.ok();
+        return null;
     }
 
     @GetMapping("{id}")//이벤트 가져오기
-    public ResponseEvent getEvent(@PathVariable Long id) {
-        return iEventService.getEvent(id);
+    public ResponseEntity<ResponseEvent> getEvent(@PathVariable Long id) {
+        return ResponseEntity.ok(iEventService.getEvent(id));
     }
 
     @ResponseBody
     @GetMapping("category")// 카테고리 목록 띄우기
-    public List<ResponseEventName> getEventNames() {
-        return iEventService.getEventName();
+    public ResponseEntity<List<ResponseEventName>> getEventNames() {
+        return ResponseEntity.ok(iEventService.getEventName());
     }
 
     @GetMapping("all")//모든 이벤트 가져오기
-    public List<Event> getAllEvent() {
-        return iEventService.getAllEvent();
+    public ResponseEntity<List<ResponseEvent>> getAllEvent() {
+        return ResponseEntity.ok(iEventService.getAllEvent());
     }
 
     @PutMapping("{id}")
-    public void updateEvent(@PathVariable Long id, @RequestBody RequestEvent requestEvent) {
+    public ResponseEntity<?> updateEvent(@PathVariable Long id, @RequestBody RequestEvent requestEvent) {
         iEventService.updateEvent(id, requestEvent);
+       ResponseEntity.ok();
+        return null;
     }
 
     @DeleteMapping("{id}")
-    public void deleteEvent(@PathVariable Long id) {
+    public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
         iEventService.deleteEvent(id);
+        ResponseEntity.ok();
+        return null;
     }
 
 }
