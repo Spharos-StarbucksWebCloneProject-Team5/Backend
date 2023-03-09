@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +26,6 @@ public class User extends BaseTimeEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 45)
     private String name;
 
     @Column(nullable = false)
@@ -37,12 +35,16 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     private String address;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @Column
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -50,10 +52,6 @@ public class User extends BaseTimeEntity implements UserDetails {
         return getEmail();
     }
 
-//    @Override
-//    public String getPassword() {
-//        return getPassword();
-//    }
 
     @Override
     public boolean isAccountNonExpired() {
