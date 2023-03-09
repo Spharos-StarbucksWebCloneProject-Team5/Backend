@@ -3,9 +3,9 @@ package com.example.Starbucks.event.controller;
 
 import com.example.Starbucks.event.model.EventProduct;
 import com.example.Starbucks.event.service.IEventProductService;
-import com.example.Starbucks.event.vo.RequestEventProduct;
-import com.example.Starbucks.event.vo.ResponseEventProduct;
+import com.example.Starbucks.event.vo.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,27 +18,34 @@ public class EventProductController {
     final IEventProductService iEventProductService;
 
     @PostMapping("")
-    public void addEventProduct(@RequestBody RequestEventProduct requestEventProduct){
+    public ResponseEntity addEventProduct(@RequestBody RequestEventProduct requestEventProduct){
         iEventProductService.addEventProduct(requestEventProduct);
+        return null;
     }
 
     @GetMapping("/{eventId}")
-    public List<ResponseEventProduct> getEvent(@PathVariable Long eventId){
-        return iEventProductService.getByEventId(eventId);
+    public ResponseEntity<List<ResponseEventProduct>>getEvent(@PathVariable Long eventId){
+        return ResponseEntity.ok(iEventProductService.getByEventId(eventId));
     }
     @GetMapping("/product/{productId}")//상품에 해당하는 이벤트 조회
-    public List<EventProduct> getProduct(@PathVariable Long productId){
-        return iEventProductService.getByProductId(productId);
+    public ResponseEntity<List<ResponseEvent>> getProduct(@PathVariable Long productId){
+        return ResponseEntity.ok(iEventProductService.getByProductId(productId));
     }
-    @GetMapping("all")//이벤트에 해당하는 상품 조회
-    public List<EventProduct> getEvent(){
-        return iEventProductService.getAllEventProduct();
+    @GetMapping("all")
+    public ResponseEntity<List<ResponseAllEventProduct>> getEventAll(){
+        return ResponseEntity.ok(iEventProductService.getAllEventProduct());
     }
-
+    /*@PutMapping("{id}")
+    public ResponseEntity<?> updateEventProduct(@PathVariable Long id, @RequestBody RequestEventProduct requestEventProduct) {
+        iEventProductService.updateEventProduct(id, requestEventProduct);
+        ResponseEntity.ok();
+        return null;
+    }*/
 
     @DeleteMapping("{id}")
-    public void deleteEventProduct(@PathVariable Long id) {
+    public ResponseEntity<?> deleteEventProduct(@PathVariable Long id) {
         iEventProductService.deleteEventProduct(id);
+        return null;
     }
 
 }

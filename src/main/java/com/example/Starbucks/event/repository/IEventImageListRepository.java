@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface IEventImageListRepository extends JpaRepository<EventImageList, Long> {
-    List<EventImageList>findByEventId(Long eventId);
+    List<EventImageList>findAllByEventId(Long eventId);
 }

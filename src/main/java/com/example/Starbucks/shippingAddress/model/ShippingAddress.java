@@ -23,4 +23,5 @@ public class ShippingAddress extends BaseTimeEntity {
     private Long id;
     private String address;
     private int isMain;
+    private boolean isShow;
 }

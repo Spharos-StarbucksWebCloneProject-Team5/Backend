@@ -8,4 +8,5 @@ import lombok.Setter;
 public class RequestShippingAddress {
     private String Address;
     private int isMain;
+    private boolean isShow;
 }
