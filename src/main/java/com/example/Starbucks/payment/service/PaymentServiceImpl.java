@@ -28,9 +28,10 @@ public class PaymentServiceImpl implements IPaymentService {
                 .shipping_phone(requestPayment.getShipping_phone())
                 .product_count(requestPayment.getProduct_count())
                 .shipping_address(requestPayment.getShipping_address())
+                .shipping_phone(requestPayment.getShipping_phone())
+                .receiver(requestPayment.getReceiver())
                 .product(iProductRepository.findById(requestPayment.getProductId()).get())
                 .user(userRepository.findById(requestPayment.getUserId()).get())
-                .isGift(requestPayment.isGift())
                 .build();
         log.info(payment.toString());
         payment.setAmount(payment.getProduct().getPrice() * payment.getProduct_count());
@@ -38,28 +39,43 @@ public class PaymentServiceImpl implements IPaymentService {
         payment.setPayStatus(1);
         iPaymentRepository.save(payment);
         ResponsePayment responsePayment = ResponsePayment.builder()
-                .payType(requestPayment.getPayType())
+                .id(payment.getId())
+                .payType(payment.getPayType())
                 .userId(payment.getUser().getId())
-                .product_count(requestPayment.getProduct_count())
+                .product_count(payment.getProduct_count())
                 .productId(requestPayment.getProductId())
                 .productPrice(payment.getProduct().getPrice())
-                .shipping_phone(requestPayment.getShipping_phone())
-                .shipping_address(requestPayment.getShipping_address())
+                .shipping_phone(payment.getShipping_phone())
+                .shipping_address(payment.getShipping_address())
                 .shippingStatus(payment.getShippingStatus())
                 .payStatus(payment.getPayStatus())
                 .amount(payment.getAmount())
-                .isGift(payment.isGift())
+                .date(payment.getCreateDate())
                 .build();
 
         return responsePayment;
     }
-
     @Override
-    public void cancelPayment(RequestPaymentCancel requestPaymentCancel) {
+    public ResponsePayment cancelPayment(RequestPaymentCancel requestPaymentCancel) {
         Payment payment = iPaymentRepository.findById(requestPaymentCancel.getId()).get();
         payment.setPayStatus(0);
         payment.setShippingStatus(0);
         iPaymentRepository.save(payment);
+        ResponsePayment responsePayment = ResponsePayment.builder()
+                .id(payment.getId())
+                .payType(payment.getPayType())
+                .userId(payment.getUser().getId())
+                .product_count(payment.getProduct_count())
+                .productId(payment.getProduct().getId())
+                .productPrice(payment.getProduct().getPrice())
+                .shipping_phone(payment.getShipping_phone())
+                .shipping_address(payment.getShipping_address())
+                .shippingStatus(payment.getShippingStatus())
+                .payStatus(payment.getPayStatus())
+                .amount(payment.getAmount())
+                .date(payment.getUpdateDate())
+                .build();
+        return responsePayment;
     }
 
     @Override
