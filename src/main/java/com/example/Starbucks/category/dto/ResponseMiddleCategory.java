@@ -1,4 +1,4 @@
-package com.example.Starbucks.category.vo;
+package com.example.Starbucks.category.dto;
 
 import lombok.*;
 
@@ -6,6 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class ResponseMiddleCategory {
     private Integer id;
     private String name;

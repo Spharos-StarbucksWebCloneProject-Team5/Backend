@@ -3,7 +3,7 @@ package com.example.Starbucks.category.controller;
 import com.example.Starbucks.category.model.MiddleCategory;
 import com.example.Starbucks.category.service.IMiddleCategoryService;
 import com.example.Starbucks.category.vo.RequestMiddleCategory;
-import com.example.Starbucks.category.vo.ResponseMiddleCategory;
+import com.example.Starbucks.category.dto.ResponseMiddleCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
