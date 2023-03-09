@@ -8,9 +8,6 @@ import java.util.List;
 
 public interface IMiddleCategoryService {
     void addMiddleCategory(RequestMiddleCategory requestMiddleCategory);
-    MiddleCategory getMiddleCategory(Integer middleCategoryId);
-    List<MiddleCategory> getAll();
-    //List<MiddleCategory> getAllCategory(String category);
     public List<ResponseMiddleCategory> getAllMiddleCategory();
     void updateMiddleCategory(MiddleCategory middleCategory);
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public class MainCategoryController {
     private final MainCategoryService mainCategoryService;
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<ResponseMainCategory>> getAllMainCategories() {
         return ResponseEntity.ok(mainCategoryService.getAllMainCategories());
     }

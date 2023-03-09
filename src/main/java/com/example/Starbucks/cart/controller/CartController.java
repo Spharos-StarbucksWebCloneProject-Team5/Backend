@@ -39,6 +39,4 @@ public class CartController {
     public List<Cart> getAllCart(){
         return iCartService.getAll();
     }
-
-
 }

@@ -29,30 +29,10 @@ public class MiddleCategoryServiceImpl implements IMiddleCategoryService{
                 .build();
         iMiddleCategoryRepository.save(middle);
     }
-
-    @Override
-    public MiddleCategory getMiddleCategory(Integer middleCategoryId) {
-
-        return iMiddleCategoryRepository.findById(middleCategoryId).get();
-    }
-
-    @Override
-    public List<MiddleCategory> getAll() {
-        return iMiddleCategoryRepository.findAll();
-    }
-
-   /* @Override
-    public List<MiddleCategory> getAllCategory(String category) {
-        return iMiddleCategoryRepository.findAllByCategory(category);
-    }*/
    @Override
    public void updateMiddleCategory(MiddleCategory middleCategory){
-
        MiddleCategory middleCategory1 = iMiddleCategoryRepository.findById(middleCategory.getId()).get();
        middleCategory1.setName(middleCategory.getName());
-
-
-
        iMiddleCategoryRepository.save(middleCategory1);
    }
 

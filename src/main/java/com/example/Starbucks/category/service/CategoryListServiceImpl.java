@@ -26,8 +26,6 @@ import java.util.function.Function;
 public class CategoryListServiceImpl implements ICategoryListService {
 
     private final static int PAGE_SIZE = 8;
-
-    private final MainCategoryRepository mainCategoryRepository;
     private final CategoryListRepository categoryListRepository;
 
     @Override
@@ -88,6 +86,5 @@ public class CategoryListServiceImpl implements ICategoryListService {
                 .build();
         return responsePage;
     }
-
 
 }

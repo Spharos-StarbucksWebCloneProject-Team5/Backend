@@ -22,12 +22,7 @@ public class MiddleCategoryController {
         iMiddleCategoryService.addMiddleCategory(requestMiddleCategory);
     }
 
-   @GetMapping("/get/{middleCategoryId}")
-    public MiddleCategory getMiddleCategory(@PathVariable Integer middleCategoryId){
-        return iMiddleCategoryService.getMiddleCategory(middleCategoryId);
-    }
-
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<ResponseMiddleCategory>> getAllMiddleCategory(){
         return ResponseEntity.ok(iMiddleCategoryService.getAllMiddleCategory());
     }
