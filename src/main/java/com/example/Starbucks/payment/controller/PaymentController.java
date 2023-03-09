@@ -1,8 +1,10 @@
 package com.example.Starbucks.payment.controller;
 
+import com.example.Starbucks.payment.model.Payment;
 import com.example.Starbucks.payment.service.IPaymentService;
 import com.example.Starbucks.payment.vo.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -15,13 +17,13 @@ public class PaymentController {
     private final IPaymentService iPaymentService;
 
     @PostMapping("")
-    public ResponsePayment addPayment( @RequestBody RequestPayment requestPayment) {
-        return iPaymentService.addPayment(requestPayment);
+    public ResponseEntity<ResponsePayment> addPayment(@RequestBody RequestPayment requestPayment) {
+        return ResponseEntity.ok(iPaymentService.addPayment(requestPayment));
     }
 
     @PutMapping("/cancel")
-    public void cancelPayment(@RequestBody RequestPaymentCancel requestPaymentCancel){
-        iPaymentService.cancelPayment(requestPaymentCancel);
+    public ResponseEntity<ResponsePayment> cancelPayment(@RequestBody RequestPaymentCancel requestPaymentCancel){
+        return ResponseEntity.ok(iPaymentService.cancelPayment(requestPaymentCancel));
     }
 
     @PutMapping("/shipping")
@@ -30,8 +32,8 @@ public class PaymentController {
     }
     @ResponseBody
     @GetMapping("shipping/{userId}") //배송상태
-    public ResponseShipping getShippingStatus(@PathVariable Long userId){
-        return iPaymentService.getShippingStatus(userId);
+    public ResponseEntity<ResponseShipping> getShippingStatus(@PathVariable Long userId){
+        return ResponseEntity.ok(iPaymentService.getShippingStatus(userId));
     }
     /*@ResponseBody
     @GetMapping("{date1}&{date2}&{userId}&{type}") //주문내역

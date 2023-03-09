@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Cart extends BaseTimeEntity {
 
     @Id
@@ -23,5 +24,7 @@ public class Cart extends BaseTimeEntity {
     @ManyToOne
     private Product product;
 
-    private int count;
+    private Integer count;
+
+    boolean cancel;
 }
