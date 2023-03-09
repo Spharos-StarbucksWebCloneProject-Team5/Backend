@@ -1,7 +1,7 @@
 package com.example.Starbucks.category.service;
 
 import com.example.Starbucks.category.model.MainCategory;
-import com.example.Starbucks.product.repository.MainCategoryRepository;
+import com.example.Starbucks.category.repository.MainCategoryRepository;
 import com.example.Starbucks.category.vo.ResponseMainCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,5 +28,10 @@ public class MainCategoryImpl implements MainCategoryService{
         }
 
         return responseMainCategoryList;
+    }
+
+    @Override
+    public MainCategory addMainCategories(MainCategory mainCategory) {
+        return mainCategoryRepository.save(mainCategory);
     }
 }

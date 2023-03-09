@@ -2,6 +2,7 @@ package com.example.Starbucks.category.controller;
 
 import com.example.Starbucks.category.model.MiddleCategory;
 import com.example.Starbucks.category.service.IMiddleCategoryService;
+import com.example.Starbucks.category.vo.RequestMiddleCategory;
 import com.example.Starbucks.category.vo.ResponseMiddleCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +18,11 @@ public class MiddleCategoryController {
     private final IMiddleCategoryService iMiddleCategoryService;
 
     @PostMapping("/add")
-    public void addMiddleCategory(@RequestBody MiddleCategory middleCategory){
-        iMiddleCategoryService.addMiddleCategory(middleCategory);
+    public void addMiddleCategory(@RequestBody RequestMiddleCategory requestMiddleCategory){
+        iMiddleCategoryService.addMiddleCategory(requestMiddleCategory);
     }
 
-   @GetMapping("/get/{middleCategoryId}")
-    public MiddleCategory getMiddleCategory(@PathVariable Integer middleCategoryId){
-        return iMiddleCategoryService.getMiddleCategory(middleCategoryId);
-    }
-
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<ResponseMiddleCategory>> getAllMiddleCategory(){
         return ResponseEntity.ok(iMiddleCategoryService.getAllMiddleCategory());
     }

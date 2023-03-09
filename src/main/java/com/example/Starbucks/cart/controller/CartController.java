@@ -44,11 +44,4 @@ public class CartController {
     public void allDeleteCart(@PathVariable Long userId){
         iCartService.allDeleteCart(userId);
     }
-
-//    @GetMapping("/get/all")
-//    public ResponseEntity<List<Cart>> getAllCart(){
-//        return ResponseEntity.ok(iCartService.getAll());
-//    }
-
-
 }

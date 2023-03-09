@@ -3,11 +3,11 @@ package com.example.Starbucks.category.service;
 import com.example.Starbucks.category.model.CategoryList;
 import com.example.Starbucks.category.model.MainCategory;
 import com.example.Starbucks.product.model.Product;
-import com.example.Starbucks.product.repository.CategoryListRepository;
-import com.example.Starbucks.product.repository.MainCategoryRepository;
+import com.example.Starbucks.category.repository.CategoryListRepository;
+import com.example.Starbucks.category.repository.MainCategoryRepository;
 import com.example.Starbucks.category.vo.RequestCategory;
 import com.example.Starbucks.category.vo.ResponseCategoryList;
-import com.example.Starbucks.product.vo.ResponsePage;
+import com.example.Starbucks.category.vo.ResponsePage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -25,50 +25,20 @@ import java.util.function.Function;
 @Service
 public class CategoryListServiceImpl implements ICategoryListService {
 
-    private final static int PAGE_SIZE = 3;
-
-    private final MainCategoryRepository mainCategoryRepository;
+    private final static int PAGE_SIZE = 8;
     private final CategoryListRepository categoryListRepository;
-
-    @Override
-    public void addCategory(RequestCategory requestCategory) {
-        ModelMapper modelMapper = new ModelMapper();
-        MainCategory mainCategory = modelMapper.map(requestCategory, MainCategory.class);
-        mainCategoryRepository.save(mainCategory);
-    }
-
-    @Override
-    public MainCategory getCategory(Integer categoryId) {
-        return mainCategoryRepository.findById(categoryId).get();
-    }
-
-    @Override
-    public List<MainCategory> getAll() {
-        return mainCategoryRepository.findAll();
-    }
-
-    @Override
-    public void updateCategory(MainCategory mainCategory) {
-
-        MainCategory mainCategory1 = mainCategoryRepository.findById(mainCategory.getId()).get();
-        mainCategory1.setName(mainCategory.getName());
-
-        mainCategoryRepository.save(mainCategory1);
-    }
 
     @Override
     public ResponsePage searchByCategory(Integer mainCategoryId, Integer middleCategoryId, Integer pageNum, Pageable pageable) {
         pageable = PageRequest.of(pageNum, PAGE_SIZE);
-        Page<CategoryList> categories = categoryListRepository.findAllByMainCategoryIdAndMiddleCategoryId(mainCategoryId, middleCategoryId, pageable);
+        Page<CategoryList> categories;
+        if (middleCategoryId == 0) {
+            categories = categoryListRepository.findAllByMainCategoryId(mainCategoryId, pageable);
+        } else {
+            categories = categoryListRepository.findAllByMainCategoryIdAndMiddleCategoryId(mainCategoryId, middleCategoryId, pageable);
+        }
         return getPageInfo(categories);
     }
-
-//    @Override
-//    public Page<ResponseCategoryList.categorySearchInfo> searchByNameOrDescription(String keyword, String keyword2, Integer pageNum, Pageable pageable) {
-//        pageable = PageRequest.of(pageNum, PAGE_SIZE);
-//        Page<CategoryList> categories = categoryListRepository.findByProductNameContainingOrProductDescriptionContaining(keyword, keyword2, pageable);
-//        return categoryListToSearchInfoMapper(categories);
-//    }
 
     @Override
     public ResponsePage searchByNameOrDescription(String keyword, String keyword2, Integer pageNum, Pageable pageable) {
@@ -116,6 +86,5 @@ public class CategoryListServiceImpl implements ICategoryListService {
                 .build();
         return responsePage;
     }
-
 
 }

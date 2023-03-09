@@ -1,7 +1,7 @@
 package com.example.Starbucks.category.controller;
 
 import com.example.Starbucks.category.service.ICategoryListService;
-import com.example.Starbucks.product.vo.ResponsePage;
+import com.example.Starbucks.category.vo.ResponsePage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,16 +19,10 @@ public class CategoryListController {
 
     private final ICategoryListService iCategoryListService;
 
-    @GetMapping("/category/{mainId}&{middleId}&{pageNum}")
+    @GetMapping("/category/{mainId}&{middleId}/{pageNum}") // mainCategory 만 선택된 경우, middleId를 0으로 보낸다.
     public ResponseEntity<ResponsePage> searchProductByCategories(@PathVariable Integer mainId, @PathVariable Integer middleId,  @PathVariable Integer pageNum, @PageableDefault (page=0, size=10, sort="name", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(iCategoryListService.searchByCategory(mainId, middleId, pageNum, pageable));
     }
-
-//    @GetMapping("/search/{keyword}&{pageNum}")
-//    public ResponseEntity<Page<ResponseCategoryList.categorySearchInfo>> searchProductByKeyword
-//            (@PathVariable String keyword, @PathVariable Integer pageNum, @PageableDefault (page=0, size=3, sort="productName", direction = Sort.Direction.DESC) Pageable pageable) {
-//        return ResponseEntity.ok(iCategoryListService.searchByNameOrDescription(keyword, keyword, pageNum, pageable));
-//    }
 
     @GetMapping("/search/{keyword}&{pageNum}")
     public ResponseEntity<ResponsePage> searchProductByKeyword
