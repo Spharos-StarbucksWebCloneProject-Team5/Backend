@@ -1,7 +1,7 @@
 package com.example.Starbucks.category.controller;
 
 import com.example.Starbucks.category.service.ICategoryListService;
-import com.example.Starbucks.category.vo.ResponsePage;
+import com.example.Starbucks.category.dto.ResponsePage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

@@ -1,4 +1,4 @@
-package com.example.Starbucks.category.vo;
+package com.example.Starbucks.category.dto;
 
 
 import lombok.*;
@@ -8,7 +8,6 @@ import lombok.*;
 public class ResponseCategoryList {
     private Integer id;
     private String name;
-    //private String type;
 
     @Getter
     @Builder

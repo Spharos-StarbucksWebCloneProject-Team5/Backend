@@ -1,4 +1,4 @@
-package com.example.Starbucks.category.vo;
+package com.example.Starbucks.category.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

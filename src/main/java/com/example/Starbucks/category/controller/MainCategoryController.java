@@ -2,7 +2,7 @@ package com.example.Starbucks.category.controller;
 
 import com.example.Starbucks.category.model.MainCategory;
 import com.example.Starbucks.category.service.MainCategoryService;
-import com.example.Starbucks.category.vo.ResponseMainCategory;
+import com.example.Starbucks.category.dto.ResponseMainCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

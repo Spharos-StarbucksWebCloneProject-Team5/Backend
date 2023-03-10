@@ -4,13 +4,13 @@ import com.example.Starbucks.category.model.MainCategory;
 import com.example.Starbucks.category.model.MiddleCategory;
 import com.example.Starbucks.category.repository.IMiddleCategoryRepository;
 import com.example.Starbucks.category.vo.RequestMiddleCategory;
-import com.example.Starbucks.category.vo.ResponseMiddleCategory;
+import com.example.Starbucks.category.dto.ResponseMiddleCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -38,17 +38,12 @@ public class MiddleCategoryServiceImpl implements IMiddleCategoryService{
 
     @Override
     public List<ResponseMiddleCategory> getAllMiddleCategory() {
-        List<MiddleCategory> middleCategories = iMiddleCategoryRepository.findAll();
-        List<ResponseMiddleCategory> responseMiddleCategoryList = new ArrayList<>();
-        for (MiddleCategory middleCategory : middleCategories) {
-            ResponseMiddleCategory responseMiddleCategory = ResponseMiddleCategory.builder()
-                    .id(middleCategory.getId())
-                    .name(middleCategory.getName())
-                    .mainCategoryId(middleCategory.getMainCategory().getId())
-                    .build();
-            responseMiddleCategoryList.add(responseMiddleCategory);
-        }
-
+        List<ResponseMiddleCategory> responseMiddleCategoryList = iMiddleCategoryRepository.findAll().stream()
+                .map(element -> ResponseMiddleCategory.builder()
+                        .id(element.getId())
+                        .name(element.getName())
+                        .mainCategoryId(element.getMainCategory().getId())
+                        .build()).collect(Collectors.toList());
         return responseMiddleCategoryList;
     }
 }

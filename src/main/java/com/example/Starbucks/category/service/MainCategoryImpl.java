@@ -2,12 +2,12 @@ package com.example.Starbucks.category.service;
 
 import com.example.Starbucks.category.model.MainCategory;
 import com.example.Starbucks.category.repository.MainCategoryRepository;
-import com.example.Starbucks.category.vo.ResponseMainCategory;
+import com.example.Starbucks.category.dto.ResponseMainCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -17,16 +17,11 @@ public class MainCategoryImpl implements MainCategoryService{
 
     @Override
     public List<ResponseMainCategory> getAllMainCategories() {
-        List<MainCategory> mainCategories = mainCategoryRepository.findAll();
-        List<ResponseMainCategory> responseMainCategoryList = new ArrayList<>();
-        for (MainCategory mainCategory : mainCategories) {
-            ResponseMainCategory responseMainCategory = ResponseMainCategory.builder()
-                    .id(mainCategory.getId())
-                    .name(mainCategory.getName())
-                    .build();
-            responseMainCategoryList.add(responseMainCategory);
-        }
-
+        List<ResponseMainCategory> responseMainCategoryList = mainCategoryRepository.findAll().stream()
+                .map(element -> ResponseMainCategory.builder()
+                        .id(element.getId())
+                        .name(element.getName())
+                        .build()).collect(Collectors.toList());
         return responseMainCategoryList;
     }
 
