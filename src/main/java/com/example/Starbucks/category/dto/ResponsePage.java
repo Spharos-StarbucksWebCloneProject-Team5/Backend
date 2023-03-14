@@ -32,13 +32,12 @@ public class ResponsePage {
     }
 
     public static List<Contents> ofContents(Page<CategoryList> categories) {
-        List<ResponsePage.Contents> contents = categories.getContent().stream()
+        return categories.getContent().stream()
                 .map(element -> ResponsePage.Contents.builder()
                         .productId(element.getId())
                         .productName(element.getProduct().getName())
                         .price(element.getProduct().getPrice())
                         .thumbnail(element.getProduct().getThumbnail())
                         .build()).collect(Collectors.toList());
-        return contents;
     }
 }
