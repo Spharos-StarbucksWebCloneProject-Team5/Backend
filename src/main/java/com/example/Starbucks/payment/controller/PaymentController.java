@@ -27,8 +27,9 @@ public class PaymentController {
     }
 
     @PutMapping("/shipping")
-    public void shippingPayment(@RequestBody ResponsePaymentShipping responsePaymentShipping){
+    public ResponseEntity<Void> shippingPayment(@RequestBody ResponsePaymentShipping responsePaymentShipping){
         iPaymentService.shippingPayment(responsePaymentShipping);
+        return ResponseEntity.ok().build();
     }
     @ResponseBody
     @GetMapping("shipping/{userId}") //배송상태
