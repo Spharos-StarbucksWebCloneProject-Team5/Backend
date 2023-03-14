@@ -1,37 +1,51 @@
 package com.example.Starbucks.product.controller;
 
+import com.example.Starbucks.event.vo.RequestEvent;
 import com.example.Starbucks.product.model.Product;
 import com.example.Starbucks.product.service.IProductService;
+import com.example.Starbucks.product.vo.RequestProduct;
+import com.example.Starbucks.product.vo.ResponseProduct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api/product")
+@RequestMapping("/v1/api/products")
 @RequiredArgsConstructor
 public class ProductController {
     private final IProductService iProductService;
 
-    @PostMapping("/add")
-    public void addProduct(@RequestBody Product product){
-        iProductService.addProduct(product);
+    @PostMapping("")
+    public ResponseEntity<?> addProduct(@RequestBody RequestProduct requestProduct){
+        iProductService.addProduct(requestProduct);
+        return null;
     }
 
-    @GetMapping("get/{productId}")
-    public Product getProduct(@PathVariable Long productId){
-        return iProductService.getProduct(productId);
+    @GetMapping("{productId}")
+    public ResponseEntity<ResponseProduct> getProduct(@PathVariable Long productId){
+        return ResponseEntity.ok(iProductService.getProduct(productId));
     }
 
-    @GetMapping("get/all")
-    public List<Product> getAllProduct(){
-        return iProductService.getAllProduct();
+    @GetMapping("all")
+    public ResponseEntity<List<ResponseProduct>> getAllProduct(){
+        return ResponseEntity.ok(iProductService.getAllProduct());
     }
 
-    @PostMapping("/update")
-    public void updateProduct(@RequestBody Product product){
-        iProductService.updateProduct(product);
+    @PutMapping("{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody RequestProduct requestProduct){
+        iProductService.updateProduct(id ,requestProduct);
+        ResponseEntity.ok();
+        return null;
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id){
+        iProductService.deleteProduct(id);
+        ResponseEntity.ok();
+        return null;
     }
 
 }

@@ -1,9 +1,11 @@
 package com.example.Starbucks.event.service;
 
-import com.example.Starbucks.event.model.EventImageList;
+import com.example.Starbucks.event.model.Event;
 import com.example.Starbucks.event.model.EventProduct;
 import com.example.Starbucks.event.repository.IEventProductRepository;
-import com.example.Starbucks.event.vo.ResponseEventProduct;
+import com.example.Starbucks.event.repository.IEventRepository;
+import com.example.Starbucks.event.vo.*;
+import com.example.Starbucks.product.repository.IProductRepository;
 import com.example.Starbucks.product.model.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -18,10 +21,17 @@ import java.util.List;
 public class EventProductServiceImpl implements IEventProductService{
 
     private final IEventProductRepository iEventProductRepository;
+    private final IProductRepository iProductRepository;
+    private final IEventRepository iEventRepository;
 
     @Override
-    public void addEventProduct(EventProduct eventProduct) {
+    public void addEventProduct(RequestEventProduct requestEventProduct) {
+        EventProduct eventProduct = EventProduct.builder()
+                .product(iProductRepository.findById(requestEventProduct.getProductId()).get())
+                .event(iEventRepository.findById(requestEventProduct.getEventId()).get())
+                .build();
         iEventProductRepository.save(eventProduct);
+
     }
 
     /*@Override
@@ -29,40 +39,61 @@ public class EventProductServiceImpl implements IEventProductService{
         return iEventProductRepository.findByEventProductId(eventProductId);
     }*/
     @Override
-    public List<EventProduct> getByProductId(Long productId) {
-        return iEventProductRepository.findAllByProductId(productId);
+    public List<ResponseEvent> getByProductId(Long productId) {
+        List<ResponseEvent> responseEventList = iEventProductRepository.findAllByProductId(productId).stream()
+                .map(element -> ResponseEvent.builder()
+                        .id(element.getEvent().getId())
+                        .name(element.getEvent().getName())
+                        .description(element.getEvent().getDescription())
+                        .title_image(element.getEvent().getTitle_image())
+                        .info_image(element.getEvent().getInfo_image())
+                        .start_date(element.getEvent().getStart_date())
+                        .end_date(element.getEvent().getEnd_date())
+                        .isNow(element.getEvent().isNow())
+                        .build()).collect(Collectors.toList());
+
+        return responseEventList;
     }
 
     @Override
+    public List<ResponseAllEventProduct> getAllEventProduct() {
+        List<ResponseAllEventProduct> responseAllEventProductList = iEventProductRepository.findAll().stream()
+                .map(element -> ResponseAllEventProduct.builder()
+                        .id(element.getId())
+                        .productId(element.getProduct().getId())
+                        .eventId(element.getEvent().getId())
+                        .build()).collect(Collectors.toList());
+
+        return responseAllEventProductList;
+    }
+
     public List<ResponseEventProduct> getByEventId(Long eventId) {
-        List<EventProduct> eventProductList = iEventProductRepository.findAllByEventId(eventId);
-        List<ResponseEventProduct> responseEventProductList = new ArrayList<>();
-        for (EventProduct eventProduct : eventProductList) {
-            Product product = eventProduct.getProduct();
-            ResponseEventProduct responseEventProduct = ResponseEventProduct.builder()
-                    .id(product.getId())
-                    .description(product.getDescription())
-                    .name(product.getName())
-                    .price(product.getPrice())
-                    .thumbnail(product.getThumbnail())
-                    .build();
-            responseEventProductList.add(responseEventProduct);
-        }
+        List<ResponseEventProduct> responseEventProductList = iEventProductRepository.findAllByEventId(eventId).stream()
+                .map(element -> ResponseEventProduct.builder()
+                        .id(element.getId())
+                        .description(element.getProduct().getDescription())
+                        .name(element.getProduct().getName())
+                        .price(element.getProduct().getPrice())
+                        .thumbnail(element.getProduct().getThumbnail())
+                        .isShow(element.getProduct().isShow())
+                        .build()).collect(Collectors.toList());
+
         return responseEventProductList;
     }
 
-    /*@Override
-    public List<EventProduct> getAllEventProduct() {
-        return iEventProductRepository.findAll();
+
+   /* @Override
+    public void updateEventProduct(Long id, RequestEventProduct requestEventProduct) {
+
+        EventProduct eventProduct = iEventProductRepository.findById(id).get();
+        eventProduct.setEvent(requestEventProduct.getEventId());;
+        eventProduct.setProduct(requestEventProduct.getProductId());
+        iEventRepository.save(eventProduct);
     }*/
-    /*@Override
-    public void updateEventProduct(EventProduct eventProduct){
 
-        EventProduct eventProduct1 = iEventProductRepository.findById(eventProduct.getId()).get();
-        eventProduct1.setImage(eventImageList.getImage());
-        //eventImageList1.set(eventImageList.getUpdateDate());
-
-
-        iEventProductRepository.save(eventProduct1);
-    }*/
+    @Override
+    public void deleteEventProduct(Long id) {
+        EventProduct eventProduct = iEventProductRepository.findById(id).get();
+        iEventProductRepository.delete(eventProduct);
+    }
 }

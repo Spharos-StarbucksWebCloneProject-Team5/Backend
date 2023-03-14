@@ -1,13 +1,9 @@
 package com.example.Starbucks.coupon.service;
 
-import com.example.Starbucks.coupon.model.Coupon;
 import com.example.Starbucks.coupon.model.UserCouponList;
 import com.example.Starbucks.coupon.repository.ICouponRepository;
 import com.example.Starbucks.coupon.repository.IUserCouponListRepository;
 import com.example.Starbucks.coupon.vo.ResponseUserCouponList;
-import com.example.Starbucks.product.repository.IProductCategoryListRepository;
-import com.example.Starbucks.product.repository.IProductRepository;
-import com.example.Starbucks.product.vo.RequestProductCategoryList;
 import com.example.Starbucks.coupon.vo.RequestUserCouponList;
 import com.example.Starbucks.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

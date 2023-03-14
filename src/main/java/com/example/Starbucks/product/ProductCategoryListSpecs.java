@@ -1,6 +1,6 @@
 package com.example.Starbucks.product;
 
-import com.example.Starbucks.product.model.CategoryList;
+import com.example.Starbucks.category.model.CategoryList;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ProductCategoryListSpecs {

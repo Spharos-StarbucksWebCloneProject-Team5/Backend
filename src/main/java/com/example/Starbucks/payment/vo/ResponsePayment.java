@@ -11,15 +11,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ResponsePayment {
     //보내줄 것들
+    private Long id;
     private Long userId;
     private Long productId;
     private Integer productPrice;
     private Integer product_count;
-    private Integer shipping_status;
+    private String  receiver;
+    private Integer shippingStatus;
     private String shipping_address;
     private String shipping_phone;
-    private Integer pay_type;
-    private Integer pay_status;
+    private Integer payType;
+    private Integer payStatus;
     private Integer amount;
-
+    private LocalDateTime date;
 }

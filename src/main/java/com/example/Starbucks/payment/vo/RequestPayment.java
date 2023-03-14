@@ -11,7 +11,8 @@ public class RequestPayment {
     private Long userId;
     private Long productId;
     private Integer product_count;
+    private String  receiver;
     private String shipping_address;
     private String shipping_phone;
-    private Integer pay_type;
+    private Integer payType;
 }
