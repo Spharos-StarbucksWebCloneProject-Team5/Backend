@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,18 +21,18 @@ public class EventImageListController {
     private final IEventImageListService iEventImageListService;
 
     @PostMapping("")
-    public ResponseEntity<?> addEventImage(@RequestBody RequestEventImageList requestEventImageList){
+    public ResponseEntity<?> addEventImage(@RequestBody @Valid RequestEventImageList requestEventImageList){
         ResponseEntity.ok();
         iEventImageListService.addEventImage(requestEventImageList);
         return null;
     }
 
     @GetMapping("{eventId}")
-    public ResponseEntity<List<ResponseEventImageList>> getEventImage(@PathVariable Long eventId){//이벤트id에 해당하는 이미지 불러오기
+    public ResponseEntity<List<ResponseEventImageList>> getEventImage(@PathVariable Long eventId){//eventId에 해당하는 이미지 불러오기
         return ResponseEntity.ok(iEventImageListService.getByEventId(eventId));
     }
     @PutMapping("{id}")
-    public ResponseEntity<?> updateEventImageList(@PathVariable Long id, @RequestBody RequestEventImageList requestEventImageList){
+    public ResponseEntity<?> updateEventImageList(@PathVariable Long id, @RequestBody @Valid RequestEventImageList requestEventImageList){
         iEventImageListService.updateEventImageList(id, requestEventImageList);
         ResponseEntity.ok();
         return null;
