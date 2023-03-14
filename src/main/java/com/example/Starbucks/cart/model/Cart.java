@@ -6,13 +6,15 @@ import com.example.Starbucks.utility.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
 
 @Getter
-@Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Valid
 public class Cart extends BaseTimeEntity {
 
     @Id
@@ -21,10 +23,10 @@ public class Cart extends BaseTimeEntity {
 
     @ManyToOne
     private User user;
-    @ManyToOne
+    @ManyToOne()
     private Product product;
 
     private Integer count;
 
-    boolean cancel;
+    boolean isNow; //삭제시 false 반환
 }
