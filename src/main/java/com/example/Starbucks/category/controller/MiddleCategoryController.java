@@ -4,12 +4,14 @@ import com.example.Starbucks.category.model.MiddleCategory;
 import com.example.Starbucks.category.service.IMiddleCategoryService;
 import com.example.Starbucks.category.vo.RequestMiddleCategory;
 import com.example.Starbucks.category.dto.ResponseMiddleCategory;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "카테고리")
 @RestController
 @RequestMapping("/v1/api/categories/middle")
 @RequiredArgsConstructor

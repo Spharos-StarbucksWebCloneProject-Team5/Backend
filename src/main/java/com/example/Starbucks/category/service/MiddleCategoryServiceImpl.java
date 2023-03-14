@@ -20,12 +20,11 @@ public class MiddleCategoryServiceImpl implements IMiddleCategoryService{
 
     @Override
     public void addMiddleCategory(RequestMiddleCategory requestMiddleCategory) {
-        MainCategory mainCategory = MainCategory.builder()
-                .id(requestMiddleCategory.getMainCategoryId())
-                .build();
         MiddleCategory middle = MiddleCategory.builder()
                 .name(requestMiddleCategory.getName())
-                .mainCategory(mainCategory)
+                .mainCategory(MainCategory.builder()
+                        .id(requestMiddleCategory.getMainCategoryId())
+                        .build())
                 .build();
         iMiddleCategoryRepository.save(middle);
     }
@@ -38,12 +37,11 @@ public class MiddleCategoryServiceImpl implements IMiddleCategoryService{
 
     @Override
     public List<ResponseMiddleCategory> getAllMiddleCategory() {
-        List<ResponseMiddleCategory> responseMiddleCategoryList = iMiddleCategoryRepository.findAll().stream()
+        return iMiddleCategoryRepository.findAll().stream()
                 .map(element -> ResponseMiddleCategory.builder()
                         .id(element.getId())
                         .name(element.getName())
                         .mainCategoryId(element.getMainCategory().getId())
                         .build()).collect(Collectors.toList());
-        return responseMiddleCategoryList;
     }
 }

@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Cart extends BaseTimeEntity {
 
     @Id

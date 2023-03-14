@@ -19,10 +19,10 @@ public class CategoryList extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MainCategory mainCategory;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MiddleCategory middleCategory;//중분류
 }
