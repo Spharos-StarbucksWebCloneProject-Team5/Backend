@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -37,39 +38,37 @@ public class EventImageListServiceImpl implements IEventImageListService {
     }
     @Override
     public List<ResponseEventImageList> getByEventId(Long eventId) {
-        List<EventImageList> eventImageList = iEventImageListRepository.findAllByEventId(eventId);
-        List<ResponseEventImageList> responseEventImageList = new ArrayList<>();
-        for(int i=0; i<eventImageList.size(); i++){
-            responseEventImageList.add(ResponseEventImageList.builder()
-                    .id(eventImageList.get(i).getId())
-                    .eventId(eventImageList.get(i).getEvent().getId())
-                    .image(eventImageList.get(i).getImage())
-                    .build());
+        List<ResponseEventImageList> responseEventImageList
+                = iEventImageListRepository.findAllByEventId(eventId).stream()
+                        .map(element -> ResponseEventImageList.builder()
+                                .id(element.getId())
+                                .eventId(element.getEvent().getId())
+                                .image(element.getImage())
+                                .build()).collect(Collectors.toList());
 
-        }
         return responseEventImageList;
     }
 
     @Override
     public List<ResponseEventImageList> getAll() {
-        List<EventImageList> eventImageList = iEventImageListRepository.findAll();
-        List<ResponseEventImageList> responseEventImageList = new ArrayList<>();
-        for(int i=0; i<eventImageList.size(); i++){
-            responseEventImageList.add(ResponseEventImageList.builder()
-                    .id(eventImageList.get(i).getId())
-                    .eventId(eventImageList.get(i).getEvent().getId())
-                    .image(eventImageList.get(i).getImage())
-                    .build());
+        //List<EventImageList> eventImageList = iEventImageListRepository.findAll();
+        List<ResponseEventImageList> responseEventImageList = iEventImageListRepository.findAll().stream()
+                .map(element -> ResponseEventImageList.builder()
+                        .id(element.getId())
+                        .eventId(element.getEvent().getId())
+                        .image(element.getImage())
+                        .build()).collect(Collectors.toList());
 
-        }
         return responseEventImageList;
     }
 
     @Override
     public void updateEventImageList(Long id, RequestEventImageList requestEventImageList){
 
-        EventImageList eventImageList = iEventImageListRepository.findById(id).get();
-        eventImageList.setImage(requestEventImageList.getImage());
+        EventImageList eventImageList = EventImageList.builder()
+                .id(id)
+                .image(requestEventImageList.getImage())
+                .build();
 
         iEventImageListRepository.save(eventImageList);
     }

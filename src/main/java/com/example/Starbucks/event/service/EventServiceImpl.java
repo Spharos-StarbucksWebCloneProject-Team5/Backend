@@ -1,5 +1,6 @@
 package com.example.Starbucks.event.service;
 
+import com.example.Starbucks.category.dto.ResponseMainCategory;
 import com.example.Starbucks.event.model.Event;
 import com.example.Starbucks.event.repository.IEventRepository;
 import com.example.Starbucks.event.vo.RequestEvent;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -47,52 +49,54 @@ public class EventServiceImpl implements IEventService {
     }
 
     public List<ResponseEventName> getEventName() {
-        List<Event> events = iEventRepository.findAll();
-        List<ResponseEventName> responseEventName = new ArrayList<>();
+        List<ResponseEventName> responseEventName = iEventRepository.findAll().stream()
+                .map(element -> ResponseEventName.builder()
+                        .id(element.getId())
+                        .name(element.getName())
+                        .build()).collect(Collectors.toList());
 
-
-        for(int i=0; i< events.size();i++){
-            if(events.get(i).isNow()){
+        /*for (Event event : events) {
+            if (event.isNow()) {
                 responseEventName.add(ResponseEventName.builder()
-                        .id(events.get(i).getId())
-                        .name(events.get(i).getName())
+                        .id(event.getId())
+                        .name(event.getName())
                         .build());
             }
-        }
+        }*/
         return responseEventName;
     }
 
     @Override
     public List<ResponseEvent> getAllEvent() {
-        List<Event> eventList = iEventRepository.findAll();
-        List<ResponseEvent> responseEventList = new ArrayList<>();
-        for(int i=0;i<eventList.size();i++){
-            responseEventList.add(ResponseEvent.builder()
-                    .id(eventList.get(i).getId())
-                    .name(eventList.get(i).getName())
-                    .description(eventList.get(i).getDescription())
-                    .title_image(eventList.get(i).getTitle_image())
-                    .info_image(eventList.get(i).getInfo_image())
-                    .start_date(eventList.get(i).getStart_date())
-                    .end_date(eventList.get(i).getEnd_date())
-                    .isNow(eventList.get(i).isNow())
-                    .build());
+        //List<Event> eventList = iEventRepository.findAll();
+        List<ResponseEvent> responseEventList = iEventRepository.findAll().stream()
+                        .map(element -> ResponseEvent.builder()
+                                .id(element.getId())
+                                .name(element.getName())
+                                .description(element.getDescription())
+                                .title_image(element.getTitle_image())
+                                .info_image(element.getInfo_image())
+                                .start_date(element.getStart_date())
+                                .end_date(element.getEnd_date())
+                                .isNow(element.isNow())
+                                .build()).collect(Collectors.toList());
 
-        }
         return responseEventList;
     }
 
     @Override
     public void updateEvent(Long id, RequestEvent requestEvent) {
 
-        Event event = iEventRepository.findById(id).get();
-        event.setName(requestEvent.getName());
-        event.setTitle_image(requestEvent.getTitle_image());
-        event.setInfo_image(requestEvent.getInfo_image());
-        event.setDescription(requestEvent.getDescription());
-        event.setStart_date(requestEvent.getStart_date());
-        event.setEnd_date(requestEvent.getEnd_date());
-        event.setNow(requestEvent.isNow());
+        Event event = Event.builder()
+                .id(id)
+                .name(requestEvent.getName())
+                .title_image(requestEvent.getTitle_image())
+                .info_image(requestEvent.getInfo_image())
+                .description(requestEvent.getDescription())
+                .start_date(requestEvent.getStart_date())
+                .end_date(requestEvent.getEnd_date())
+                .isNow(requestEvent.isNow())
+                .build();
 
         iEventRepository.save(event);
     }

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,7 @@ public class EventProductController {
     final IEventProductService iEventProductService;
 
     @PostMapping("")
-    public ResponseEntity addEventProduct(@RequestBody RequestEventProduct requestEventProduct){
+    public ResponseEntity addEventProduct(@RequestBody @Valid RequestEventProduct requestEventProduct){
         iEventProductService.addEventProduct(requestEventProduct);
         return null;
     }

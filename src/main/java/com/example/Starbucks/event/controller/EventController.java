@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.BufferedReader;
 import java.util.List;
 
@@ -21,7 +22,7 @@ import static java.util.stream.Collectors.toList;
 public class EventController {
     private final IEventService iEventService;
     @PostMapping("")
-    public ResponseEntity<?> addEvent(@RequestBody RequestEvent requestEvent) {
+    public ResponseEntity<?> addEvent(@RequestBody @Valid RequestEvent requestEvent) {
         iEventService.addEvent(requestEvent);
         ResponseEntity.ok();
         return null;
@@ -44,7 +45,7 @@ public class EventController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> updateEvent(@PathVariable Long id, @RequestBody RequestEvent requestEvent) {
+    public ResponseEntity<?> updateEvent(@PathVariable Long id, @RequestBody @Valid RequestEvent requestEvent) {
         iEventService.updateEvent(id, requestEvent);
        ResponseEntity.ok();
         return null;
