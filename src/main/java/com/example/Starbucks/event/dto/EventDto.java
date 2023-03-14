@@ -25,9 +25,9 @@ public class EventDto {
     private String info_image;
 
     private Date start_date;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+
     private Date end_date;
-    @NotBlank
+
     private boolean isNow;
 
 

@@ -5,16 +5,15 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Builder
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestEvent {
-    @NotBlank
-    private Long id;
+
     @NotBlank
     private String name;
     @NotEmpty
@@ -27,6 +26,6 @@ public class RequestEvent {
     private Date start_date;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date end_date;
-    @NotBlank
+    @NotNull
     private boolean isNow;
 }
