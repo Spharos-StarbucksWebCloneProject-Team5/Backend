@@ -10,6 +10,6 @@ import lombok.*;
 public class ResponseShippingAddress {
     private Long id;
     private String address;
-    private int isMain;
-    private boolean isShow;
+    private int main;
+    private Boolean choice;
 }

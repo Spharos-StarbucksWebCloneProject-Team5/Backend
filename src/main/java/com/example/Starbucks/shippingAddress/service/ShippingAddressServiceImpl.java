@@ -26,8 +26,8 @@ public class ShippingAddressServiceImpl implements IShippingAddressService{
         ResponseShippingAddress responseShippingAddress = ResponseShippingAddress.builder()
                 .id(shippingAddress.getId())
                 .address(shippingAddress.getAddress())
-                .isMain(shippingAddress.getIsMain())
-                .isShow(shippingAddress.isShow())
+                .main(shippingAddress.getMain())
+                .choice(shippingAddress.getChoice())
                 .build();
 
         return responseShippingAddress;
@@ -41,8 +41,8 @@ public class ShippingAddressServiceImpl implements IShippingAddressService{
             responseShippingAddresses.add(ResponseShippingAddress.builder()
                     .id(shippingAddressesList.get(i).getId())
                     .address(shippingAddressesList.get(i).getAddress())
-                    .isMain(shippingAddressesList.get(i).getIsMain())
-                    .isShow(shippingAddressesList.get(i).isShow())
+                    .main(shippingAddressesList.get(i).getMain())
+                    .choice(shippingAddressesList.get(i).getChoice())
                     .build()
             );
         }
@@ -54,8 +54,8 @@ public class ShippingAddressServiceImpl implements IShippingAddressService{
     public void updateShippingAddress(Long shippingId, RequestShippingAddress requestShippingAddress) {
         ShippingAddress shippingAddress = iShippingAddressRepository.findById(shippingId).get();
         shippingAddress.setAddress(requestShippingAddress.getAddress());
-        shippingAddress.setIsMain(requestShippingAddress.getIsMain());
-        shippingAddress.setShow(requestShippingAddress.isShow());
+        shippingAddress.setMain(requestShippingAddress.getMain());
+        shippingAddress.setChoice(requestShippingAddress.getChoice());
 
         iShippingAddressRepository.save(shippingAddress);
     }
