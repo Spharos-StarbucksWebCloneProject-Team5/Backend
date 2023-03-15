@@ -13,5 +13,6 @@ public class ResponseProduct {
     private Integer price;
     private String description;
     private String thumbnail;
-    private boolean isShow;
+    private Integer count;
+    //private Boolean show;
 }

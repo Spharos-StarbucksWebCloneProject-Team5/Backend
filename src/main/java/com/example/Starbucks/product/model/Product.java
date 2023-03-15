@@ -1,17 +1,14 @@
 package com.example.Starbucks.product.model;
 
 import com.example.Starbucks.utility.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Data
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,5 +22,6 @@ public class Product extends BaseTimeEntity {
     private Integer price;
     private String description;
     private String thumbnail;
-    private boolean isShow;
+    private Integer count;
+    //private Boolean sh;
 }
