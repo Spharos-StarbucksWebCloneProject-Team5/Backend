@@ -12,6 +12,7 @@ import java.util.Date;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,10 +24,10 @@ public class Event extends BaseTimeEntity {
 
     private String name;
     private String description;
-    private String title_image;
-    private String info_image;
-    private Date start_date;
-    private Date end_date;
-    private boolean isNow;
+    private String titleImage;
+    private String infoImage;
+    private Date startDate;
+    private Date endDate;
+    private Boolean now;
 
 }

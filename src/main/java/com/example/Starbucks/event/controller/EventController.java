@@ -7,6 +7,7 @@ import com.example.Starbucks.event.vo.RequestEvent;
 import com.example.Starbucks.event.vo.ResponseEvent;
 import com.example.Starbucks.event.vo.ResponseEventName;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,14 +18,17 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @RestController
+@Slf4j
 @RequestMapping("/v1/api/events")
 @RequiredArgsConstructor
 public class EventController {
     private final IEventService iEventService;
     @PostMapping("")
-    public ResponseEntity<?> addEvent(@RequestBody @Valid RequestEvent requestEvent) {
+    public ResponseEntity<?> addEvent(@RequestBody RequestEvent requestEvent) {
+        log.info("controller isNow 값 : "+requestEvent.toString());
         iEventService.addEvent(requestEvent);
         ResponseEntity.ok();
+
         return null;
     }
 
