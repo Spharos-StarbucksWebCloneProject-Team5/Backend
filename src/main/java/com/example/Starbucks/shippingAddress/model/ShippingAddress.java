@@ -22,6 +22,6 @@ public class ShippingAddress extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String address;
-    private int isMain;
-    private boolean isShow;
+    private int main;
+    private Boolean choice;
 }

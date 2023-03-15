@@ -45,11 +45,11 @@ public class EventProductServiceImpl implements IEventProductService{
                         .id(element.getEvent().getId())
                         .name(element.getEvent().getName())
                         .description(element.getEvent().getDescription())
-                        .title_image(element.getEvent().getTitle_image())
-                        .info_image(element.getEvent().getInfo_image())
-                        .start_date(element.getEvent().getStart_date())
-                        .end_date(element.getEvent().getEnd_date())
-                        .isNow(element.getEvent().isNow())
+                        .titleImage(element.getEvent().getTitleImage())
+                        .infoImage(element.getEvent().getInfoImage())
+                        .startDate(element.getEvent().getStartDate())
+                        .endDate(element.getEvent().getEndDate())
+                        .now(element.getEvent().getNow())
                         .build()).collect(Collectors.toList());
 
         return responseEventList;
@@ -75,7 +75,7 @@ public class EventProductServiceImpl implements IEventProductService{
                         .name(element.getProduct().getName())
                         .price(element.getProduct().getPrice())
                         .thumbnail(element.getProduct().getThumbnail())
-                        .isShow(element.getProduct().isShow())
+//                        .isShow(element.getProduct().getShow())
                         .build()).collect(Collectors.toList());
 
         return responseEventProductList;

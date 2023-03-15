@@ -26,8 +26,17 @@ public class EventServiceImpl implements IEventService {
 
     @Override
     public void addEvent(RequestEvent requestEvent) {
-        ModelMapper modelMapper = new ModelMapper();
-        Event event = modelMapper.map(requestEvent, Event.class);
+
+        Event event = Event.builder()
+                .name(requestEvent.getName())
+                .description(requestEvent.getDescription())
+                .titleImage(requestEvent.getTitleImage())
+                .infoImage(requestEvent.getInfoImage())
+                .startDate(requestEvent.getStartDate())
+                .endDate(requestEvent.getEndDate())
+                .now(requestEvent.getNow())
+                .build();
+        //log.info("isNow 값 : "+requestEvent.toString());
         iEventRepository.save(event);
 
     }
@@ -38,11 +47,11 @@ public class EventServiceImpl implements IEventService {
         ResponseEvent responseEvent = ResponseEvent.builder()
                 .name(event.getName())
                 .description(event.getDescription())
-                .title_image(event.getTitle_image())
-                .info_image(event.getInfo_image())
-                .start_date(event.getStart_date())
-                .end_date(event.getEnd_date())
-                .isNow(event.isNow())
+                .titleImage(event.getTitleImage())
+                .infoImage(event.getInfoImage())
+                .startDate(event.getStartDate())
+                .endDate(event.getEndDate())
+                .now(event.getNow())
                 .build();
         return responseEvent;
 
@@ -74,11 +83,11 @@ public class EventServiceImpl implements IEventService {
                                 .id(element.getId())
                                 .name(element.getName())
                                 .description(element.getDescription())
-                                .title_image(element.getTitle_image())
-                                .info_image(element.getInfo_image())
-                                .start_date(element.getStart_date())
-                                .end_date(element.getEnd_date())
-                                .isNow(element.isNow())
+                                .titleImage(element.getTitleImage())
+                                .infoImage(element.getInfoImage())
+                                .startDate(element.getStartDate())
+                                .endDate(element.getEndDate())
+                                .now(element.getNow())
                                 .build()).collect(Collectors.toList());
 
         return responseEventList;
@@ -90,12 +99,12 @@ public class EventServiceImpl implements IEventService {
         Event event = Event.builder()
                 .id(id)
                 .name(requestEvent.getName())
-                .title_image(requestEvent.getTitle_image())
-                .info_image(requestEvent.getInfo_image())
+                .titleImage(requestEvent.getTitleImage())
+                .infoImage(requestEvent.getInfoImage())
                 .description(requestEvent.getDescription())
-                .start_date(requestEvent.getStart_date())
-                .end_date(requestEvent.getEnd_date())
-                .isNow(requestEvent.isNow())
+                .startDate(requestEvent.getStartDate())
+                .endDate(requestEvent.getEndDate())
+                .now(requestEvent.getNow())
                 .build();
 
         iEventRepository.save(event);

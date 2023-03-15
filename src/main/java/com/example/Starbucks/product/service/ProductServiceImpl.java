@@ -24,8 +24,14 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public void addProduct(RequestProduct requestProduct) {
-        ModelMapper modelMapper = new ModelMapper();
-        Product product = modelMapper.map(requestProduct, Product.class);
+
+        Product product = Product.builder()
+                .name(requestProduct.getName())
+                .price(requestProduct.getPrice())
+                .description(requestProduct.getDescription())
+                .thumbnail(requestProduct.getThumbnail())
+                .count(requestProduct.getCount())
+                .build();
         iProductRepository.save(product);
     }
 
@@ -38,7 +44,7 @@ public class ProductServiceImpl implements IProductService{
                 .price(product.getPrice())
                 .description(product.getDescription())
                 .thumbnail(product.getThumbnail())
-                .isShow(product.isShow())
+                .count(product.getCount())
                 .build();
         return responseProduct;
     }
@@ -54,7 +60,7 @@ public class ProductServiceImpl implements IProductService{
                     .price(productList.get(i).getPrice())
                     .description(productList.get(i).getDescription())
                     .thumbnail(productList.get(i).getThumbnail())
-                    .isShow(productList.get(i).isShow())
+                    .count(productList.get(i).getCount())
                     .build()
             );
         }
@@ -63,12 +69,15 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public void updateProduct(Long id, RequestProduct requestProduct){
-        Product product = iProductRepository.findById(id).get();
-        product.setName(requestProduct.getName());
-        product.setDescription(requestProduct.getDescription());
-        product.setThumbnail(requestProduct.getThumbnail());
-        product.setPrice(requestProduct.getPrice());
-        product.setShow(requestProduct.isShow());
+        Product product = Product.builder()
+                .id(id)
+                .name(requestProduct.getName())
+                .price(requestProduct.getPrice())
+                .description(requestProduct.getDescription())
+                .thumbnail(requestProduct.getThumbnail())
+                .count(requestProduct.getCount())
+                .build();
+
 
         iProductRepository.save(product);
     }
