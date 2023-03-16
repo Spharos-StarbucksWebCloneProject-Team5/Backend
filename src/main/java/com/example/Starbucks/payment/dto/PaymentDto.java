@@ -1,18 +1,22 @@
 package com.example.Starbucks.payment.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
-@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PaymentDto {
-    private Long id;
-    private Long userId;
-    private Long productId;
-    private Integer product_count;
-    private String shipping_address;
-    private String shipping_phone;
-    private Integer pay_type;
+    LocalDateTime date;
+    Integer payStatus;
+    Long productId;
+    String productName;
+    Integer productPrice;
+    String productThumbnail;
+    Integer count;
 }

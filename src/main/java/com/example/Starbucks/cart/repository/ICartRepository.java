@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface ICartRepository extends JpaRepository<Cart,Long> {
     List<Cart> findAllByUserId(Long userId);
     Optional<Cart> findByUserIdAndProductId(Long userId, Long productId);
-    boolean existsByUserIdAndProductId(Long userId, Long productId);
 }

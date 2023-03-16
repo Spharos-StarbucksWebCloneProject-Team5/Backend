@@ -22,19 +22,19 @@ public class Payment extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
-    private Integer product_count;
+    private Integer productCount;
 
     private String  receiver;
 
-    private String shipping_address;
+    private String shippingAddress;
 
-    private String shipping_phone;
+    private String shippingPhone;
 
     private Integer shippingStatus;
 

@@ -21,12 +21,13 @@ public class Cart extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
     private Integer count;
 
-    boolean isNow; //삭제시 false 반환
+    private Boolean now;
+    //삭제시 false 반환
 }

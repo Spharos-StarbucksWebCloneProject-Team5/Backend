@@ -33,14 +33,14 @@ public class CartServiceImpl implements ICartService{
                             .user(cart.get().getUser())
                             .product(cart.get().getProduct())
                             .count(cart.get().getCount() + requestCart.getCount())
-                            .isNow(true)
+                            .now(true)
                     .build());
         } else {
             iCartRepository.save(Cart.builder()
                     .user(userRepository.findById(requestCart.getUserId()).get())
                     .product(iProductRepository.findById(requestCart.getProductId()).get())
                     .count(requestCart.getCount())
-                    .isNow(true)
+                    .now(true)
                     .build());
         }
     }
@@ -53,7 +53,7 @@ public class CartServiceImpl implements ICartService{
                 .user(cart.getUser())
                 .product(cart.getProduct())
                 .count(requestUpdateCart.getCount())
-                .isNow(true)
+                .now(true)
                 .build());
     }
 
@@ -65,7 +65,7 @@ public class CartServiceImpl implements ICartService{
                 .user(cart.getUser())
                 .product(cart.getProduct())
                 .count(0)
-                .isNow(false)
+                .now(false)
                 .build());
     }
     @Override
@@ -77,7 +77,7 @@ public class CartServiceImpl implements ICartService{
                     .user(cart.getUser())
                     .product(cart.getProduct())
                     .count(0)
-                    .isNow(false)
+                    .now(false)
                     .build());
         }
     }
@@ -85,7 +85,7 @@ public class CartServiceImpl implements ICartService{
     @Override
     public List<CartDto> getByUserId(Long userId) {
         List<CartDto> userCarts = iCartRepository.findAllByUserId(userId).stream()
-                .filter(cart -> cart.isNow()== true)
+                .filter(cart -> cart.getNow() == (Boolean)true)
                 .map(cart -> CartDto.builder()
                         .productId(cart.getProduct().getId())
                         .productName(cart.getProduct().getName())
@@ -94,7 +94,6 @@ public class CartServiceImpl implements ICartService{
                         .count(cart.getCount())
                         .build())
                 .collect(Collectors.toList());
-
         return userCarts;
     }
 }

@@ -1,5 +1,8 @@
 package com.example.Starbucks.payment.controller;
 
+import com.example.Starbucks.payment.dto.PaymentDto;
+import com.example.Starbucks.payment.dto.PaymentShippingDto;
+import com.example.Starbucks.payment.dto.UserShippingDto;
 import com.example.Starbucks.payment.model.Payment;
 import com.example.Starbucks.payment.service.IPaymentService;
 import com.example.Starbucks.payment.vo.*;
@@ -7,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,29 +21,30 @@ public class PaymentController {
     private final IPaymentService iPaymentService;
 
     @PostMapping("")
-    public ResponseEntity<ResponsePayment> addPayment(@RequestBody RequestPayment requestPayment) {
-        return ResponseEntity.ok(iPaymentService.addPayment(requestPayment));
+    public ResponseEntity<Void> addPayment(@RequestBody @Valid RequestPayment requestPayment) {
+        iPaymentService.addPayment(requestPayment);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/cancel")
-    public ResponseEntity<ResponsePayment> cancelPayment(@RequestBody RequestPaymentCancel requestPaymentCancel){
-        return ResponseEntity.ok(iPaymentService.cancelPayment(requestPaymentCancel));
+    public ResponseEntity<Void> cancelPayment(@RequestBody @Valid RequestPaymentCancel requestPaymentCancel){
+        iPaymentService.cancelPayment(requestPaymentCancel);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/shipping")
-    public ResponseEntity<Void> shippingPayment(@RequestBody ResponsePaymentShipping responsePaymentShipping){
-        iPaymentService.shippingPayment(responsePaymentShipping);
+    public ResponseEntity<Void> shippingPayment(@RequestBody @Valid PaymentShippingDto paymentShippingDto){
+        iPaymentService.shippingPayment(paymentShippingDto);
         return ResponseEntity.ok().build();
     }
     @ResponseBody
     @GetMapping("shipping/{userId}") //배송상태
-    public ResponseEntity<ResponseShipping> getShippingStatus(@PathVariable Long userId){
+    public ResponseEntity<UserShippingDto> getShippingStatus(@PathVariable Long userId){
         return ResponseEntity.ok(iPaymentService.getShippingStatus(userId));
     }
-    /*@ResponseBody
-    @GetMapping("{date1}&{date2}&{userId}&{type}") //주문내역
-    public List<ResponsePayment> getPayment(@PathVariable LocalDateTime date1, @PathVariable LocalDateTime date2
-            , @PathVariable Long userId, @PathVariable Integer type){
-        return iPaymentService.getPayment(date1,date2,userId,type);
-    }*/
+    @ResponseBody
+    @GetMapping("/get/{userId}") //주문내역
+    public ResponseEntity<List<PaymentDto>> getPayment(@PathVariable Long userId, @RequestBody @Valid RequestPaymentList requestPaymentList){
+        return ResponseEntity.ok(iPaymentService.getPayment(userId, requestPaymentList));
+    }
 }
