@@ -11,6 +11,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class MainCategory extends BaseTimeEntity {
