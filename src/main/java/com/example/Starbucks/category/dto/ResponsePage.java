@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ResponsePage {
     private List<Contents> content;
     private Integer pageNum;
@@ -20,8 +21,8 @@ public class ResponsePage {
     private Long totalElements;
 
     @Getter
-    @Setter
     @Builder
+    @ToString
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Contents {

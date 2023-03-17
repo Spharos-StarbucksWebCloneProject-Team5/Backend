@@ -17,12 +17,11 @@ public class MainCategoryImpl implements MainCategoryService{
 
     @Override
     public List<ResponseMainCategory> getAllMainCategories() {
-        List<ResponseMainCategory> responseMainCategoryList = mainCategoryRepository.findAll().stream()
+        return mainCategoryRepository.findAll().stream()
                 .map(element -> ResponseMainCategory.builder()
                         .id(element.getId())
                         .name(element.getName())
                         .build()).collect(Collectors.toList());
-        return responseMainCategoryList;
     }
 
     @Override

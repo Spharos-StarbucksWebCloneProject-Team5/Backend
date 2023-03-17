@@ -1,17 +1,21 @@
 package com.example.Starbucks.category.controller;
 
+import com.example.Starbucks.category.dto.ResponseSearch;
 import com.example.Starbucks.category.service.ICategoryListService;
 import com.example.Starbucks.category.dto.ResponsePage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Tag(name = "카테고리")
 @RestController
@@ -30,5 +34,11 @@ public class CategoryListController {
     public ResponseEntity<ResponsePage> searchProductByKeyword
             (@PathVariable String keyword, @PathVariable Integer pageNum, @PageableDefault (page=0, size=5, sort="productName", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(iCategoryListService.searchByNameOrDescription(keyword, keyword, pageNum, pageable));
+    }
+
+    @GetMapping("/testSearch")
+    public ResponseEntity<List<Object>> testCache
+            (@Param("keyword") String keyword) {
+        return ResponseEntity.ok(iCategoryListService.searchCache(keyword));
     }
 }
