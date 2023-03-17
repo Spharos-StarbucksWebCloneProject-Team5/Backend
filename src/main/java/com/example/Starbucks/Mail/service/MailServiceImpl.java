@@ -1,6 +1,9 @@
 package com.example.Starbucks.Mail.service;
 
+import com.example.Starbucks.Mail.dto.EmailDto;
+import com.example.Starbucks.config.RedisUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -17,13 +20,14 @@ import java.util.Random;
 public class MailServiceImpl implements MailService{
 
     private final JavaMailSender mailSender;  //
+    private final RedisUtil redisUtil;
     private String ePw; //인증 번호
 
     @Override
-    public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException{
+    public MimeMessage createMessage(EmailDto to) throws MessagingException, UnsupportedEncodingException{
         MimeMessage message = mailSender.createMimeMessage();
 
-        message.addRecipients(Message.RecipientType.TO,to); //보내는 대상
+        message.addRecipients(Message.RecipientType.TO,to.getTo()); //보내는 대상
         message.setSubject("회원가입 인증 메일"); // 제목
 
         String msgg = "";
@@ -79,14 +83,16 @@ public class MailServiceImpl implements MailService{
     // MimeMessage 객체 안에 내가 전송할 메일의 내용을 담는다.
     // 그리고 bean 으로 등록해둔 javaMail 객체를 사용해서 이메일 send
     @Override
-    public String sendSimpleMessage(String to) throws Exception {
+    public String sendSimpleMessage(EmailDto to) throws Exception {
 
         ePw = createKey(); // 랜덤 인증번호 생성
 
         // TODO Auto-generated method stub
-        MimeMessage message = createMessage(to); // 메일 발송
+        MimeMessage message = createMessage(to); // 메일 생성
+
         try {// 예외처리
-            mailSender.send(message);
+            redisUtil.setDataExpire(ePw,to.getTo(),30*1L);  //유효시간 1분
+            mailSender.send(message);   //메일 발송
         } catch (MailException es) {
             es.printStackTrace();
             throw new IllegalArgumentException();
@@ -94,6 +100,15 @@ public class MailServiceImpl implements MailService{
 
 
         return ePw; // 메일로 보냈던 인증 코드를 서버로 반환
+    }
+
+    public String verifyEmail(String key) throws ChangeSetPersister.NotFoundException{
+        String userEmail = redisUtil.getData(key);
+        if(userEmail == null){
+            throw new ChangeSetPersister.NotFoundException();
+        }
+        redisUtil.deleteData(key);
+        return ePw;
     }
 
 

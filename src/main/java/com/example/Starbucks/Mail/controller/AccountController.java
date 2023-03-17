@@ -1,15 +1,11 @@
 package com.example.Starbucks.Mail.controller;
 
 
+import com.example.Starbucks.Mail.dto.EmailCodeDto;
+import com.example.Starbucks.Mail.dto.EmailDto;
 import com.example.Starbucks.Mail.service.MailServiceImpl;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,10 +17,18 @@ public class AccountController {
     private final MailServiceImpl registerMail;
 
     @PostMapping("/email")
-    public String emailConfirm(@RequestParam String email) throws Exception{
-        String code = registerMail.sendSimpleMessage(email);
+    public String sendEmail(@RequestBody EmailDto to) throws Exception{
+        String code = registerMail.sendSimpleMessage(to);
 
         return code;
     }
+
+    @PostMapping("/email-confirm")
+    public String emailConfirm(@RequestBody EmailCodeDto emailCodeDto) throws Exception{
+        String code = registerMail.verifyEmail(emailCodeDto.getCode());
+
+        return code;
+    }
+
 
 }
