@@ -1,6 +1,7 @@
 package com.example.Starbucks.category.dto;
 
 import com.example.Starbucks.category.model.CategoryList;
+import com.example.Starbucks.category.projection.IProduct;
 import lombok.*;
 import org.springframework.data.domain.Page;
 
@@ -35,10 +36,20 @@ public class ResponsePage {
     public static List<Contents> ofContents(Page<CategoryList> categories) {
         return categories.getContent().stream()
                 .map(element -> ResponsePage.Contents.builder()
-                        .productId(element.getId())
+                        .productId(element.getProduct().getId())
                         .productName(element.getProduct().getName())
                         .price(element.getProduct().getPrice())
                         .thumbnail(element.getProduct().getThumbnail())
+                        .build()).collect(Collectors.toList());
+    }
+
+    public static List<Contents> ofContents2(Page<IProduct> categories) {
+        return categories.getContent().stream()
+                .map(element -> ResponsePage.Contents.builder()
+                        .productId(element.getId())
+                        .productName(element.getName())
+                        .price(element.getPrice())
+                        .thumbnail(element.getThumbnail())
                         .build()).collect(Collectors.toList());
     }
 }

@@ -1,14 +1,10 @@
 package com.example.Starbucks.payment.model;
 
-import com.example.Starbucks.utility.BaseTimeEntity;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
 import lombok.*;
 import com.example.Starbucks.users.model.User;
 import com.example.Starbucks.product.model.Product;
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
-import org.hibernate.hql.internal.classic.GroupByParser;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import javax.persistence.*;
 
 @Getter

@@ -1,11 +1,10 @@
 package com.example.Starbucks.coupon.model;
 
-import com.example.Starbucks.utility.BaseTimeEntity;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

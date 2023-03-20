@@ -1,6 +1,6 @@
 package com.example.Starbucks.category.model;
 
-import com.example.Starbucks.utility.BaseTimeEntity;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;

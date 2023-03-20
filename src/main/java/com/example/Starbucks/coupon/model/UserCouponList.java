@@ -1,7 +1,7 @@
 package com.example.Starbucks.coupon.model;
 
 import com.example.Starbucks.users.model.User;
-import com.example.Starbucks.utility.BaseTimeEntity;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

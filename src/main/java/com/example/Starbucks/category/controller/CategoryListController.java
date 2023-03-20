@@ -1,8 +1,11 @@
 package com.example.Starbucks.category.controller;
 
 import com.example.Starbucks.category.dto.ResponseSearch;
+import com.example.Starbucks.category.model.CategoryList;
+import com.example.Starbucks.category.model.ProductList;
 import com.example.Starbucks.category.service.ICategoryListService;
 import com.example.Starbucks.category.dto.ResponsePage;
+import com.example.Starbucks.category.vo.RequestCategoryList;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -10,10 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,19 +26,30 @@ public class CategoryListController {
     private final ICategoryListService iCategoryListService;
 
     @GetMapping("/category/{mainId}&{middleId}/{pageNum}") // mainCategory 만 선택된 경우, middleId를 0으로 보낸다.
-    public ResponseEntity<ResponsePage> searchProductByCategories(@PathVariable Integer mainId, @PathVariable Integer middleId,  @PathVariable Integer pageNum, @PageableDefault (page=0, size=10, sort="name", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<ResponsePage> searchProductByCategories(@Param("mainId") Integer mainId, @Param("middleId") Integer middleId,  @Param("pageNum") Integer pageNum, @PageableDefault (page=0, size=10, sort="name", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(iCategoryListService.searchByCategory(mainId, middleId, pageNum, pageable));
     }
 
-    @GetMapping("/search/{keyword}&{pageNum}")
+    @GetMapping("/search")
     public ResponseEntity<ResponsePage> searchProductByKeyword
-            (@PathVariable String keyword, @PathVariable Integer pageNum, @PageableDefault (page=0, size=5, sort="productName", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(iCategoryListService.searchByNameOrDescription(keyword, keyword, pageNum, pageable));
+            (@Param("keyword") String keyword, @Param("pageNum") Integer pageNum, @PageableDefault (page=0, size=5, direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(iCategoryListService.searchByNameOrDescription(keyword, pageNum, pageable));
     }
 
     @GetMapping("/testSearch")
     public ResponseEntity<List<Object>> testCache
             (@Param("keyword") String keyword) {
         return ResponseEntity.ok(iCategoryListService.searchCache(keyword));
+    }
+
+    @GetMapping("/testSearch2")
+    public ResponseEntity<List<ProductList>> testCache2
+            (@Param("keyword") String keyword) {
+        return ResponseEntity.ok(iCategoryListService.searchCache2(keyword));
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<CategoryList> addCategoryList(@RequestBody RequestCategoryList requestCategoryList) {
+        return ResponseEntity.ok(iCategoryListService.addCategoryList(requestCategoryList));
     }
 }

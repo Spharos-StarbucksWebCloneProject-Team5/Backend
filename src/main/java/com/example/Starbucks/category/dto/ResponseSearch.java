@@ -1,6 +1,7 @@
 package com.example.Starbucks.category.dto;
 
 import lombok.*;
+import org.springframework.data.domain.Pageable;
 
 @Getter
 @Builder
