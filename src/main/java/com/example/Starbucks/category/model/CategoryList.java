@@ -1,16 +1,14 @@
 package com.example.Starbucks.category.model;
 
 import com.example.Starbucks.product.model.Product;
-import com.example.Starbucks.utility.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

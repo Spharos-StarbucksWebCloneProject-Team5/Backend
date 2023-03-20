@@ -2,12 +2,11 @@ package com.example.Starbucks.cart.model;
 
 import com.example.Starbucks.product.model.Product;
 import com.example.Starbucks.users.model.User;
-import com.example.Starbucks.utility.BaseTimeEntity;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 
 @Getter
 @Entity

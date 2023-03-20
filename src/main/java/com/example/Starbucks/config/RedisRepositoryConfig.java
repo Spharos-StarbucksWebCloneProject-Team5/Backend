@@ -45,8 +45,8 @@ public class RedisRepositoryConfig {
     }
 
     @Bean
-    public RedisTemplate<String, Object> searchRedisTemplate() {
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<Object, Object> searchRedisTemplate() {
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ResponseSearch.class));
@@ -59,15 +59,14 @@ public class RedisRepositoryConfig {
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
                 .disableCachingNullValues() // null value 캐시안함
-                .entryTtl(Duration.ofSeconds(3000)) // 캐시의 기본 유효시간 설정
+                .entryTtl(Duration.ofSeconds(10)) // 캐시의 기본 유효시간 설정
                 .computePrefixWith(CacheKeyPrefix.simple())
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())); // redis 캐시 데이터 저장방식을 StringSeriallizer로 지정
 
         // 캐시키별 유효시간 설정
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put("post", RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(3000)));
-
+                .entryTtl(Duration.ofSeconds(10)));
 
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory).cacheDefaults(configuration)
                 .withInitialCacheConfigurations(cacheConfigurations).build();
