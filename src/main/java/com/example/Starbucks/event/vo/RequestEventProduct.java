@@ -4,6 +4,7 @@ package com.example.Starbucks.event.vo;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Builder
 @Getter
@@ -11,8 +12,8 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestEventProduct {
-    @NotBlank
+    @NotNull
     private Long productId;
-    @NotBlank
+    @NotNull
     private Long eventId;
 }
