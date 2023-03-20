@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/api/event-images")
 @RequiredArgsConstructor
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EventImageListController {
 
     private final IEventImageListService iEventImageListService;

@@ -25,8 +25,8 @@ public class CategoryListController {
 
     private final ICategoryListService iCategoryListService;
 
-    @GetMapping("/category/{mainId}&{middleId}/{pageNum}") // mainCategory 만 선택된 경우, middleId를 0으로 보낸다.
-    public ResponseEntity<ResponsePage> searchProductByCategories(@Param("mainId") Integer mainId, @Param("middleId") Integer middleId,  @Param("pageNum") Integer pageNum, @PageableDefault (page=0, size=10, sort="name", direction = Sort.Direction.DESC) Pageable pageable) {
+    @GetMapping("/category") // mainCategory 만 선택된 경우, middleId를 0으로 보낸다.
+    public ResponseEntity<ResponsePage> searchProductByCategories(@Param("main") Integer mainId, @Param("middle") Integer middleId,  @Param("pageNum") Integer pageNum, @PageableDefault (page=0, size=10, sort="name", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(iCategoryListService.searchByCategory(mainId, middleId, pageNum, pageable));
     }
 
