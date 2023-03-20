@@ -94,6 +94,14 @@ public class CategoryListServiceImpl implements ICategoryListService {
 
     @Override
     public CategoryList addCategoryList(RequestCategoryList requestCategoryList) {
+        if (requestCategoryList.getMiddleCategoryId() == null) {
+            CategoryList categoryList =  CategoryList.builder()
+                    .mainCategory(mainCategoryRepository.findById(requestCategoryList.getMainCategoryId()).get())
+                    .product(iProductRepository.findById(requestCategoryList.getProductId()).get())
+                    .build();
+            categoryListRepository.save(categoryList);
+            return categoryList;
+        }
         CategoryList categoryList =  CategoryList.builder()
                 .mainCategory(mainCategoryRepository.findById(requestCategoryList.getMainCategoryId()).get())
                 .middleCategory(iMiddleCategoryRepository.findById(requestCategoryList.getMiddleCategoryId()).get())
