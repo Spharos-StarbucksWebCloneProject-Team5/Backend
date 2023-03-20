@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @RequestMapping("/v1/api/events")
 @RequiredArgsConstructor
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EventController {
     private final IEventService iEventService;
     @PostMapping("")

@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/api/event-products")
 @RequiredArgsConstructor
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EventProductController {
 
     final IEventProductService iEventProductService;
