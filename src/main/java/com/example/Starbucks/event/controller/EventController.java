@@ -5,6 +5,7 @@ import com.example.Starbucks.event.model.Event;
 import com.example.Starbucks.event.service.IEventService;
 import com.example.Starbucks.event.vo.RequestEvent;
 import com.example.Starbucks.event.vo.ResponseEvent;
+import com.example.Starbucks.event.vo.ResponseEventList;
 import com.example.Starbucks.event.vo.ResponseEventName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +45,7 @@ public class EventController {
     }
 
     @GetMapping("all")//모든 이벤트 가져오기
-    public ResponseEntity<List<ResponseEvent>> getAllEvent() {
+    public ResponseEntity<List<ResponseEventList>> getAllEvent() {
         return ResponseEntity.ok(iEventService.getAllEvent());
     }
 

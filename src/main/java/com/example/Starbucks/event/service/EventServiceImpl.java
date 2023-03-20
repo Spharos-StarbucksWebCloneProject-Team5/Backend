@@ -5,6 +5,7 @@ import com.example.Starbucks.event.model.Event;
 import com.example.Starbucks.event.repository.IEventRepository;
 import com.example.Starbucks.event.vo.RequestEvent;
 import com.example.Starbucks.event.vo.ResponseEvent;
+import com.example.Starbucks.event.vo.ResponseEventList;
 import com.example.Starbucks.event.vo.ResponseEventName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 
@@ -45,6 +48,7 @@ public class EventServiceImpl implements IEventService {
     public ResponseEvent getEvent(Long eventId) {
         Event event = iEventRepository.findById(eventId).get();
         ResponseEvent responseEvent = ResponseEvent.builder()
+                .id(eventId)
                 .name(event.getName())
                 .description(event.getDescription())
                 .titleImage(event.getTitleImage())
@@ -76,18 +80,14 @@ public class EventServiceImpl implements IEventService {
     }
 
     @Override
-    public List<ResponseEvent> getAllEvent() {
+    public List<ResponseEventList> getAllEvent() {
         //List<Event> eventList = iEventRepository.findAll();
-        List<ResponseEvent> responseEventList = iEventRepository.findAll().stream()
-                        .map(element -> ResponseEvent.builder()
-                                .id(element.getId())
-                                .name(element.getName())
+        AtomicLong idx = new AtomicLong(1L);
+        List<ResponseEventList> responseEventList = iEventRepository.findAllByNow(Boolean.TRUE).stream()
+                        .map(element -> ResponseEventList.builder()
+                                .index(idx.getAndIncrement())       //이벤트 index(순서)
+                                .eventId(element.getId())
                                 .description(element.getDescription())
-                                .titleImage(element.getTitleImage())
-                                .infoImage(element.getInfoImage())
-                                .startDate(element.getStartDate())
-                                .endDate(element.getEndDate())
-                                .now(element.getNow())
                                 .build()).collect(Collectors.toList());
 
         return responseEventList;
