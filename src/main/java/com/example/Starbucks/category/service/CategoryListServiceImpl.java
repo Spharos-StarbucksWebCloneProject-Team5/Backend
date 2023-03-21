@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 public class CategoryListServiceImpl implements ICategoryListService {
 
     private final static int PAGE_SIZE = 8;
+    private final static int CACHE_LIMIT = 20;
     private final CategoryListRepository categoryListRepository;
     private final RedisRepositoryConfig redisRepositoryConfig;
     private final SearchRepository searchRepository;
@@ -53,7 +55,7 @@ public class CategoryListServiceImpl implements ICategoryListService {
     }
 
     @Override
-    public List<Object> searchCache(String keyword) {
+    public List<Object> searchCache(String keyword, Pageable pageable) {
         RedisTemplate<Object, Object> redisTemplate = redisRepositoryConfig.searchRedisTemplate();
         if(redisTemplate.opsForList().size(keyword) == 0) {
             categoryListRepository.searchKeyword(keyword).stream()
@@ -64,6 +66,7 @@ public class CategoryListServiceImpl implements ICategoryListService {
                             .thumbnail(element.getThumbnail())
                             .build())).collect(Collectors.toList());
         }
+        redisTemplate.expire(keyword, CACHE_LIMIT, TimeUnit.SECONDS);
         return redisTemplate.opsForList().range(keyword,0,-1);
     }
 

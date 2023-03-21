@@ -24,7 +24,7 @@ public class MiddleCategoryController {
 
     private final IMiddleCategoryService iMiddleCategoryService;
 
-    @Operation(summary = "미들 카테고리 추가", description = "미들 카테고리 추가하기", tags = { "admin" })
+    @Operation(summary = "미들 카테고리 추가", description = "미들 카테고리 추가하기", tags = { "관리자" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD  REQUEST"),
@@ -49,7 +49,7 @@ public class MiddleCategoryController {
         return ResponseEntity.ok(iMiddleCategoryService.getAllMiddleCategory());
     }
 
-    @Operation(summary = "미들 카테고리 수정", description = "미들 카테고리 수정하기", tags = { "admin" })
+    @Operation(summary = "미들 카테고리 수정", description = "미들 카테고리 수정하기", tags = { "관리자" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(schema = @Schema(implementation = ResponsePage.class))),

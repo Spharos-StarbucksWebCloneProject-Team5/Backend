@@ -34,7 +34,7 @@ public class MainCategoryController {
     public ResponseEntity<List<ResponseMainCategory>> getAllMainCategories() {
         return ResponseEntity.ok(mainCategoryService.getAllMainCategories());
     }
-    @Operation(summary = "메인 카테고리 추가", description = "카테고리 추가하기", tags = { "admin" })
+    @Operation(summary = "메인 카테고리 추가", description = "카테고리 추가하기", tags = { "관리자" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(schema = @Schema(implementation = ResponsePage.class))),

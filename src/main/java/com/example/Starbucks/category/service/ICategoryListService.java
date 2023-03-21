@@ -13,7 +13,7 @@ public interface ICategoryListService {
 
     ResponsePage searchByCategory(Integer mainCategoryId, Integer middleCategoryInteger, Integer pageNum, Pageable pageable);
     ResponsePage searchByNameOrDescription(String keyword, Integer pageNum, Pageable pageable);
-    List<Object> searchCache(String keyword);
+    List<Object> searchCache(String keyword, Pageable pageable);
     List<ProductList> searchCache2(String keyword);
     CategoryList addCategoryList(RequestCategoryList requestCategoryList);
 }

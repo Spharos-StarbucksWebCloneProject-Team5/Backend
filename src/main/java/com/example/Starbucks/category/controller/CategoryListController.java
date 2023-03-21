@@ -67,8 +67,8 @@ public class CategoryListController {
     })
     @GetMapping("/testSearch")
     public ResponseEntity<List<Object>> testCache
-            (@Param("keyword") String keyword) {
-        return ResponseEntity.ok(iCategoryListService.searchCache(keyword));
+            (@Param("keyword") String keyword, Pageable pageable) {
+        return ResponseEntity.ok(iCategoryListService.searchCache(keyword, pageable));
     }
 
     @Operation(summary = "키워드 검색 테스트", description = "CRUD Repository 사용하여 캐시 저장 및 불러오기", tags = { "검색" })
@@ -85,7 +85,7 @@ public class CategoryListController {
         return ResponseEntity.ok(iCategoryListService.searchCache2(keyword));
     }
 
-    @Operation(summary = "카테고리 리스트 추가", description = "mainCategoryId, middleCategoryId, productId에 따른 categoryList 추가", tags = { "admin" })
+    @Operation(summary = "카테고리 리스트 추가", description = "mainCategoryId, middleCategoryId, productId에 따른 categoryList 추가", tags = { "관리자" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(schema = @Schema(implementation = CategoryList.class))),
