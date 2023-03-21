@@ -61,9 +61,9 @@ public class EventServiceImpl implements IEventService {
         AtomicLong idx = new AtomicLong(1L);
         List<EventListDto> eventListDtoList = iEventRepository.findAllByNow(Boolean.TRUE).stream()
                         .map(element -> EventListDto.builder()
-                                .index(idx.getAndIncrement())       //이벤트 index(순서)
+                                .id(idx.getAndIncrement())       //이벤트 index(순서)
                                 .eventId(element.getId())
-                                .eventName(element.getName())
+                                .name(element.getName())
                                 .description(element.getDescription())
                                 .build()).collect(Collectors.toList());
 
