@@ -2,6 +2,7 @@ package com.example.Starbucks.payment.controller;
 
 import com.example.Starbucks.payment.dto.PaymentDto;
 import com.example.Starbucks.payment.dto.PaymentShippingDto;
+import com.example.Starbucks.payment.dto.ResponseBest;
 import com.example.Starbucks.payment.dto.UserShippingDto;
 import com.example.Starbucks.payment.model.Payment;
 import com.example.Starbucks.payment.service.IPaymentService;
@@ -24,6 +25,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentController {
     private final IPaymentService iPaymentService;
+
+    @Operation(summary = "베스트 상품", description = "결제 수에 따른 베스트 상품을 반환합니다.", tags = { "상품" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+    })
+    @GetMapping("/best")
+    public ResponseEntity<List<ResponseBest>> getBest() {
+        return ResponseEntity.ok(iPaymentService.getBest());
+    }
 
     @Operation(summary = "주문 요청", description = "주문을 등록합니다.", tags = { "payment Controller" })
     @ApiResponses({
