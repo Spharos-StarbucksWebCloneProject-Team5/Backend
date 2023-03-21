@@ -1,6 +1,5 @@
 package com.example.Starbucks.config;
 
-import com.example.Starbucks.category.dto.ResponsePage;
 import com.example.Starbucks.category.dto.ResponseSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
