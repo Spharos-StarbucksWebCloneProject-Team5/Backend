@@ -25,7 +25,7 @@ public class EventProductController {
 
     final IEventProductService iEventProductService;
 
-    @Operation(summary = "이벤트 상품등록", description = "이벤트 해당 상품 등록하기", tags = {"admin"})
+    @Operation(summary = "이벤트 상품등록", description = "이벤트 해당 상품 등록하기", tags = {"관리자"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = EventProduct.class)))
     @PostMapping("")
     public ResponseEntity<Void> addEventProduct(@RequestBody @Valid RequestEventProduct requestEventProduct){
@@ -33,7 +33,7 @@ public class EventProductController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "이벤트 상품불러오기", description = "이벤트 해당 상품리스트 불러오기", tags = {"Event Controller"})
+    @Operation(summary = "이벤트 상품불러오기", description = "이벤트 해당 상품리스트 불러오기", tags = {"이벤트"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = EventProductDto.class)))
     @GetMapping("/{eventId}")
     public ResponseEntity<List<EventProductDto>>getEvent(@PathVariable Long eventId){
@@ -60,7 +60,7 @@ public class EventProductController {
         return null;
     }*/
 
-    @Operation(summary = "이벤트 상품 삭제", description = "이벤트에 등록된 상품 삭제", tags = {"admin"})
+    @Operation(summary = "이벤트 상품 삭제", description = "이벤트에 등록된 상품 삭제", tags = {"관리자"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = EventProduct.class)))
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteEventProduct(@PathVariable Long id) {

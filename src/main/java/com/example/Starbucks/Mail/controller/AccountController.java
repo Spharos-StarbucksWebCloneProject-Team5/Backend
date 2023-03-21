@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "이메일")
 @RestController
 @RequestMapping("api/v1")
 @Slf4j
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
     private final MailServiceImpl registerMail;
 
-    @Operation(summary = "메일 인증 요청", description = "입력한 메일로 인증메일 발송합니다.", tags = { "Account Controller" })
+    @Operation(summary = "메일 인증 요청", description = "입력한 메일로 인증메일 발송합니다.", tags = { "이메일" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
@@ -32,7 +31,7 @@ public class AccountController {
         return code;
     }
 
-    @Operation(summary = "인증코드 확인 요청", description = "메일로 발송된 인증코드와 입력된 코드를 확인합니다.", tags = { "Account Controller" })
+    @Operation(summary = "인증코드 확인 요청", description = "메일로 발송된 인증코드와 입력된 코드를 확인합니다.", tags = { "이메일" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })

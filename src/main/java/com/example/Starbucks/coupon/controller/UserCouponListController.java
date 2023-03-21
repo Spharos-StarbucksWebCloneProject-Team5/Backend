@@ -21,7 +21,7 @@ public class UserCouponListController{
 
     final IUserCouponListService iUserCouponListService;
 
-    @Operation(summary = "유저 쿠폰 등록", description = "유저 쿠폰 등록", tags = {"Coupon Controller"})
+    @Operation(summary = "유저 쿠폰 등록", description = "유저 쿠폰 등록", tags = {"쿠폰"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Coupon.class)))
     @PostMapping("")
     public ResponseEntity<?> addUserCouponList(@RequestBody RequestUserCouponList requestUserCouponList){
@@ -29,7 +29,7 @@ public class UserCouponListController{
         return null;
     }
 
-    @Operation(summary = "유저 쿠폰목록 조회", description = "유저 쿠폰목록 조회", tags = {"Coupon Controller"})
+    @Operation(summary = "유저 쿠폰목록 조회", description = "유저 쿠폰목록 조회", tags = {"쿠폰"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = UserCouponDto.class)))
     @GetMapping("/{userId}")
     public ResponseEntity<List<UserCouponDto>> getAllByUser(@PathVariable Long userId){

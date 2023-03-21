@@ -28,7 +28,7 @@ public class CartController {
     private final ICartService iCartService;
     private final ICartRepository iCartRepository;
 
-    @Operation(summary = "장바구니 담기", description = "장바구니에 상품 추가하기", tags = { "Cart Controller"})
+    @Operation(summary = "장바구니 담기", description = "장바구니에 상품 추가하기", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
     @PostMapping("/add")
     public ResponseEntity<Void> addCart(@RequestBody @Valid RequestCart requestCart){
@@ -37,7 +37,7 @@ public class CartController {
         //상태만 반환
     }
 
-    @Operation(summary = "장바구니 선택삭제", description = "장바구니 선택삭제", tags = { "Cart Controller"})
+    @Operation(summary = "장바구니 선택삭제", description = "장바구니 선택삭제", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCart(@PathVariable Long id){
@@ -47,7 +47,7 @@ public class CartController {
         //유저 장바구니로 이동
     }
 
-    @Operation(summary = "장바구니 수량변경", description = "장바구니 상품 수량 수정", tags = { "Cart Controller"})
+    @Operation(summary = "장바구니 수량변경", description = "장바구니 상품 수량 수정", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
     @PutMapping("/update")//수량변경
     public ResponseEntity<Void> updateCart(@RequestBody @Valid  RequestUpdateCart requestUpdateCart){
@@ -57,14 +57,14 @@ public class CartController {
        //유저 장바구니로 이동
     }
 
-    @Operation(summary = "유저 장바구니목록", description = "유저 장바구니 목록 확인", tags = { "Cart Controller"})
+    @Operation(summary = "유저 장바구니목록", description = "유저 장바구니 목록 확인", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
     @GetMapping("/get/{userId}")
     public ResponseEntity<List<CartDto>> getByUserId(@PathVariable Long userId){
         return ResponseEntity.ok(iCartService.getByUserId(userId));
     }
 
-    @Operation(summary = "장바구니 전체삭제", description = "장바구니 상품 전체 삭제", tags = { "Cart Controller"})
+    @Operation(summary = "장바구니 전체삭제", description = "장바구니 상품 전체 삭제", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CartDto.class)))
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<Void> allDeleteCart(@PathVariable Long userId){

@@ -14,14 +14,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "배송지")
 @RestController
 @RequestMapping("/v1/api/shippingAddress")
 @RequiredArgsConstructor
 public class ShippingAddressController {
     private final IShippingAddressService iShippingAddressService;
 
-    @Operation(summary = "배송지 등록 요청", description = "배송지 정보가 등록 됩니다.", tags = { "ShippingAddressController Controller" })
+    @Operation(summary = "배송지 등록 요청", description = "배송지 정보가 등록 됩니다.", tags = { "배송지" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
@@ -32,7 +31,7 @@ public class ShippingAddressController {
         return null;
     }
 
-    @Operation(summary = "배송지 정보 요청", description = "요청하는 ID의 배송지 정보를 가져옵니다.", tags = { "ShippingAddressController Controller" })
+    @Operation(summary = "배송지 정보 요청", description = "요청하는 ID의 배송지 정보를 가져옵니다.", tags = { "배송지" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
@@ -41,7 +40,7 @@ public class ShippingAddressController {
         return ResponseEntity.ok(iShippingAddressService.getShippingAddress(shippingAddressId));
     }
 
-    @Operation(summary = "모든 배송지 정보 요청", description = "모든 배송지 정보를 가져옵니다.", tags = { "ShippingAddressController Controller" })
+    @Operation(summary = "모든 배송지 정보 요청", description = "모든 배송지 정보를 가져옵니다.", tags = { "배송지" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
@@ -50,7 +49,7 @@ public class ShippingAddressController {
         return ResponseEntity.ok(iShippingAddressService.getAllShippingAddress());
     }
 
-    @Operation(summary = "배송지 수정 요청", description = "배송지 정보를 수정합니다.", tags = { "ShippingAddressController Controller" })
+    @Operation(summary = "배송지 수정 요청", description = "배송지 정보를 수정합니다.", tags = { "배송지" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
@@ -61,7 +60,7 @@ public class ShippingAddressController {
         return null;
     }
 
-    @Operation(summary = "배송지 삭제 요청", description = "배송지 정보를 삭제합니다.", tags = { "ShippingAddressController Controller" })
+    @Operation(summary = "배송지 삭제 요청", description = "배송지 정보를 삭제합니다.", tags = { "배송지" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })

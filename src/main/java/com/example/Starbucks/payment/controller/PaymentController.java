@@ -19,7 +19,6 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Tag(name = "주문")
 @RestController
 @RequestMapping("/v1/api/payments")
 @RequiredArgsConstructor
@@ -35,7 +34,7 @@ public class PaymentController {
         return ResponseEntity.ok(iPaymentService.getBest());
     }
 
-    @Operation(summary = "주문 요청", description = "주문을 등록합니다.", tags = { "payment Controller" })
+    @Operation(summary = "주문 요청", description = "주문을 등록합니다.", tags = { "주문" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
@@ -45,7 +44,7 @@ public class PaymentController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "주문 취소 요청", description = "주문을 취소합니다.", tags = { "payment Controller" })
+    @Operation(summary = "주문 취소 요청", description = "주문을 취소합니다.", tags = { "주문" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
@@ -55,7 +54,7 @@ public class PaymentController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "해당 주문 배송 상태 변경 요청", description = "해당 주문의 배송 상태를 변경합니다.", tags = { "payment Controller" })
+    @Operation(summary = "해당 주문 배송 상태 변경 요청", description = "해당 주문의 배송 상태를 변경합니다.", tags = { "주문" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
@@ -65,7 +64,7 @@ public class PaymentController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "최근 3개월 배송 상태 요청", description = "최근 3개월 배송 상태를 가져옵니다.", tags = { "payment Controller" })
+    @Operation(summary = "최근 3개월 배송 상태 요청", description = "최근 3개월 배송 상태를 가져옵니다.", tags = { "주문" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
@@ -75,7 +74,7 @@ public class PaymentController {
         return ResponseEntity.ok(iPaymentService.getShippingStatus(userId));
     }
 
-    @Operation(summary = "주문내역 요청", description = "주문내역을 가져옵니다.", tags = { "payment Controller" })
+    @Operation(summary = "주문내역 요청", description = "주문내역을 가져옵니다.", tags = { "주문" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
