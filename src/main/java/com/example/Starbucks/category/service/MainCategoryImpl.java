@@ -21,6 +21,7 @@ public class MainCategoryImpl implements MainCategoryService{
                 .map(element -> ResponseMainCategory.builder()
                         .id(element.getId())
                         .name(element.getName())
+                        .thumbNail(element.getThumbNail())
                         .build()).collect(Collectors.toList());
     }
 
