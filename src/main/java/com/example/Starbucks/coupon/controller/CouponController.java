@@ -21,7 +21,7 @@ public class CouponController {
 
     private final ICouponService iCouponService;
 
-    @Operation(summary = "신규 쿠폰 등록", description = "신규 쿠폰 등록", tags = {"admin"})
+    @Operation(summary = "신규 쿠폰 등록", description = "신규 쿠폰 등록", tags = {"관리자"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Coupon.class)))
     @PostMapping("")
     public @ResponseBody ResponseEntity<Void> addCoupon(@RequestBody RequestCreateCoupon requestCreateCoupon){
@@ -36,14 +36,14 @@ public class CouponController {
 //        return ResponseEntity.ok(iCouponService.getCoupon(id));
 //    }
 
-    @Operation(summary = "쿠폰 전체조회", description = "쿠폰 상세 내용 전체 조회", tags = {"Coupon Controller"})
+    @Operation(summary = "쿠폰 전체조회", description = "쿠폰 상세 내용 전체 조회", tags = {"쿠폰"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Coupon.class)))
     @GetMapping("/all")
     public ResponseEntity<List<Coupon>> getAllCoupon(){
         return ResponseEntity.ok(iCouponService.getAllCoupon());
     }
 
-    @Operation(summary = "쿠폰 상태 변경", description = "쿠폰 상세 내용 전체 조회", tags = {"Coupon Controller"})
+    @Operation(summary = "쿠폰 상태 변경", description = "쿠폰 상세 내용 전체 조회", tags = {"쿠폰"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Coupon.class)))
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateCoupon(@PathVariable Long id , @RequestBody RequestUpdateCoupon requestUpdateCoupon){
@@ -51,7 +51,7 @@ public class CouponController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "쿠폰 삭제", description = "쿠폰 삭제", tags = {"admin"})
+    @Operation(summary = "쿠폰 삭제", description = "쿠폰 삭제", tags = {"관리자"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Coupon.class)))
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCoupon(@PathVariable Long id){

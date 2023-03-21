@@ -24,7 +24,7 @@ import java.util.List;
 public class EventController {
     private final IEventService iEventService;
 
-    @Operation(summary = "이벤트 추가", description = "이벤트 추가하기", tags = {"admin"})
+    @Operation(summary = "이벤트 추가", description = "이벤트 추가하기", tags = {"관리자"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Event.class)))
     @PostMapping("")
     public ResponseEntity<Void> addEvent(@RequestBody RequestEvent requestEvent) {
@@ -47,14 +47,14 @@ public class EventController {
 //        return ResponseEntity.ok(iEventService.getEventName());
 //    }
 
-    @Operation(summary = "진행중 이벤트 목록", description = "진행중인 이벤트 확인 메인페이지 및 기획전 카테고리", tags = {"Event Controller"})
+    @Operation(summary = "진행중 이벤트 목록", description = "진행중인 이벤트 확인 메인페이지 및 기획전 카테고리", tags = {"이벤트"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = EventListDto.class)))
     @GetMapping("all")//모든 이벤트 가져오기
     public ResponseEntity<List<EventListDto>> getAllEvent() {
         return ResponseEntity.ok(iEventService.getAllEvent());
     }
 
-    @Operation(summary = "이벤트 변경", description = "이벤트 추가하기", tags = {"admin"})
+    @Operation(summary = "이벤트 변경", description = "이벤트 추가하기", tags = {"관리자"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Event.class)))
     @PutMapping("{id}")
     public ResponseEntity<Void> updateEvent(@PathVariable Long id, @RequestBody @Valid RequestEvent requestEvent) {
@@ -62,7 +62,7 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "이벤트 삭제", description = "이벤트 삭제", tags = {"admin"})
+    @Operation(summary = "이벤트 삭제", description = "이벤트 삭제", tags = {"관리자"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Event.class)))
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
