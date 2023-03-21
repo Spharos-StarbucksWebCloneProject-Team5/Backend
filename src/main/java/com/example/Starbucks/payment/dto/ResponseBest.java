@@ -1,16 +1,17 @@
-package com.example.Starbucks.category.dto;
+package com.example.Starbucks.payment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseMainCategory {
-    private Integer id;
+public class ResponseBest {
+    private Long id;
     private String name;
-    private String thumbNail;
+    private Integer price;
+    private String thumbnail;
 }

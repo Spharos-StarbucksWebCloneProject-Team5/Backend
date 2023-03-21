@@ -2,6 +2,7 @@ package com.example.Starbucks.payment.service;
 
 import com.example.Starbucks.payment.dto.PaymentDto;
 import com.example.Starbucks.payment.dto.PaymentShippingDto;
+import com.example.Starbucks.payment.dto.ResponseBest;
 import com.example.Starbucks.payment.dto.UserShippingDto;
 import com.example.Starbucks.payment.model.Payment;
 import com.example.Starbucks.payment.vo.*;
@@ -16,4 +17,5 @@ public interface IPaymentService {
     void shippingPayment(PaymentShippingDto paymentShippingDto);
     UserShippingDto getShippingStatus(Long userId);
     List<PaymentDto> getPayment(Long userId, RequestPaymentList requestPaymentList);
+    List<ResponseBest> getBest();
 }

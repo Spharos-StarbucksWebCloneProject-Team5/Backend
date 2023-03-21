@@ -54,23 +54,6 @@ public class EventServiceImpl implements IEventService {
 
     }
 
-//    public List<ResponseEventName> getEventName() {
-//        List<ResponseEventName> responseEventName = iEventRepository.findAll().stream()
-//                .map(element -> ResponseEventName.builder()
-//                        .id(element.getId())
-//                        .name(element.getName())
-//                        .build()).collect(Collectors.toList());
-//
-//        for (Event event : events) {
-//            if (event.isNow()) {
-//                responseEventName.add(ResponseEventName.builder()
-//                        .id(event.getId())
-//                        .name(event.getName())
-//                        .build());
-//            }
-//
-//        return responseEventName;
-//    }
 
     @Override
     public List<EventListDto> getAllEvent() {

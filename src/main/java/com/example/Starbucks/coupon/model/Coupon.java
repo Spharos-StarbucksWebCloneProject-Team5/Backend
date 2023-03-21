@@ -39,4 +39,5 @@ public class Coupon extends BaseTimeEntity {
 
     @Schema(description = "쿠폰 종류")
     private Integer type;
+
 }

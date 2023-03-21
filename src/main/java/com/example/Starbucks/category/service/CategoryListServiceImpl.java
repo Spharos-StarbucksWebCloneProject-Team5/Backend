@@ -39,7 +39,7 @@ public class CategoryListServiceImpl implements ICategoryListService {
     @Override
     public ResponsePage searchByCategory(Integer mainCategoryId, Integer middleCategoryId, Integer pageNum, Pageable pageable) {
         pageable = PageRequest.of(pageNum, PAGE_SIZE);
-        if (middleCategoryId == 0) {
+        if (middleCategoryId == null) {
             return getPageInfo(categoryListRepository.findAllByMainCategoryId(mainCategoryId, pageable));
         } else {
             return getPageInfo(categoryListRepository.findAllByMainCategoryIdAndMiddleCategoryId(mainCategoryId, middleCategoryId, pageable));

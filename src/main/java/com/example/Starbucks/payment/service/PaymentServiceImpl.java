@@ -3,6 +3,7 @@ package com.example.Starbucks.payment.service;
 import com.example.Starbucks.cart.model.Cart;
 import com.example.Starbucks.payment.dto.PaymentDto;
 import com.example.Starbucks.payment.dto.PaymentShippingDto;
+import com.example.Starbucks.payment.dto.ResponseBest;
 import com.example.Starbucks.payment.dto.UserShippingDto;
 import com.example.Starbucks.payment.model.Payment;
 import com.example.Starbucks.payment.repository.IPaymentRepository;
@@ -62,7 +63,7 @@ public class PaymentServiceImpl implements IPaymentService {
 
     @Override
     public void shippingPayment(PaymentShippingDto paymentShippingDto) {
-        Payment payment = iPaymentRepository.findById(paymentShippingDto.getId()).get();
+        Payment payment = iPaymentRepository.findById(paymentShippingDto.getPaymentId()).get();
         iPaymentRepository.save(Payment.builder()
                 .id(payment.getId())
                 .user(payment.getUser())
@@ -74,7 +75,7 @@ public class PaymentServiceImpl implements IPaymentService {
                 .shippingStatus(paymentShippingDto.getShippingStatus())
                 .payType(payment.getPayType())
                 .amount(payment.getAmount())
-                .payStatus(0)
+                .payStatus(payment.getPayStatus())
                 .build());
     }
 
@@ -115,5 +116,16 @@ public class PaymentServiceImpl implements IPaymentService {
                 .sorted(Comparator.comparing(PaymentDto::getDate).reversed())
                 .collect(Collectors.toList());
         return userPaymentDto;
+    }
+
+    @Override
+    public List<ResponseBest> getBest() {
+        return iPaymentRepository.bestProduct().stream()
+                .map(element -> ResponseBest.builder()
+                        .id(element.getId())
+                        .name(element.getName())
+                        .price(element.getPrice())
+                        .thumbnail(element.getThumbnail())
+                        .build()).collect(Collectors.toList());
     }
 }
