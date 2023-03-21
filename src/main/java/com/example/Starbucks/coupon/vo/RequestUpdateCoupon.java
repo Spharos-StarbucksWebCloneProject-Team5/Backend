@@ -8,5 +8,5 @@ import lombok.ToString;
 @Setter
 @ToString
 public class RequestUpdateCoupon {
-    private int status;
+    private Integer status;
 }

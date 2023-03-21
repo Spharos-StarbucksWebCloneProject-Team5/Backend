@@ -1,22 +1,15 @@
 package com.example.Starbucks.event.service;
 
-import com.example.Starbucks.category.dto.ResponseMainCategory;
+import com.example.Starbucks.event.dto.EventDto;
+import com.example.Starbucks.event.dto.EventListDto;
 import com.example.Starbucks.event.model.Event;
 import com.example.Starbucks.event.repository.IEventRepository;
 import com.example.Starbucks.event.vo.RequestEvent;
-import com.example.Starbucks.event.vo.ResponseEvent;
-import com.example.Starbucks.event.vo.ResponseEventList;
-import com.example.Starbucks.event.vo.ResponseEventName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
@@ -45,9 +38,9 @@ public class EventServiceImpl implements IEventService {
     }
 
     @Override
-    public ResponseEvent getEvent(Long eventId) {
+    public EventDto getEvent(Long eventId) {
         Event event = iEventRepository.findById(eventId).get();
-        ResponseEvent responseEvent = ResponseEvent.builder()
+        EventDto eventDto = EventDto.builder()
                 .id(eventId)
                 .name(event.getName())
                 .description(event.getDescription())
@@ -55,43 +48,26 @@ public class EventServiceImpl implements IEventService {
                 .infoImage(event.getInfoImage())
                 .startDate(event.getStartDate())
                 .endDate(event.getEndDate())
-                .now(event.getNow())
+//                .now(event.getNow())
                 .build();
-        return responseEvent;
+        return eventDto;
 
     }
 
-    public List<ResponseEventName> getEventName() {
-        List<ResponseEventName> responseEventName = iEventRepository.findAll().stream()
-                .map(element -> ResponseEventName.builder()
-                        .id(element.getId())
-                        .name(element.getName())
-                        .build()).collect(Collectors.toList());
-
-        log.info(responseEventName.toString());
-        /*for (Event event : events) {
-            if (event.isNow()) {
-                responseEventName.add(ResponseEventName.builder()
-                        .id(event.getId())
-                        .name(event.getName())
-                        .build());
-            }
-        }*/
-        return responseEventName;
-    }
 
     @Override
-    public List<ResponseEventList> getAllEvent() {
+    public List<EventListDto> getAllEvent() {
         //List<Event> eventList = iEventRepository.findAll();
         AtomicLong idx = new AtomicLong(1L);
-        List<ResponseEventList> responseEventList = iEventRepository.findAllByNow(Boolean.TRUE).stream()
-                        .map(element -> ResponseEventList.builder()
+        List<EventListDto> eventListDtoList = iEventRepository.findAllByNow(Boolean.TRUE).stream()
+                        .map(element -> EventListDto.builder()
                                 .index(idx.getAndIncrement())       //이벤트 index(순서)
                                 .eventId(element.getId())
+                                .eventName(element.getName())
                                 .description(element.getDescription())
                                 .build()).collect(Collectors.toList());
 
-        return responseEventList;
+        return eventListDtoList;
     }
 
     @Override

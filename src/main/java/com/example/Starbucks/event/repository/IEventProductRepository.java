@@ -2,7 +2,6 @@ package com.example.Starbucks.event.repository;
 
 
 import com.example.Starbucks.event.model.EventProduct;
-import com.example.Starbucks.event.vo.ResponseEventProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

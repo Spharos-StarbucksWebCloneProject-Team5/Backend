@@ -1,15 +1,27 @@
 package com.example.Starbucks.coupon.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+
+import java.util.Date;
 
 @Getter
-@Setter
-@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CouponDto {
-
-    private Long id;
+    @Schema(description = "쿠폰이름")
     private String name;
-    private String type;
+
+    @Schema(description = "할인율")
+    private Integer discount;
+
+    @Schema(description = "사용만료일")
+    private Date end_date;
+
+    @Schema(description = "사용상태")
+    private Integer status;
+
+    @Schema(description = "쿠폰종류")
+    private Integer type;
 }
