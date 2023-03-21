@@ -27,4 +27,8 @@ public class Coupon extends BaseTimeEntity {
     private Date end_date;
     private int status;
     private int type;
+
+    public void setCouponUsed(int status) {
+        this.status = status;
+    }
 }

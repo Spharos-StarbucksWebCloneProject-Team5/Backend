@@ -1,5 +1,6 @@
 package com.example.Starbucks.payment.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.Max;
@@ -13,8 +14,10 @@ import javax.validation.constraints.NotNull;
 public class PaymentShippingDto {
     //결제 배송상태 변경
     @NotNull @Min(0)
-    private Long id;
+    @Schema(description = "주문 ID")
+    private Long paymentId;
     @NotNull @Max(4)
+    @Schema(description = "배송상태")
     private Integer shippingStatus;
 
 }

@@ -62,7 +62,7 @@ public class PaymentServiceImpl implements IPaymentService {
 
     @Override
     public void shippingPayment(PaymentShippingDto paymentShippingDto) {
-        Payment payment = iPaymentRepository.findById(paymentShippingDto.getId()).get();
+        Payment payment = iPaymentRepository.findById(paymentShippingDto.getPaymentId()).get();
         iPaymentRepository.save(Payment.builder()
                 .id(payment.getId())
                 .user(payment.getUser())
@@ -74,7 +74,7 @@ public class PaymentServiceImpl implements IPaymentService {
                 .shippingStatus(paymentShippingDto.getShippingStatus())
                 .payType(payment.getPayType())
                 .amount(payment.getAmount())
-                .payStatus(0)
+                .payStatus(payment.getPayStatus())
                 .build());
     }
 
