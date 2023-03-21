@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +31,8 @@ public class PaymentController {
             @ApiResponse(responseCode = "200", description = "OK"),
     })
     @GetMapping("/best")
-    public ResponseEntity<List<ResponseBest>> getBest() {
-        return ResponseEntity.ok(iPaymentService.getBest());
+    public ResponseEntity<List<ResponseBest>> getBest(@Param("main") Integer main) {
+        return ResponseEntity.ok(iPaymentService.getBest(main));
     }
 
     @Operation(summary = "주문 요청", description = "주문을 등록합니다.", tags = { "주문" })
