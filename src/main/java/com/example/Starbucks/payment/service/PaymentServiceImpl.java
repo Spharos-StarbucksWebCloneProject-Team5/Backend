@@ -119,8 +119,8 @@ public class PaymentServiceImpl implements IPaymentService {
     }
 
     @Override
-    public List<ResponseBest> getBest() {
-        return iPaymentRepository.bestProduct().stream()
+    public List<ResponseBest> getBest(Integer main) {
+        return iPaymentRepository.bestProduct(main).stream()
                 .map(element -> ResponseBest.builder()
                         .id(element.getId())
                         .name(element.getName())

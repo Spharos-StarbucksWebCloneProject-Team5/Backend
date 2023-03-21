@@ -17,5 +17,5 @@ public interface IPaymentService {
     void shippingPayment(PaymentShippingDto paymentShippingDto);
     UserShippingDto getShippingStatus(Long userId);
     List<PaymentDto> getPayment(Long userId, RequestPaymentList requestPaymentList);
-    List<ResponseBest> getBest();
+    List<ResponseBest> getBest(Integer main);
 }
