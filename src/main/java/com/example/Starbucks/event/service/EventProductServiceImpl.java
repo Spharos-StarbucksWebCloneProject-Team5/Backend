@@ -1,5 +1,6 @@
 package com.example.Starbucks.event.service;
 
+import com.example.Starbucks.event.dto.EventProductDto;
 import com.example.Starbucks.event.model.Event;
 import com.example.Starbucks.event.model.EventProduct;
 import com.example.Starbucks.event.repository.IEventProductRepository;
@@ -38,47 +39,48 @@ public class EventProductServiceImpl implements IEventProductService{
     public List<EventProduct> getEventProduct(Long eventProductId) {
         return iEventProductRepository.findByEventProductId(eventProductId);
     }*/
-    @Override
-    public List<ResponseEvent> getByProductId(Long productId) {
-        List<ResponseEvent> responseEventList = iEventProductRepository.findAllByProductId(productId).stream()
-                .map(element -> ResponseEvent.builder()
-                        .id(element.getEvent().getId())
-                        .name(element.getEvent().getName())
-                        .description(element.getEvent().getDescription())
-                        .titleImage(element.getEvent().getTitleImage())
-                        .infoImage(element.getEvent().getInfoImage())
-                        .startDate(element.getEvent().getStartDate())
-                        .endDate(element.getEvent().getEndDate())
-                        .now(element.getEvent().getNow())
-                        .build()).collect(Collectors.toList());
+//    @Override
+//    public List<ResponseEvent> getByProductId(Long productId) {
+//        List<ResponseEvent> responseEventList = iEventProductRepository.findAllByProductId(productId).stream()
+//                .map(element -> ResponseEvent.builder()
+//                        .id(element.getEvent().getId())
+//                        .name(element.getEvent().getName())
+//                        .description(element.getEvent().getDescription())
+//                        .titleImage(element.getEvent().getTitleImage())
+//                        .infoImage(element.getEvent().getInfoImage())
+//                        .startDate(element.getEvent().getStartDate())
+//                        .endDate(element.getEvent().getEndDate())
+////                        .now(element.getEvent().getNow())
+//                        .build()).collect(Collectors.toList());
+//
+//        return responseEventList;
+//    }
 
-        return responseEventList;
+    @Override
+    public List<EventProductDto> getAllEventProduct() {
+        List<EventProductDto> eventProductDtoAllList = iEventProductRepository.findAll().stream()
+                .map(element -> EventProductDto.builder()
+                .id(element.getId())
+                .description(element.getProduct().getDescription())
+                .name(element.getProduct().getName())
+                .price(element.getProduct().getPrice())
+                .thumbnail(element.getProduct().getThumbnail())
+                .build()).collect(Collectors.toList());
+
+        return eventProductDtoAllList;
     }
 
-    @Override
-    public List<ResponseAllEventProduct> getAllEventProduct() {
-        List<ResponseAllEventProduct> responseAllEventProductList = iEventProductRepository.findAll().stream()
-                .map(element -> ResponseAllEventProduct.builder()
-                        .id(element.getId())
-                        .productId(element.getProduct().getId())
-                        .eventId(element.getEvent().getId())
-                        .build()).collect(Collectors.toList());
-
-        return responseAllEventProductList;
-    }
-
-    public List<ResponseEventProduct> getByEventId(Long eventId) {
-        List<ResponseEventProduct> responseEventProductList = iEventProductRepository.findAllByEventId(eventId).stream()
-                .map(element -> ResponseEventProduct.builder()
+    public List<EventProductDto> getByEventId(Long eventId) {
+        List<EventProductDto> eventProductDtoList = iEventProductRepository.findAllByEventId(eventId).stream()
+                .map(element -> EventProductDto.builder()
                         .id(element.getId())
                         .description(element.getProduct().getDescription())
                         .name(element.getProduct().getName())
                         .price(element.getProduct().getPrice())
                         .thumbnail(element.getProduct().getThumbnail())
-//                        .isShow(element.getProduct().getShow())
                         .build()).collect(Collectors.toList());
 
-        return responseEventProductList;
+        return eventProductDtoList ;
     }
 
 
