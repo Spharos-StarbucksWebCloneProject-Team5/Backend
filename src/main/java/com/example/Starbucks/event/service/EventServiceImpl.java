@@ -68,6 +68,7 @@ public class EventServiceImpl implements IEventService {
                         .name(element.getName())
                         .build()).collect(Collectors.toList());
 
+        log.info(responseEventName.toString());
         /*for (Event event : events) {
             if (event.isNow()) {
                 responseEventName.add(ResponseEventName.builder()
