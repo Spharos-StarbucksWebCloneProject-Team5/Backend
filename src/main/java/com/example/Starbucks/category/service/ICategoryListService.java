@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ICategoryListService {
 
-    List<ResponseSearch> searchByCategory(Integer mainCategoryId, Integer middleCategoryInteger, Integer pageNum, Pageable pageable);
+    List<Object> searchByCategory(Integer mainCategoryId, Integer middleCategoryInteger, Integer pageNum, Pageable pageable);
     List<Object> searchCache(String keyword, int pageNum, Pageable pageable);
     CategoryList addCategoryList(RequestCategoryList requestCategoryList);
 }
