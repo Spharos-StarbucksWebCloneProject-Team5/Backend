@@ -12,7 +12,7 @@ public interface IProductService {
 
     void addProduct(RequestProduct requestProduct);
     ResponseProduct getProduct(Long productId);
-    List<ResponseProductList> getAllProduct(int pageNum, Pageable pageable);
+    List<Object> getAllProduct(int pageNum, Pageable pageable);
     void updateProduct(Long id, RequestProduct requestProduct);
     void deleteProduct(Long id);
 

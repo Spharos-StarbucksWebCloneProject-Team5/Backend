@@ -34,8 +34,8 @@ public class CategoryListController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/category")
-    public ResponseEntity<List<ResponseSearch>> searchByCategories
+    @GetMapping
+    public ResponseEntity<List<Object>> searchByCategories
             (@Param("main") Integer main,
              @Param("middle") Integer middle,
              @Param("pageNum") Integer pageNum,
@@ -51,7 +51,7 @@ public class CategoryListController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping("/keyword")
+    @GetMapping("/event")
     public ResponseEntity<List<Object>> searchKeyword
             (@Param("keyword") String keyword, @Param("pageNum") int pageNum, @PageableDefault(page = 1, size = 8, direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(iCategoryListService.searchCache(keyword, pageNum, pageable));
