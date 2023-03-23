@@ -14,8 +14,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventDto {
-    @Schema(description = "이벤트아이디")
+    @Schema(description = "진행이벤트순서")
     private Long id;
+
+    @Schema(description = "이벤트 아이디")
+    private Long eventId;
 
     @Schema(description = "이벤트명")
     private String name;
@@ -25,13 +28,4 @@ public class EventDto {
 
     @Schema(description = "이벤트 대표이미지")
     private String titleImage;
-
-    @Schema(description = "이벤트 이미지정보")
-    private String infoImage;
-
-    @Schema(description = "이벤트 시작일")
-    private Date startDate;
-
-    @Schema(description = "이벤트종료일")
-    private Date endDate;
 }

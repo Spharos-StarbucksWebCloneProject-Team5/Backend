@@ -23,4 +23,5 @@ public class EventListDto {
 
     @Schema(description = "이벤트 설명")
     private String description;
+
 }

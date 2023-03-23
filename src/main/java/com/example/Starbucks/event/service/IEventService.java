@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IEventService {
     void addEvent(RequestEvent requestEvent);
-    EventDto getEvent(Long eventId);
+    List<EventDto> getEventImage();
     List<EventListDto> getAllEvent();
     void updateEvent(Long id, RequestEvent requestEvent);
     void deleteEvent(Long id);
