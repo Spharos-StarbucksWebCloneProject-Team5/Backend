@@ -21,6 +21,7 @@ public interface UserService {
 
     public ResponseEntity<?> authority();
 
+    ResponseEntity<?> emailCheck(String email);
 
 
 }

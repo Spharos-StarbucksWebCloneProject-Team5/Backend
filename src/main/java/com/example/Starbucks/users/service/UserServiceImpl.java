@@ -39,6 +39,13 @@ public class UserServiceImpl implements UserService{
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate redisTemplate;
 
+    public ResponseEntity<?> emailCheck(String email) {
+        if (userRepository.existsByEmail(email)) {
+            return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);
+        }
+        return response.success("가입 가능한 이메일입니다.");
+    }
+
     public ResponseEntity<?> signUp(UserRequestDto.SignUp signUp) {
         if (userRepository.existsByEmail(signUp.getEmail())) {
             return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);

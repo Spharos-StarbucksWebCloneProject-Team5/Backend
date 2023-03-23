@@ -5,6 +5,7 @@ import com.example.Starbucks.lib.Helper;
 import com.example.Starbucks.users.Response;
 import com.example.Starbucks.users.dto.UserRequestDto;
 import com.example.Starbucks.users.service.UserService;
+import com.example.Starbucks.users.vo.RequestEmailCheck;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,6 +31,11 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
     private final Response response;
+
+    @PostMapping("/email")
+    public ResponseEntity<?> emailCheck(@RequestBody RequestEmailCheck requestEmailCheck) {
+        return userService.emailCheck(requestEmailCheck.getEmail());
+    }
 
     @Operation(summary = "회원 가입 요청", description = "회원 가입 요청.", tags = { "유저" })
     @ApiResponses({
