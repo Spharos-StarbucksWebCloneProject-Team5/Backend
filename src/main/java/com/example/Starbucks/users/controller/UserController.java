@@ -32,6 +32,11 @@ public class UserController {
     private final UserService userService;
     private final Response response;
 
+    @Operation(summary = "이메일 중복 체크", description = "이메일 중복 체크", tags = { "유저" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST")
+    })
     @PostMapping("/email")
     public ResponseEntity<?> emailCheck(@RequestBody RequestEmailCheck requestEmailCheck) {
         return userService.emailCheck(requestEmailCheck.getEmail());
