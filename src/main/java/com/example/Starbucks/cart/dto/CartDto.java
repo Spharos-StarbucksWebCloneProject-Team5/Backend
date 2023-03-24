@@ -32,4 +32,6 @@ public class CartDto {
 
     @Schema(description = "담은 상품 수량")
     Integer count;
+
+    @Builder.Default Boolean checked = false;
 }
