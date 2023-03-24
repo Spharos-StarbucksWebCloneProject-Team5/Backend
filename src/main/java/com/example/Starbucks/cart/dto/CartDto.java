@@ -18,6 +18,9 @@ public class CartDto {
     @Schema(description = "상품아이디")
     Long productId;
 
+    @Schema(description = "메인카테고리 아이디")
+    Integer mainCategoryId;
+
     @Schema(description = "상품명")
     String productName;
 
