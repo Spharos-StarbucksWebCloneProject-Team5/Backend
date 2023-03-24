@@ -25,7 +25,7 @@ public interface UserService {
 
     public ResponseEntity<?> emailCheck(String email);
 
-    public ResponseEntity<?> modifyPassword(UserRequestDto.SignUp signUp);
+    public ResponseEntity<?> modifyPassword(UserRequestDto.PasswordModify passwordModify);
 
 
 }

@@ -61,12 +61,12 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @PutMapping("/modify")
-    public ResponseEntity<?> modify(@Validated @RequestBody UserRequestDto.SignUp signUp, Errors errors) {
+    public ResponseEntity<?> modify(@Validated @RequestBody UserRequestDto.PasswordModify passwordModify, Errors errors) {
         // validation check
         if (errors.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(errors));
         }
-        return userService.modifyPassword(signUp);
+        return userService.modifyPassword(passwordModify);
     }
 
     @Operation(summary = "로그인 요청", description = "로그인이 성공하면 JWT(AT,RT 발급)", tags = { "유저" })

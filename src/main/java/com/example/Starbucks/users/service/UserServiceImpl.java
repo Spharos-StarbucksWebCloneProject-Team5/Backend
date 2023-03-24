@@ -63,13 +63,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResponseEntity<?> modifyPassword(UserRequestDto.SignUp signUp) {
-        if (userRepository.existsByEmail(signUp.getEmail())) {
-            User user = userRepository.findByEmail(signUp.getEmail()).get();
+    public ResponseEntity<?> modifyPassword(UserRequestDto.PasswordModify passwordModify) {
+        if (userRepository.existsByEmail(passwordModify.getEmail())) {
+            User user = userRepository.findByEmail(passwordModify.getEmail()).get();
             userRepository.save(
                     User.builder().id(user.getId())
                             .email(user.getEmail())
-                            .password(passwordEncoder.encode(signUp.getPassword()))
+                            .password(passwordEncoder.encode(passwordModify.getPassword()))
                             .build());
         }else{
             return response.fail("가입되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST);
