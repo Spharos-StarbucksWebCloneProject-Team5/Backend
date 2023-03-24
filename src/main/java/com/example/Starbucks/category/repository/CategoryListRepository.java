@@ -37,4 +37,6 @@ public interface CategoryListRepository extends JpaRepository<CategoryList, Long
             , countQuery = "SELECT COUNT(*) FROM product"
             , nativeQuery = true)
     Page<IProduct> searchKeyword(@Param("keyword") String keyword, Pageable pageable);
+
+    CategoryList findByProductId(Long productId);
 }

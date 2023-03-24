@@ -5,6 +5,7 @@ import com.example.Starbucks.cart.model.Cart;
 import com.example.Starbucks.cart.repository.ICartRepository;
 import com.example.Starbucks.cart.vo.RequestCart;
 import com.example.Starbucks.cart.vo.RequestUpdateCart;
+import com.example.Starbucks.category.repository.CategoryListRepository;
 import com.example.Starbucks.product.repository.IProductRepository;
 import com.example.Starbucks.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class CartServiceImpl implements ICartService{
     private final ICartRepository iCartRepository;
     private final UserRepository userRepository;
     private final IProductRepository iProductRepository;
+    private final CategoryListRepository categoryListRepository;
 
     @Override
     public void addCart(RequestCart requestCart) {
@@ -88,6 +90,7 @@ public class CartServiceImpl implements ICartService{
                 .filter(cart -> cart.getNow() == (Boolean)true)
                 .map(cart -> CartDto.builder()
                         .cartId(cart.getId())
+                        .mainCategoryId(categoryListRepository.findByProductId(cart.getProduct().getId()).getMainCategory().getId())
                         .productId(cart.getProduct().getId())
                         .productName(cart.getProduct().getName())
                         .productPrice(cart.getProduct().getPrice())
