@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -155,4 +156,27 @@ public class UserServiceImpl implements UserService{
 
         return response.success();
     }
+
+    @Override
+    public ResponseEntity<?>  check(String email,String name){
+        User user;
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+//        String accessToken = userRequest.getAccessToken().getTokenValue();
+
+        if (optionalUser.isPresent()) {
+            log.info("info log = {} ", "계정이 존재합니다.");
+            user = optionalUser.get();
+        } else {
+            log.info("info log = {} ", "계정이 존재하지 않습니다.");
+            user = User.builder()
+                    .email(email)
+                    .name(name)
+                    .roles(Collections.singletonList(Authority.ROLE_USER.name()))
+                    .Oauth("kakao")
+                    .build();
+            userRepository.save(user);
+        }
+        return response.success();
+    }
+
 }

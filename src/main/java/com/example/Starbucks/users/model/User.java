@@ -35,6 +35,8 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     private String address;
 
+    private String Oauth;
+
     @Column
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

@@ -1,9 +1,11 @@
 package com.example.Starbucks.Security;
 
+//import com.example.Starbucks.OAuth.OAuthService;
 import com.example.Starbucks.jwt.JwtAuthenticationFilter;
 import com.example.Starbucks.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,23 +24,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate redisTemplate;
+//    private final OAuthService oAuthService;
 
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+
         httpSecurity
                 .httpBasic().disable()
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authorizeRequests()
+//                .antMatchers("/api/v1/users/sign-up","/api/v1/users/login","/api/v1/users/reissue","/api/v1/users/logout").permitAll()
+//                .antMatchers("/api/v1/users/userTest").hasRole("USER")
+//                .antMatchers("/api/v1/users/adminTest").hasRole("ADMIN")
+                .antMatchers("/").permitAll()
                 .and()
-                .authorizeRequests()
-                .antMatchers("/api/v1/users/sign-up","/api/v1/users/login","/api/v1/users/reissue","/api/v1/users/logout").permitAll()
-                .antMatchers("/api/v1/users/userTest").hasRole("USER")
-                .antMatchers("/api/v1/users/adminTest").hasRole("ADMIN")
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
+                .oauth2Login().defaultSuccessUrl("/");
+                httpSecurity.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
+
         // JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.
     }
 

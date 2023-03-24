@@ -39,9 +39,10 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
+	implementation group: 'it.ozimov', name: 'embedded-redis', version: '0.7.1'
+
+	implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client'
+
 //	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 //	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 //	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
@@ -50,6 +51,8 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation group: 'org.json', name: 'json', version: '20160810'
+	implementation 'com.google.code.gson:gson:2.9.0'
 }
 
 tasks.named('test') {
