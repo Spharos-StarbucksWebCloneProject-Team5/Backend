@@ -1,6 +1,6 @@
 package com.example.Starbucks.Security;
 
-import com.example.Starbucks.OAuth.OAuthService;
+//import com.example.Starbucks.OAuth.OAuthService;
 import com.example.Starbucks.jwt.JwtAuthenticationFilter;
 import com.example.Starbucks.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate redisTemplate;
-    private final OAuthService oAuthService;
+//    private final OAuthService oAuthService;
 
 
     @Override
@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/api/v1/users/adminTest").hasRole("ADMIN")
                 .antMatchers("/").permitAll()
                 .and()
-                .oauth2Login().defaultSuccessUrl("/").userInfoEndpoint().userService(oAuthService);
+                .oauth2Login().defaultSuccessUrl("/");
                 httpSecurity.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
 
         // JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.

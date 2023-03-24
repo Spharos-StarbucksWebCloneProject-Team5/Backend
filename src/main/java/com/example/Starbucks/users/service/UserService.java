@@ -21,6 +21,8 @@ public interface UserService {
 
     public ResponseEntity<?> authority();
 
+    public ResponseEntity<?> check(String check,String name);
+
 
 
 }

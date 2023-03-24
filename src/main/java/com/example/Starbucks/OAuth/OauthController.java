@@ -1,5 +1,6 @@
 package com.example.Starbucks.OAuth;
 
+import com.example.Starbucks.users.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,11 +10,13 @@ import java.util.HashMap;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/oauth2")
+@RequestMapping("/login")
 public class OauthController {
     private final KakaoAPI kakaoAPI;
+//    private final OAuthService oAuthService;
+    private final UserService userService;
     @ResponseBody
-    @GetMapping("kakao")
+    @GetMapping("/kakao-test")
     public ResponseEntity<String> login(@RequestParam("code") String code, HttpSession session){
         System.out.println(code);
         String res = "accesstoken 생성 완료";
@@ -29,6 +32,10 @@ public class OauthController {
         }
 //        System.out.println("access_Token = " + access_Token);
 
+        // 회원 인지확인
+        userService.check(userInfo.get("email").toString(),userInfo.get("nickname").toString());
+
+
         return ResponseEntity.ok(res);
     }
 
@@ -37,8 +44,9 @@ public class OauthController {
         kakaoAPI.kakaoLogout((String)session.getAttribute("AT"));
         session.removeAttribute("AT");
         session.removeAttribute("userId");
-        return "index";
+        return "로그아웃완료";
     }
+
 
 
 }
