@@ -62,6 +62,21 @@ public class UserServiceImpl implements UserService{
         return response.success("회원가입에 성공했습니다.");
     }
 
+    @Override
+    public ResponseEntity<?> modifyPassword(UserRequestDto.SignUp signUp) {
+        if (userRepository.existsByEmail(signUp.getEmail())) {
+            User user = userRepository.findByEmail(signUp.getEmail()).get();
+            userRepository.save(
+                    User.builder().id(user.getId())
+                            .email(user.getEmail())
+                            .password(passwordEncoder.encode(signUp.getPassword()))
+                            .build());
+        }else{
+            return response.fail("가입되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST);
+        }
+        return response.success("비밀번호 수정이 완료되었습니다.");
+    }
+
     public ResponseEntity<?> login(UserRequestDto.Login login) {
 
         if (userRepository.findByEmail(login.getEmail()).orElse(null) == null) {
@@ -158,7 +173,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResponseEntity<?>  check(String email,String name){
+    public ResponseEntity<?> check(String email,String name){
         User user;
         Optional<User> optionalUser = userRepository.findByEmail(email);
 //        String accessToken = userRequest.getAccessToken().getTokenValue();

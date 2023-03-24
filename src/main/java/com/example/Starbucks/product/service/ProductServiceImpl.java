@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ProductServiceImpl implements IProductService{
+public class    ProductServiceImpl implements IProductService{
 
     private final IProductRepository iProductRepository;
     private final RedisRepositoryConfig redisRepositoryConfig;
