@@ -1,6 +1,9 @@
 package com.example.Starbucks.product.service;
 
+import com.example.Starbucks.category.dto.ResponsePage;
 import com.example.Starbucks.category.dto.ResponseSearch;
+import com.example.Starbucks.category.service.CategoryListServiceImpl;
+import com.example.Starbucks.category.service.ICategoryListService;
 import com.example.Starbucks.config.RedisRepositoryConfig;
 import com.example.Starbucks.enums.PageNum;
 import com.example.Starbucks.enums.Redis;
@@ -27,6 +30,7 @@ public class    ProductServiceImpl implements IProductService{
 
     private final IProductRepository iProductRepository;
     private final RedisRepositoryConfig redisRepositoryConfig;
+    private final ICategoryListService iCategoryListService;
 
     @Override
     public void addProduct(RequestProduct requestProduct) {
@@ -56,21 +60,15 @@ public class    ProductServiceImpl implements IProductService{
     }
 
     @Override
-    public List<Object> getAllProduct(int pageNum, Pageable pageable) {
-        pageable = PageRequest.of(pageNum, PageNum.PAGE_SIZE.getValue());
-        String key = "ProductAll:" + pageNum;
+    public ResponsePage getAllProduct(int pageNum, Pageable pageable) {
         RedisTemplate<Object, Object> redisTemplate = redisRepositoryConfig.searchRedisTemplate();
+        RedisTemplate<Object, Object> redisTemplate2 = redisRepositoryConfig.pageTemplate();
+        String key = "ProductAll:" + pageNum;
         if (redisTemplate.opsForList().size(key) == 0) {
-            iProductRepository.getAllProduct(pageable).stream()
-                    .map(element -> redisTemplate.opsForList().rightPush(key, ResponseSearch.builder()
-                            .productId(element.getId())
-                            .productName(element.getName())
-                            .price(element.getPrice())
-                            .thumbnail(element.getThumbnail())
-                            .build())).collect(Collectors.toList());
+            pageable = PageRequest.of(pageNum, PageNum.PAGE_SIZE.getValue());
+            iCategoryListService.executeCache(key, iProductRepository.getAllProduct(pageable), redisTemplate);
         }
-        redisTemplate.expire(key, Redis.EXPIRE_LIMIT.getValue(), TimeUnit.SECONDS);
-        return redisTemplate.opsForList().range(key, 0, -1);
+        return iCategoryListService.getCache(key);
     }
 
     @Override

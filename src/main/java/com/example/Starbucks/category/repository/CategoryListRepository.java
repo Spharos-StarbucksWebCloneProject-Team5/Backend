@@ -32,9 +32,10 @@ public interface CategoryListRepository extends JpaRepository<CategoryList, Long
             , nativeQuery = true)
     Page<IProduct> searchByMainCategory(@Param("mainCategoryId") Integer mainCategoryId, Pageable pageable);
 
-    @Query(value = "SELECT p.id, p.name, p.price, p.thumbnail FROM product p left outer join category_list c on p.id = c.product_id \n" +
+    @Query(value = "SELECT p.id, p.name, p.price, p.thumbnail, p.description FROM product p left outer join category_list c on p.id = c.product_id \n" +
             "where p.name like %:keyword%"
-            , countQuery = "SELECT COUNT(*) FROM product"
+            , countQuery = "SELECT COUNT(p.id) from product p " +
+            "where p.name like %:keyword% and p.description like %:keyword%"
             , nativeQuery = true)
     Page<IProduct> searchKeyword(@Param("keyword") String keyword, Pageable pageable);
 
