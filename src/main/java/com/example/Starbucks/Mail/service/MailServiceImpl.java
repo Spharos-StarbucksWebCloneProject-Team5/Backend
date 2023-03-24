@@ -21,6 +21,7 @@ public class MailServiceImpl implements MailService{
 
     private final JavaMailSender mailSender;  //
     private final RedisUtil redisUtil;
+    private static final Long EMAIL_EXPIRE = 120*1L;
     private String ePw; //인증 번호
 
     @Override
@@ -91,7 +92,7 @@ public class MailServiceImpl implements MailService{
         MimeMessage message = createMessage(to); // 메일 생성
 
         try {// 예외처리
-            redisUtil.setDataExpire(ePw,to.getTo(),30*1L);  //유효시간 1분
+            redisUtil.setDataExpire(ePw,to.getTo(),EMAIL_EXPIRE);  //유효시간 2분
             mailSender.send(message);   //메일 발송
         } catch (MailException es) {
             es.printStackTrace();
