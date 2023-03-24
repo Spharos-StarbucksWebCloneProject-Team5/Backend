@@ -5,6 +5,7 @@ import com.example.Starbucks.lib.Helper;
 import com.example.Starbucks.users.Response;
 import com.example.Starbucks.users.dto.UserRequestDto;
 import com.example.Starbucks.users.service.UserService;
+import com.example.Starbucks.users.vo.RequestEmailCheck;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,6 +32,11 @@ public class UserController {
     private final UserService userService;
     private final Response response;
 
+    @PostMapping("/email")
+    public ResponseEntity<?> emailCheck(@RequestBody RequestEmailCheck requestEmailCheck) {
+        return userService.emailCheck(requestEmailCheck.getEmail());
+    }
+
     @Operation(summary = "회원 가입 요청", description = "회원 가입 요청.", tags = { "유저" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -51,7 +57,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Validated UserRequestDto.Login login, Errors errors) {
+    public ResponseEntity<?> login(@Validated @RequestBody UserRequestDto.Login login, Errors errors) {
         // validation check
         if (errors.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(errors));
@@ -65,7 +71,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(@Validated UserRequestDto.Reissue reissue, Errors errors) {
+    public ResponseEntity<?> reissue(@Validated @RequestBody UserRequestDto.Reissue reissue, Errors errors) {
         // validation check
         if (errors.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(errors));
@@ -79,7 +85,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@Validated UserRequestDto.Logout logout, Errors errors) {
+    public ResponseEntity<?> logout(@Validated @RequestBody UserRequestDto.Logout logout, Errors errors) {
         // validation check
         if (errors.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(errors));

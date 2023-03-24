@@ -1,5 +1,6 @@
 package com.example.Starbucks.event.controller;
 
+import com.example.Starbucks.event.dto.EventDto;
 import com.example.Starbucks.event.dto.EventListDto;
 import com.example.Starbucks.event.model.Event;
 import com.example.Starbucks.event.service.IEventService;
@@ -34,12 +35,12 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
-//    @Operation(summary = "  ", description = "이벤트 추가하기", tags = {"Event Controller"})
-//    @ApiResponse(responseCode = "200", description = "OK")
-//    @GetMapping("{id}")//이벤트 가져오기
-//    public ResponseEntity<ResponseEvent> getEvent(@PathVariable Long id) {
-//        return ResponseEntity.ok(iEventService.getEvent(id));
-//    }
+    @Operation(summary = "이벤트 배너이미지", description = "이벤트 이미지", tags = {"이벤트"})
+    @ApiResponse(responseCode = "200", description = "OK")
+    @GetMapping("image")//이벤트 가져오기
+    public ResponseEntity<List<EventDto>> getEventImage() {
+        return ResponseEntity.ok(iEventService.getEventImage());
+    }
 
 //    @ResponseBody
 //    @GetMapping("category")// 카테고리 목록 띄우기

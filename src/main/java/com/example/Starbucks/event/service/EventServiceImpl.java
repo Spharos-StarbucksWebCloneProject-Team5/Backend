@@ -38,19 +38,18 @@ public class EventServiceImpl implements IEventService {
     }
 
     @Override
-    public EventDto getEvent(Long eventId) {
-        Event event = iEventRepository.findById(eventId).get();
-        EventDto eventDto = EventDto.builder()
-                .id(eventId)
-                .name(event.getName())
-                .description(event.getDescription())
-                .titleImage(event.getTitleImage())
-                .infoImage(event.getInfoImage())
-                .startDate(event.getStartDate())
-                .endDate(event.getEndDate())
-//                .now(event.getNow())
-                .build();
-        return eventDto;
+    public List<EventDto> getEventImage() {
+        AtomicLong idx = new AtomicLong(1L);
+        List<EventDto>  eventDtoList = iEventRepository.findAllByNow(Boolean.TRUE).stream()
+                .map(event -> EventDto.builder()
+                        .id(idx.getAndIncrement())
+                        .eventId(event.getId())
+                        .titleImage(event.getTitleImage())
+                        .name(event.getName())
+                        .description(event.getDescription())
+                        .build())
+                .collect(Collectors.toList());
+        return eventDtoList ;
 
     }
 

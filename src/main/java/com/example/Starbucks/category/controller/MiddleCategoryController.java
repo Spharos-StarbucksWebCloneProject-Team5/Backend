@@ -1,6 +1,5 @@
 package com.example.Starbucks.category.controller;
 
-import com.example.Starbucks.category.dto.ResponsePage;
 import com.example.Starbucks.category.model.MiddleCategory;
 import com.example.Starbucks.category.service.IMiddleCategoryService;
 import com.example.Starbucks.category.vo.RequestMiddleCategory;
@@ -10,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +50,7 @@ public class MiddleCategoryController {
     @Operation(summary = "미들 카테고리 수정", description = "미들 카테고리 수정하기", tags = { "관리자" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(schema = @Schema(implementation = ResponsePage.class))),
+                    content = @Content(schema = @Schema(implementation = MiddleCategory.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")

@@ -98,7 +98,7 @@ public class Response {
                 .massage(msg)
                 .error(Collections.emptyList())
                 .build();
-        return ResponseEntity.ok(body);
+        return ResponseEntity.status(status.value()).body(body);
     }
 
     /**

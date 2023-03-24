@@ -23,6 +23,7 @@ public interface UserService {
 
     public ResponseEntity<?> check(String check,String name);
 
+    public ResponseEntity<?> emailCheck(String email);
 
 
 }
