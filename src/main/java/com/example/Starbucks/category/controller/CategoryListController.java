@@ -1,5 +1,6 @@
 package com.example.Starbucks.category.controller;
 
+import com.example.Starbucks.category.dto.ResponsePage;
 import com.example.Starbucks.category.dto.ResponseSearch;
 import com.example.Starbucks.category.model.CategoryList;
 import com.example.Starbucks.category.service.ICategoryListService;
@@ -35,7 +36,7 @@ public class CategoryListController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping
-    public ResponseEntity<List<Object>> searchByCategories
+    public ResponseEntity<ResponsePage> searchByCategories
             (@Param("main") Integer main,
              @Param("middle") Integer middle,
              @Param("pageNum") Integer pageNum,
@@ -52,7 +53,7 @@ public class CategoryListController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/event")
-    public ResponseEntity<List<Object>> searchKeyword
+    public ResponseEntity<ResponsePage> searchKeyword
             (@Param("keyword") String keyword, @Param("pageNum") int pageNum, @PageableDefault(page = 1, size = 8, direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(iCategoryListService.searchCache(keyword, pageNum, pageable));
     }

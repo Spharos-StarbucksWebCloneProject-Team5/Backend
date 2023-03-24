@@ -10,8 +10,11 @@ import com.example.Starbucks.category.repository.IMiddleCategoryRepository;
 import com.example.Starbucks.category.repository.MainCategoryRepository;
 import com.example.Starbucks.category.vo.RequestCategoryList;
 import com.example.Starbucks.config.RedisRepositoryConfig;
+import com.example.Starbucks.enums.PageNum;
 import com.example.Starbucks.enums.Redis;
 import com.example.Starbucks.product.repository.IProductRepository;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,9 +31,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class CategoryListServiceImpl implements ICategoryListService {
-
-    private final static int PAGE_SIZE = 8;
-    private final static int CACHE_LIMIT = 20;
     private final CategoryListRepository categoryListRepository;
     private final RedisRepositoryConfig redisRepositoryConfig;
     private final IProductRepository iProductRepository;
@@ -38,43 +38,35 @@ public class CategoryListServiceImpl implements ICategoryListService {
     private final IMiddleCategoryRepository iMiddleCategoryRepository;
 
     @Override
-    public List<Object> searchByCategory(Integer mainCategoryId, Integer middleCategoryId, Integer pageNum, Pageable pageable) {
-        pageable = PageRequest.of(pageNum, PAGE_SIZE);
+    public ResponsePage searchByCategory(Integer mainCategoryId, Integer middleCategoryId, Integer pageNum, Pageable pageable) {
+        pageable = PageRequest.of(pageNum, PageNum.PAGE_SIZE.getValue());
         RedisTemplate<Object, Object> redisTemplate = redisRepositoryConfig.searchRedisTemplate();
         if (middleCategoryId == null) {
             String key = "category:" + mainCategoryId + ":" + pageNum;
             if (redisTemplate.opsForList().size(key) == 0) {
-                return executeCache(key, categoryListRepository.searchByMainCategory(mainCategoryId, pageable), redisTemplate);
+                executeCache(key, categoryListRepository.searchByMainCategory(mainCategoryId, pageable), redisTemplate);
             }
-            return redisTemplate.opsForList().range(key, 0, -1);
         }
         String key = "category:" + mainCategoryId + "-" + middleCategoryId + ":" + pageNum;
         if (redisTemplate.opsForList().size(key) == 0) {
-            return executeCache(key, categoryListRepository.searchByCategories(mainCategoryId, middleCategoryId, pageable), redisTemplate);
+            executeCache(key, categoryListRepository.searchByCategories(mainCategoryId, middleCategoryId, pageable), redisTemplate);
         }
-        return redisTemplate.opsForList().range(key, 0, -1);
+        return getCache(key);
     }
 
     @Override
-    public List<Object> searchCache(String keyword, int pageNum, Pageable pageable) {
-        pageable = PageRequest.of(pageNum, PAGE_SIZE);
+    public ResponsePage searchCache(String keyword, int pageNum, Pageable pageable) {
         RedisTemplate<Object, Object> redisTemplate = redisRepositoryConfig.searchRedisTemplate();
         String key = keyword + ":" + pageNum;
         if (redisTemplate.opsForList().size(key) == 0) {
-//            Page<IProduct> products = categoryListRepository.searchKeyword(keyword, pageable);
-//            ResponsePage.builder()
-//                    .content(ResponsePage.ofContents(products.getContent()))
-//                    .totalPage(products.getTotalPages())
-//                    .totalElements(products.getTotalElements())
-//                    .pageSize(products.getSize())
-//                    .pageNum(products.getNumber())
-//                    .build();
-            return executeCache(key, categoryListRepository.searchKeyword(keyword, pageable), redisTemplate);
+            pageable = PageRequest.of(pageNum, PageNum.PAGE_SIZE.getValue());
+            executeCache(key, categoryListRepository.searchKeyword(keyword, pageable), redisTemplate);
         }
-        return redisTemplate.opsForList().range(key, 0, -1);
+        return getCache(key);
     }
 
-    public List<Object> executeCache(String key, Page<IProduct> products, RedisTemplate<Object, Object> redisTemplate) {
+    @Override
+    public void executeCache(String key, Page<IProduct> products, RedisTemplate<Object, Object> redisTemplate) {
         if (redisTemplate.opsForList().size(key) == 0) {
             products.getContent().stream()
                     .map(element -> redisTemplate.opsForList().rightPush(key, ResponseSearch.builder()
@@ -84,14 +76,32 @@ public class CategoryListServiceImpl implements ICategoryListService {
                             .thumbnail(element.getThumbnail())
                             .build())).collect(Collectors.toList());
         }
-        redisTemplate.opsForValue().set(key + ":Page", PageValue.builder()
+        RedisTemplate<Object, Object> redisTemplate2 = redisRepositoryConfig.pageTemplate();
+        redisTemplate2.opsForList().rightPush(key + ":Page", PageValue.builder()
                 .pageNum(products.getNumber())
                 .pageSize(products.getSize())
                 .totalElements(products.getTotalElements())
                 .totalPage(products.getTotalPages())
-                .build(), Redis.EXPIRE_LIMIT.getValue());
+                .build());
+        redisTemplate2.expire(key + ":Page", Redis.EXPIRE_LIMIT.getValue(), TimeUnit.SECONDS);
         redisTemplate.expire(key, Redis.EXPIRE_LIMIT.getValue(), TimeUnit.SECONDS);
-        return redisTemplate.opsForList().range(key, 0, -1);
+    }
+
+    @Override
+    public ResponsePage getCache(String key) {
+        RedisTemplate<Object, Object> redisTemplate = redisRepositoryConfig.searchRedisTemplate();
+        RedisTemplate<Object, Object> redisTemplate2 = redisRepositoryConfig.pageTemplate();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        PageValue pageValue = mapper.convertValue(redisTemplate2.opsForList().range(key + ":Page", 0, -1).get(0), PageValue.class);
+
+        return ResponsePage.builder()
+                .content(redisTemplate.opsForList().range(key, 0, -1))
+                .totalPage(pageValue.getTotalPage())
+                .pageNum(pageValue.getPageNum())
+                .pageSize(pageValue.getPageSize())
+                .totalElements(pageValue.getTotalElements())
+                .build();
     }
 
     @Override

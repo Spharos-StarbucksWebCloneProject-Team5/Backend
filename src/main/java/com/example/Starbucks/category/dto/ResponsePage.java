@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Schema(description = "상품 정보 pageable 반환")
 public class ResponsePage {
     @Schema(description = "상품 정보")
-    private List<Contents> content;
+    private List<Object> content;
     @Schema(description = "현재 페이지")
     private Integer pageNum;
     @Schema(description = "페이지당 element 크기")

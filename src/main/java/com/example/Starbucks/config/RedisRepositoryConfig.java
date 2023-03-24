@@ -1,5 +1,6 @@
 package com.example.Starbucks.config;
 
+import com.example.Starbucks.category.dto.PageValue;
 import com.example.Starbucks.category.dto.ResponseSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
@@ -49,6 +50,16 @@ public class RedisRepositoryConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ResponseSearch.class));
+
+        return redisTemplate;
+    }
+
+    @Bean
+    public RedisTemplate<Object, Object> pageTemplate() {
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(PageValue.class));
 
         return redisTemplate;
     }
