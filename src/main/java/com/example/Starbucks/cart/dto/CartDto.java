@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartDto {
+    @Schema(description = "카트아이디")
+    Long cartId;
 
     @Schema(description = "상품아이디")
     Long productId;
