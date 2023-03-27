@@ -10,6 +10,7 @@ import com.example.Starbucks.payment.model.Payment;
 import com.example.Starbucks.payment.repository.IPaymentRepository;
 import com.example.Starbucks.payment.vo.*;
 import com.example.Starbucks.product.repository.IProductRepository;
+import com.example.Starbucks.shippingAddress.repository.IShippingAddressRepository;
 import com.example.Starbucks.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class PaymentServiceImpl implements IPaymentService {
     private final IProductRepository iProductRepository;
     private final UserRepository userRepository;
     private final ICartRepository iCartRepository;
+    private final IShippingAddressRepository iShippingAddressRepository;
 
     @Override
     public void addPayment(RequestPayment requestPayment) {
@@ -38,9 +40,7 @@ public class PaymentServiceImpl implements IPaymentService {
                         .user(userRepository.findById(requestPayment.getUserId()).get())
                         .product(iProductRepository.findById(requestPayment.getProductId()).get())
                         .productCount(requestPayment.getProductCount())
-                        .receiver(requestPayment.getReceiver())
-                        .shippingAddress(requestPayment.getShippingAddress())
-                        .shippingPhone(requestPayment.getShippingPhone())
+                        .shippingAddress(iShippingAddressRepository.findById(requestPayment.getShippingAddressId()).get())
                         .shippingStatus(1)
                         .payType(requestPayment.getPayType())
                         .amount(iProductRepository.findById(requestPayment.getProductId()).get().getPrice() * requestPayment.getProductCount())
@@ -55,9 +55,7 @@ public class PaymentServiceImpl implements IPaymentService {
                         .user(payment.getUser())
                         .product(payment.getProduct())
                         .productCount(payment.getProductCount())
-                        .receiver(payment.getReceiver())
                         .shippingAddress(payment.getShippingAddress())
-                        .shippingPhone(payment.getShippingPhone())
                         .shippingStatus(0)
                         .payType(payment.getPayType())
                         .amount(payment.getAmount())
@@ -73,9 +71,7 @@ public class PaymentServiceImpl implements IPaymentService {
                 .user(payment.getUser())
                 .product(payment.getProduct())
                 .productCount(payment.getProductCount())
-                .receiver(payment.getReceiver())
                 .shippingAddress(payment.getShippingAddress())
-                .shippingPhone(payment.getShippingPhone())
                 .shippingStatus(paymentShippingDto.getShippingStatus())
                 .payType(payment.getPayType())
                 .amount(payment.getAmount())
@@ -141,10 +137,7 @@ public class PaymentServiceImpl implements IPaymentService {
                     .user(cart.get().getUser())
                     .product(cart.get().getProduct())
                     .productCount(cart.get().getCount())
-                    .receiver(requestCartPayments.getReceiver())
-                    .shippingAddress(requestCartPayments.getShippingAddress())
-                    .shippingPhone(requestCartPayments.getShippingPhone())
-                    .shippingStatus(1)
+                    .shippingAddress(iShippingAddressRepository.findById(requestCartPayments.getShippingAddressId()).get())
                     .payType(requestCartPayments.getPayType())
                     .amount(cart.get().getProduct().getPrice() * cart.get().getCount())
                     .payStatus(1)

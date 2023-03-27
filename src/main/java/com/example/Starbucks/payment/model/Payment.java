@@ -1,11 +1,13 @@
 package com.example.Starbucks.payment.model;
 
+import com.example.Starbucks.shippingAddress.model.ShippingAddress;
 import com.example.Starbucks.users.model.utility.BaseTimeEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import com.example.Starbucks.users.model.User;
 import com.example.Starbucks.product.model.Product;
 
+import javax.management.Descriptor;
 import javax.persistence.*;
 
 @Getter
@@ -31,16 +33,10 @@ public class Payment extends BaseTimeEntity {
     @Schema(description = "상품 개수")
     private Integer productCount;
 
-    @Schema(description = "받는사람")
-    private String  receiver;
+    @OneToOne
+    @Schema(description = "배송 정보")
+    private ShippingAddress shippingAddress;
 
-    @Schema(description = "배송지 주소")
-    private String shippingAddress;
-
-    @Schema(description = "연락처")
-    private String shippingPhone;
-
-    @Schema(description = "배송상태")
     private Integer shippingStatus;
 
     @Schema(description = "결제 방법")

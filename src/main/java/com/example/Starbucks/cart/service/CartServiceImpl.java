@@ -1,6 +1,7 @@
 package com.example.Starbucks.cart.service;
 
 import com.example.Starbucks.cart.dto.CartDto;
+import com.example.Starbucks.cart.dto.CartUpdateDto;
 import com.example.Starbucks.cart.model.Cart;
 import com.example.Starbucks.cart.repository.ICartRepository;
 import com.example.Starbucks.cart.vo.RequestCart;
@@ -100,4 +101,18 @@ public class CartServiceImpl implements ICartService{
                 .collect(Collectors.toList());
         return userCarts;
     }
+
+    @Override
+    public CartUpdateDto getCart(Long id) {
+        Cart cart = iCartRepository.findById(id).get();
+        return CartUpdateDto.builder()
+                .productId(cart.getProduct().getId())
+                .productName(cart.getProduct().getName())
+                .productPrice(cart.getProduct().getPrice())
+                .productThumbnail(cart.getProduct().getThumbnail())
+                .count(cart.getCount())
+                .build();
+    }
+
+
 }

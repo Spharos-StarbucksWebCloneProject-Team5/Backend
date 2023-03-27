@@ -84,7 +84,7 @@ public class PaymentController {
     })
     @ResponseBody
     @GetMapping("/get/{userId}") //주문내역
-    public ResponseEntity<List<PaymentDto>> getPayment(@PathVariable Long userId, @RequestBody @Valid RequestPaymentList requestPaymentList){
+    public ResponseEntity<List<PaymentDto>> getPayment(@PathVariable Long userId, @RequestBody RequestPaymentList requestPaymentList){
         return ResponseEntity.ok(iPaymentService.getPayment(userId, requestPaymentList));
     }
 
