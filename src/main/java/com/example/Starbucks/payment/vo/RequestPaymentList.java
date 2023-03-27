@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestPaymentList {
-    @PastOrPresent
+//    @PastOrPresent
     LocalDate startDate;
-    @FutureOrPresent
+//    @FutureOrPresent
     LocalDate endDate;
 }

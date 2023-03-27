@@ -1,6 +1,7 @@
 package com.example.Starbucks.cart.controller;
 
 import com.example.Starbucks.cart.dto.CartDto;
+import com.example.Starbucks.cart.dto.CartUpdateDto;
 import com.example.Starbucks.cart.model.Cart;
 import com.example.Starbucks.cart.repository.ICartRepository;
 import com.example.Starbucks.cart.service.ICartService;
@@ -73,4 +74,11 @@ public class CartController {
         return ResponseEntity.created(location).build();
         //유저 장바구니로 이동
     }
+    @Operation(summary = "장바구니 가져오기", description = "장바구니 수정페이지 정보 보기", tags = { "장바구니"})
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CartDto.class)))
+    @GetMapping("/{id}")
+    public ResponseEntity<CartUpdateDto> getCart(@PathVariable Long id){
+        return ResponseEntity.ok(iCartService.getCart(id));
+    }
+
 }

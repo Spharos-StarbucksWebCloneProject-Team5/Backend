@@ -13,10 +13,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class PaymentShippingDto {
     //결제 배송상태 변경
-    @NotNull @Min(0)
     @Schema(description = "주문 ID")
     private Long paymentId;
-    @NotNull @Max(4)
+
     @Schema(description = "배송상태")
     private Integer shippingStatus;
 

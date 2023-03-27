@@ -17,14 +17,7 @@ import java.util.stream.Collectors;
 public class RequestCartPayment {
     private List<Carts> carts;
 
-    @NotBlank
-    private String  receiver;
-
-    @NotBlank
-    private String shippingAddress;
-
-    @NotNull @Size(min=11,max=13)
-    private String shippingPhone;
+    private Long shippingAddressId;
 
     private Integer payType;
 
