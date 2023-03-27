@@ -59,7 +59,7 @@ public class CartController {
 
     @Operation(summary = "유저 장바구니목록", description = "유저 장바구니 목록 확인", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
-    @PutMapping("/get/{userId}")
+    @GetMapping("/get/{userId}")
     public ResponseEntity<List<CartDto>> getByUserId(@PathVariable Long userId){
         return ResponseEntity.ok(iCartService.getByUserId(userId));
     }

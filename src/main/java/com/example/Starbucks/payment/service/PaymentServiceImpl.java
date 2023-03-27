@@ -1,6 +1,7 @@
 package com.example.Starbucks.payment.service;
 
 import com.example.Starbucks.cart.model.Cart;
+import com.example.Starbucks.cart.repository.ICartRepository;
 import com.example.Starbucks.payment.dto.PaymentDto;
 import com.example.Starbucks.payment.dto.PaymentShippingDto;
 import com.example.Starbucks.payment.dto.ResponseBest;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -28,6 +30,8 @@ public class PaymentServiceImpl implements IPaymentService {
     private final IPaymentRepository iPaymentRepository;
     private final IProductRepository iProductRepository;
     private final UserRepository userRepository;
+    private final ICartRepository iCartRepository;
+
     @Override
     public void addPayment(RequestPayment requestPayment) {
         iPaymentRepository.save(Payment.builder()
@@ -127,5 +131,31 @@ public class PaymentServiceImpl implements IPaymentService {
                         .price(element.getPrice())
                         .thumbnail(element.getThumbnail())
                         .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public void addCartPayment(RequestCartPayment requestCartPayments) {
+        for(RequestCartPayment.Carts carts : requestCartPayments.getCarts()){
+            Optional<Cart> cart = iCartRepository.findById(carts.getCartId());
+            iPaymentRepository.save(Payment.builder()
+                    .user(cart.get().getUser())
+                    .product(cart.get().getProduct())
+                    .productCount(cart.get().getCount())
+                    .receiver(requestCartPayments.getReceiver())
+                    .shippingAddress(requestCartPayments.getShippingAddress())
+                    .shippingPhone(requestCartPayments.getShippingPhone())
+                    .shippingStatus(1)
+                    .payType(requestCartPayments.getPayType())
+                    .amount(cart.get().getProduct().getPrice() * cart.get().getCount())
+                    .payStatus(1)
+                    .build());
+            iCartRepository.save(Cart.builder()
+                        .id(cart.get().getId())
+                        .user(cart.get().getUser())
+                        .product(cart.get().getProduct())
+                        .count(0)
+                        .now(false)
+                    .build());
+        }
     }
 }
