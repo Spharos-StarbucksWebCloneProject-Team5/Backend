@@ -15,8 +15,8 @@ public interface ICategoryListService {
 
     ResponsePage searchByCategory(Integer mainCategoryId, Integer middleCategoryInteger, Integer pageNum, Pageable pageable);
     ResponsePage searchCache(String keyword, int pageNum, Pageable pageable);
+    List<ResponseSearch> searchCache2(String keyword, Long lastProductId);
     CategoryList addCategoryList(RequestCategoryList requestCategoryList);
     void executeCache(String key, Page<IProduct> products, RedisTemplate<Object, Object> redisTemplate);
-
     ResponsePage getCache(String key);
 }

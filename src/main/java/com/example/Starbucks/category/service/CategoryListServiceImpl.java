@@ -46,6 +46,7 @@ public class CategoryListServiceImpl implements ICategoryListService {
             if (redisTemplate.opsForList().size(key) == 0) {
                 executeCache(key, categoryListRepository.searchByMainCategory(mainCategoryId, pageable), redisTemplate);
             }
+            return getCache(key);
         }
         String key = "category:" + mainCategoryId + "-" + middleCategoryId + ":" + pageNum;
         if (redisTemplate.opsForList().size(key) == 0) {
@@ -63,6 +64,17 @@ public class CategoryListServiceImpl implements ICategoryListService {
             executeCache(key, categoryListRepository.searchKeyword(keyword, pageable), redisTemplate);
         }
         return getCache(key);
+    }
+
+    @Override
+    public List<ResponseSearch> searchCache2(String keyword, Long lastProductId) {
+        return categoryListRepository.searchKeyword2(keyword, lastProductId).stream()
+                .map(iProduct -> ResponseSearch.builder()
+                        .productId(iProduct.getId())
+                        .productName(iProduct.getName())
+                        .price(iProduct.getPrice())
+                        .thumbnail(iProduct.getThumbnail())
+                        .build()).collect(Collectors.toList());
     }
 
     @Override

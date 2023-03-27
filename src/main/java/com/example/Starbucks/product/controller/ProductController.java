@@ -1,6 +1,7 @@
 package com.example.Starbucks.product.controller;
 
 import com.example.Starbucks.category.dto.ResponsePage;
+import com.example.Starbucks.category.dto.ResponseSearch;
 import com.example.Starbucks.event.vo.RequestEvent;
 import com.example.Starbucks.product.dto.ResponseProductList;
 import com.example.Starbucks.product.model.Product;
@@ -40,6 +41,12 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<ResponsePage> getAllProduct(@Param("pageNum") int pageNum, Pageable pageable){
         return ResponseEntity.ok(iProductService.getAllProduct(pageNum, pageable));
+    }
+
+    @Operation(summary = "상품 전체 조회 요청", description = "마지막 상품 번호로 페이지 처리 인덱싱", tags = {"상품"})
+    @GetMapping("/test/")
+    public ResponseEntity<List<ResponseSearch>> getAllProduct2(@Param("productId") Long productId){
+        return ResponseEntity.ok(iProductService.getAllProduct2(productId));
     }
 
     @Operation(summary = "상품 데이터 수정 요청", description = "요청한 상품 데이터 수정", tags = {"관리자"})

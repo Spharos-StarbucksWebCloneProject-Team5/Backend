@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class    ProductServiceImpl implements IProductService{
+public class ProductServiceImpl implements IProductService{
 
     private final IProductRepository iProductRepository;
     private final RedisRepositoryConfig redisRepositoryConfig;
@@ -69,6 +69,17 @@ public class    ProductServiceImpl implements IProductService{
             iCategoryListService.executeCache(key, iProductRepository.getAllProduct(pageable), redisTemplate);
         }
         return iCategoryListService.getCache(key);
+    }
+
+    @Override
+    public List<ResponseSearch> getAllProduct2(Long productId) {
+        return iProductRepository.getAllProduct(productId).stream().map(
+                element-> ResponseSearch.builder()
+                        .productId(element.getId())
+                        .productName(element.getName())
+                        .price(element.getPrice())
+                        .thumbnail(element.getThumbnail())
+                        .build()).collect(Collectors.toList());
     }
 
     @Override

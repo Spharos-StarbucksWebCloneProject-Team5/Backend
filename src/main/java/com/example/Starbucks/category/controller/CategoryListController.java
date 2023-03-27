@@ -58,6 +58,20 @@ public class CategoryListController {
         return ResponseEntity.ok(iCategoryListService.searchCache(keyword, pageNum, pageable));
     }
 
+    @Operation(summary = "pageable 없이 키워드 검색", description = "pageable 없이 lastProductId를 받아서 인덱싱 처리 하여 불러오기", tags = {"검색"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = ResponseSearch.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/event2")
+    public ResponseEntity<List<ResponseSearch>> searchKeyword2
+            (@Param("keyword") String keyword, @Param("lastProduct") Long lastProduct) {
+        return ResponseEntity.ok(iCategoryListService.searchCache2(keyword, lastProduct));
+    }
+
     @Operation(summary = "카테고리 리스트 추가", description = "mainCategoryId, middleCategoryId, productId에 따른 categoryList 추가", tags = {"관리자"})
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
