@@ -93,7 +93,7 @@ public class PaymentController {
             @ApiResponse(responseCode = "200", description = "OK"),
     })
     @ResponseBody
-    @PostMapping("/carts112")
+    @PostMapping("/carts")
     public ResponseEntity<Void> addCartPayment(@RequestBody RequestCartPayment requestCartPayments){
         log.info(requestCartPayments.toString());
         iPaymentService.addCartPayment(requestCartPayments);
