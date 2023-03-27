@@ -6,13 +6,16 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestPaymentList {
-//    @PastOrPresent
+    @PastOrPresent
     LocalDate startDate;
-//    @FutureOrPresent
+    @FutureOrPresent
     LocalDate endDate;
+
 }

@@ -14,6 +14,7 @@ import com.example.Starbucks.shippingAddress.repository.IShippingAddressReposito
 import com.example.Starbucks.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -82,21 +83,19 @@ public class PaymentServiceImpl implements IPaymentService {
     @Override
     public UserShippingDto getShippingStatus(Long userId) {
         List<Payment> userPayment = iPaymentRepository.findAllByUserId(userId).stream()
-                .filter(payment -> payment.getPayStatus() != 0 && LocalDateTime.now().minusMonths(3).isAfter(payment.getCreateDate()))
+                .filter(payment -> payment.getPayStatus() !=0 && LocalDate.now().atTime(0,0,0).minusMonths(3).isBefore(payment.getCreateDate()))
                 .collect(Collectors.toList());
-
         Integer ship1 = (int) userPayment.stream().filter(payment -> payment.getShippingStatus() == 1).count();
         Integer ship2 = (int) userPayment.stream().filter(payment -> payment.getShippingStatus() == 2).count();
         Integer ship3 = (int) userPayment.stream().filter(payment -> payment.getShippingStatus() == 3).count();
         Integer ship4 = (int) userPayment.stream().filter(payment -> payment.getShippingStatus() == 4).count();
 
-        UserShippingDto userShippingDto = UserShippingDto.builder()
+        return UserShippingDto.builder()
                 .preparingProduct(ship1)
                 .preparingForDelivery(ship2)
                 .shipping(ship3)
                 .deliveryCompleted(ship4)
                 .build();
-        return userShippingDto;
     }
 
     @Override
@@ -115,6 +114,7 @@ public class PaymentServiceImpl implements IPaymentService {
                         .build())
                 .sorted(Comparator.comparing(PaymentDto::getDate).reversed())
                 .collect(Collectors.toList());
+
         return userPaymentDto;
     }
 
