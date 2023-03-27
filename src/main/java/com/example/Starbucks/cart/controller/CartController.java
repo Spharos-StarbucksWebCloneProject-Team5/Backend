@@ -39,7 +39,7 @@ public class CartController {
 
     @Operation(summary = "장바구니 선택삭제", description = "장바구니 선택삭제", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
-    @DeleteMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Void> deleteCart(@PathVariable Long id){
         iCartService.deleteCart(id);
         URI location = URI.create(String.format("/get/" + iCartRepository.findById(id).get().getUser().getId()));
@@ -59,14 +59,14 @@ public class CartController {
 
     @Operation(summary = "유저 장바구니목록", description = "유저 장바구니 목록 확인", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
-    @GetMapping("/get/{userId}")
+    @PutMapping("/get/{userId}")
     public ResponseEntity<List<CartDto>> getByUserId(@PathVariable Long userId){
         return ResponseEntity.ok(iCartService.getByUserId(userId));
     }
 
     @Operation(summary = "장바구니 전체삭제", description = "장바구니 상품 전체 삭제", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CartDto.class)))
-    @DeleteMapping("/delete/{userId}")
+    @PutMapping("/delete/{userId}")
     public ResponseEntity<Void> allDeleteCart(@PathVariable Long userId){
         iCartService.allDeleteCart(userId);
         URI location = URI.create(String.format("/get/"+userId));
