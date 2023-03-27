@@ -23,6 +23,9 @@ public class EventImageListDto {
     @Schema(description = "이벤트 아이디")
     private Long eventId;
 
+    @Schema(description = "이벤트 아이디")
+    private String description;
+
     @Schema(description = "이미지 정보")
     private String image;
 }

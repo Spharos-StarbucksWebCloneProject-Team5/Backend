@@ -34,8 +34,8 @@ public class EventImageListController {
     @Operation(summary = "이벤트 이미지불러오기", description = "이벤트별 이미지정보 불러오기", tags = {"이벤트"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = EventImageListDto.class)))
     @GetMapping("{eventId}")
-    public ResponseEntity<List<EventImageListDto>> getEventImage(@PathVariable Long eventId){//eventId에 해당하는 이미지 불러오기
-        return ResponseEntity.ok(iEventImageListService.getByEventId(eventId));
+    public ResponseEntity<?> getEventImage(@PathVariable Long eventId){//eventId에 해당하는 이미지 불러오기
+        return iEventImageListService.getByEventId(eventId);
     }
 
     @Operation(summary = "이벤트 이미지수정", description = "이벤트 이미지 수정하기", tags = {"관리자"})

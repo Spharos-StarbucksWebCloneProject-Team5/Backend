@@ -8,9 +8,12 @@ import com.example.Starbucks.event.repository.IEventRepository;
 import com.example.Starbucks.event.vo.RequestEventImageList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -31,16 +34,18 @@ public class EventImageListServiceImpl implements IEventImageListService {
         iEventImageListRepository.save(eventImageList);
     }
     @Override
-    public List<EventImageListDto> getByEventId(Long eventId) {
-        List<EventImageListDto> eventImageListDto
-                = iEventImageListRepository.findAllByEventId(eventId).stream()
-                        .map(element -> EventImageListDto.builder()
-                                .id(element.getId())
-                                .eventId(element.getEvent().getId())
-                                .image(element.getImage())
-                                .build()).collect(Collectors.toList());
-
-        return eventImageListDto;
+    public ResponseEntity<?> getByEventId(Long eventId) {
+        Optional<EventImageList> eventImageList = iEventImageListRepository.findByEventId(eventId);
+        if(eventImageList.isPresent()){
+            EventImageListDto eventImageListDto = EventImageListDto.builder()
+                    .id(eventImageList.get().getId())
+                    .eventId(eventImageList.get().getEvent().getId())
+                    .description(eventImageList.get().getEvent().getDescription())
+                    .image(eventImageList.get().getImage())
+                    .build();
+            return ResponseEntity.ok(eventImageListDto);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
     }
 
     @Override
