@@ -20,8 +20,7 @@ public class ShippingAddress extends BaseTimeEntity {
     @Schema(description = "배송지 고유 ID")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Long userId;
 
     private String nickname;
 

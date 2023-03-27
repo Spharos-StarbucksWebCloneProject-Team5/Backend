@@ -9,10 +9,25 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseShippingAddress {
-    @Schema(description = "배송지 고유번호")
     private Long id;
-    @Schema(description = "배송지 주소")
+
+    private Long userId;
+
+    private String nickname;
+
+    private String  receiver;
+
+    private Integer zipCode;
+
     private String address;
-    @Schema(description = "기본 배송지 여부")
+
+    private String detailAddress;
+
+    private String shippingPhone1;
+
+    private String shippingPhone2;
+
+    private String shippingMemo;
+
     private Boolean choiceMain;
 }
