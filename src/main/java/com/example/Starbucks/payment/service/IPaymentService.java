@@ -18,4 +18,6 @@ public interface IPaymentService {
     UserShippingDto getShippingStatus(Long userId);
     List<PaymentDto> getPayment(Long userId, RequestPaymentList requestPaymentList);
     List<ResponseBest> getBest(Integer main);
+
+    void addCartPayment(RequestCartPayment requestCartPayments);
 }

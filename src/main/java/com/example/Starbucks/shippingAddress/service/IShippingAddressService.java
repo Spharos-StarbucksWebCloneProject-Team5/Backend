@@ -10,7 +10,7 @@ public interface IShippingAddressService {
 
     void addShippingAddress(ShippingAddress shippingAddress);
     ResponseShippingAddress getShippingAddress(Long shippingId);
-    List<ResponseShippingAddress> getAllShippingAddress();
+    List<ResponseShippingAddress> getAllShippingAddress(Long userId);
     void updateShippingAddress(Long shippingId, RequestShippingAddress requestShippingAddress);
     void deleteShippingAddress(Long shippingId);
 }

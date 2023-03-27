@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,11 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/v1/api/payments")
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentController {
     private final IPaymentService iPaymentService;
 
@@ -83,5 +86,17 @@ public class PaymentController {
     @GetMapping("/get/{userId}") //주문내역
     public ResponseEntity<List<PaymentDto>> getPayment(@PathVariable Long userId, @RequestBody @Valid RequestPaymentList requestPaymentList){
         return ResponseEntity.ok(iPaymentService.getPayment(userId, requestPaymentList));
+    }
+
+    @Operation(summary = "카트 상품 결제", description = "고객 카트 상품 한번에 결제하기.", tags = { "주문" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+    })
+    @ResponseBody
+    @PostMapping("/carts112")
+    public ResponseEntity<Void> addCartPayment(@RequestBody RequestCartPayment requestCartPayments){
+        log.info(requestCartPayments.toString());
+        iPaymentService.addCartPayment(requestCartPayments);
+        return ResponseEntity.ok().build();
     }
 }

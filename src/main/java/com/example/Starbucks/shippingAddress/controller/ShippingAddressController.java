@@ -40,13 +40,13 @@ public class ShippingAddressController {
         return ResponseEntity.ok(iShippingAddressService.getShippingAddress(shippingAddressId));
     }
 
-    @Operation(summary = "모든 배송지 정보 요청", description = "모든 배송지 정보를 가져옵니다.", tags = { "배송지" })
+    @Operation(summary = "유저의 모든 배송지 정보 요청", description = "모든 배송지 정보를 가져옵니다.", tags = { "배송지" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
-    @GetMapping("/all")
-    public ResponseEntity<List<ResponseShippingAddress>> getAllShippingAddress(){
-        return ResponseEntity.ok(iShippingAddressService.getAllShippingAddress());
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<ResponseShippingAddress>> getAllShippingAddress(@PathVariable Long userId){
+        return ResponseEntity.ok(iShippingAddressService.getAllShippingAddress(userId));
     }
 
     @Operation(summary = "배송지 수정 요청", description = "배송지 정보를 수정합니다.", tags = { "배송지" })

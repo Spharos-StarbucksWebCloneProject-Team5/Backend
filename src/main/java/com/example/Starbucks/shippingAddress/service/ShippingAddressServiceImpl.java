@@ -17,6 +17,9 @@ public class ShippingAddressServiceImpl implements IShippingAddressService{
     private final IShippingAddressRepository iShippingAddressRepository;
     @Override
     public void addShippingAddress(ShippingAddress shippingAddress) {
+        if((Boolean)shippingAddress.getChoiceMain()){
+            iShippingAddressRepository.mainChange(shippingAddress.getUserId());
+        }
         iShippingAddressRepository.save(shippingAddress);
     }
 
@@ -33,13 +36,21 @@ public class ShippingAddressServiceImpl implements IShippingAddressService{
     }
 
     @Override
-    public List<ResponseShippingAddress> getAllShippingAddress() {
-        List<ShippingAddress> shippingAddressesList = iShippingAddressRepository.findAll();
+    public List<ResponseShippingAddress> getAllShippingAddress(Long userId) {
+        List<ShippingAddress> shippingAddressesList = iShippingAddressRepository.findAllByUserId(userId);
         List<ResponseShippingAddress> responseShippingAddresses = new ArrayList<>();
         for(int i=0;i<shippingAddressesList.size();i++){
             responseShippingAddresses.add(ResponseShippingAddress.builder()
                     .id(shippingAddressesList.get(i).getId())
+                    .userId(shippingAddressesList.get(i).getId())
+                    .nickname(shippingAddressesList.get(i).getNickname())
+                    .receiver(shippingAddressesList.get(i).getReceiver())
+                    .zipCode(shippingAddressesList.get(i).getZipCode())
                     .address(shippingAddressesList.get(i).getAddress())
+                    .detailAddress(shippingAddressesList.get(i).getDetailAddress())
+                    .shippingPhone1(shippingAddressesList.get(i).getShippingPhone1())
+                    .shippingPhone2(shippingAddressesList.get(i).getShippingPhone2())
+                    .shippingMemo(shippingAddressesList.get(i).getShippingMemo())
                     .choiceMain(shippingAddressesList.get(i).getChoiceMain())
                     .build()
             );
@@ -51,10 +62,21 @@ public class ShippingAddressServiceImpl implements IShippingAddressService{
     @Override
     public void updateShippingAddress(Long shippingId, RequestShippingAddress requestShippingAddress) {
         ShippingAddress shippingAddress = iShippingAddressRepository.findById(shippingId).get();
+        if((Boolean)requestShippingAddress.getChoiceMain()){
+            iShippingAddressRepository.mainChange(shippingAddress.getUserId());
+        }
         iShippingAddressRepository.save(ShippingAddress.builder()
                 .id(shippingAddress.getId())
-                .address(shippingAddress.getAddress())
-                .choiceMain(shippingAddress.getChoiceMain())
+                .userId(shippingAddress.getUserId())
+                .nickname(requestShippingAddress.getNickname())
+                .receiver(requestShippingAddress.getReceiver())
+                .zipCode(requestShippingAddress.getZipCode())
+                .address(requestShippingAddress.getAddress())
+                .detailAddress(requestShippingAddress.getDetailAddress())
+                .shippingPhone1(requestShippingAddress.getShippingPhone1())
+                .shippingPhone2(requestShippingAddress.getShippingPhone2())
+                .shippingMemo(requestShippingAddress.getShippingMemo())
+                .choiceMain(requestShippingAddress.getChoiceMain())
                 .build());
     }
 
