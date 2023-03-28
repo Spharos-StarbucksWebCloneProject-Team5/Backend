@@ -64,6 +64,8 @@ public class ProductServiceImpl implements IProductService{
         RedisTemplate<Object, Object> redisTemplate = redisRepositoryConfig.searchRedisTemplate();
         RedisTemplate<Object, Object> redisTemplate2 = redisRepositoryConfig.pageTemplate();
         String key = "ProductAll:" + pageNum;
+        log.info("ProductAll: " + iProductRepository.getAllProduct(pageable).getContent().get(0).getMain_Category_Id());
+        log.info("ProductAll: " + iProductRepository.getAllProduct(pageable).getContent().get(0).getMiddle_Category_Id());
         if (redisTemplate.opsForList().size(key) == 0) {
             pageable = PageRequest.of(pageNum, PageNum.PAGE_SIZE.getValue());
             iCategoryListService.executeCache(key, iProductRepository.getAllProduct(pageable), redisTemplate);

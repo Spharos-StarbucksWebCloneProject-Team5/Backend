@@ -11,9 +11,16 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface IProductRepository extends JpaRepository<Product, Long> {
-    @Query(value = "select p.id, p.name, p.price, p.thumbnail " +
-            "from Product p"
-            , countQuery = "select count(*) from product"
+    @Query(value = "select p.id, p.name, p.price, p.thumbnail, c.main_category_Id, c.middle_category_id " +
+            "from Product p " +
+            "inner join " +
+            "category_list c " +
+            "on p.id = c.id"
+            , countQuery = "select count(p.name) " +
+            "from Product p " +
+            "inner join " +
+            "category_list c " +
+            "on p.id = c.id"
             , nativeQuery = true)
     Page<IProduct> getAllProduct(Pageable pageable);
 

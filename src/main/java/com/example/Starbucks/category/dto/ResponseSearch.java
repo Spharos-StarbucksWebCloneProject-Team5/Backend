@@ -25,6 +25,10 @@ public class ResponseSearch {
     private Integer price;
     @Schema(description = "상품 썸네일 이미지")
     private String thumbnail;
+    @Schema(description = "대분류 아이디")
+    private Integer mainCategoryId;
+    @Schema(description = "중분류 아이디")
+    private Integer middleCategoryId;
 
     public static List<ResponseSearch> ofContents(Page<IProduct> products) {
         return products.getContent().stream()

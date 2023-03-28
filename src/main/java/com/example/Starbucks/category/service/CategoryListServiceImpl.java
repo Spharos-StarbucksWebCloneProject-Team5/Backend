@@ -86,6 +86,8 @@ public class CategoryListServiceImpl implements ICategoryListService {
                             .productName(element.getName())
                             .price(element.getPrice())
                             .thumbnail(element.getThumbnail())
+                            .mainCategoryId(element.getMain_Category_Id())
+                            .middleCategoryId(element.getMiddle_Category_Id())
                             .build())).collect(Collectors.toList());
         }
         RedisTemplate<Object, Object> redisTemplate2 = redisRepositoryConfig.pageTemplate();

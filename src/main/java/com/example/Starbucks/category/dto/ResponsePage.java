@@ -41,6 +41,10 @@ public class ResponsePage {
         private Integer price;
         @Schema(description = "상품 썸네임 이미지")
         private String thumbnail;
+        @Schema(description = "대분류 아이디")
+        private Integer mainCategoryId;
+        @Schema(description = "중분류 아이디")
+        private Integer middleCategoryId;
     }
 
 
