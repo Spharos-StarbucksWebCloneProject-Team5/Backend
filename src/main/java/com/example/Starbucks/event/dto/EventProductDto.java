@@ -20,6 +20,9 @@ public class EventProductDto {
     @Schema(description = "이벤트상품 아이디")
     private Long id;
 
+    @Schema(description = "상품 아이디")
+    private Long productId;
+
     @Schema(description = "이벤트상품 설명")
     private String description;
 

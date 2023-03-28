@@ -74,6 +74,7 @@ public class EventProductServiceImpl implements IEventProductService{
         List<EventProductDto> eventProductDtoList = iEventProductRepository.findAllByEventId(eventId).stream()
                 .map(element -> EventProductDto.builder()
                         .id(element.getId())
+                        .productId(element.getProduct().getId())
                         .description(element.getProduct().getDescription())
                         .name(element.getProduct().getName())
                         .price(element.getProduct().getPrice())
