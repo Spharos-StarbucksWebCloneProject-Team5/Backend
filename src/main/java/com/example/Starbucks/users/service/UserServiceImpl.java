@@ -13,6 +13,7 @@ import com.example.Starbucks.users.vo.ResponseUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -77,7 +79,7 @@ public class UserServiceImpl implements UserService{
         return response.success("비밀번호 수정이 완료되었습니다.");
     }
 
-    public ResponseEntity<?> login(UserRequestDto.Login login) {
+    public ResponseEntity<?> login(UserRequestDto.Login login, HttpServletResponse httpServletResponse) {
 
         if (userRepository.findByEmail(login.getEmail()).orElse(null) == null) {
             return response.fail("로그인에 실패하였습니다.", HttpStatus.BAD_REQUEST);
@@ -100,7 +102,10 @@ public class UserServiceImpl implements UserService{
             redisTemplate.opsForValue()
                     .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
-            return response.success(tokenInfo, "로그인에 성공했습니다.", HttpStatus.OK);
+            httpServletResponse.addHeader("accessToken", tokenInfo.getAccessToken());
+            httpServletResponse.addHeader("refreshToken", tokenInfo.getRefreshToken());
+
+            return response.success("로그인에 성공했습니다.");
         } catch(Exception e) {
             return response.fail("로그인에 실패하였습니다.", HttpStatus.BAD_REQUEST);
         }
