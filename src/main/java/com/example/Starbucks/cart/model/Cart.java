@@ -37,4 +37,8 @@ public class Cart extends BaseTimeEntity {
     @Schema(description = "현재 카트 존재여부")
     private Boolean now;
     //삭제시 false 반환
+
+    public void updateCount(Integer count) {
+        this.count = count;
+    }
 }
