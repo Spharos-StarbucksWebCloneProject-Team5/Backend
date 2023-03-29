@@ -11,8 +11,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class RequestUpdateCart {
-    @NotNull @Min(0)
-    private Long id;
     @NotNull @Min(0) @Max(5)
     private Integer count;
 }

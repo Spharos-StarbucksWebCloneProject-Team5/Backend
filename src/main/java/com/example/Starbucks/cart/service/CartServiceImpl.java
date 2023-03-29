@@ -11,6 +11,7 @@ import com.example.Starbucks.product.repository.IProductRepository;
 import com.example.Starbucks.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -49,15 +50,10 @@ public class CartServiceImpl implements ICartService{
     }
 
     @Override
-    public void updateCart(RequestUpdateCart requestUpdateCart){
-        Cart cart = iCartRepository.findById(requestUpdateCart.getId()).get();
-        iCartRepository.save(Cart.builder()
-                .id(cart.getId())
-                .user(cart.getUser())
-                .product(cart.getProduct())
-                .count(requestUpdateCart.getCount())
-                .now(true)
-                .build());
+    public void updateCart(Long id, RequestUpdateCart requestUpdateCart){
+        Cart cart = iCartRepository.findById(id).get();
+        cart.updateCount(requestUpdateCart.getCount());
+        iCartRepository.save(cart);
     }
 
     @Override

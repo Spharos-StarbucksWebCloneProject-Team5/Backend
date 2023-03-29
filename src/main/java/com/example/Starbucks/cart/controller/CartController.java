@@ -50,10 +50,10 @@ public class CartController {
 
     @Operation(summary = "장바구니 수량변경", description = "장바구니 상품 수량 수정", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
-    @PutMapping("/update")//수량변경
-    public ResponseEntity<Void> updateCart(@RequestBody @Valid  RequestUpdateCart requestUpdateCart){
-       iCartService.updateCart(requestUpdateCart);
-        URI location = URI.create(String.format("/get/" + iCartRepository.findById(requestUpdateCart.getId()).get().getUser().getId()));
+    @PatchMapping("/update/{id}")//수량변경
+    public ResponseEntity<Void> updateCart(@PathVariable Long id, @RequestBody @Valid  RequestUpdateCart requestUpdateCart){
+       iCartService.updateCart(id, requestUpdateCart);
+        URI location = URI.create(String.format("/get/" + iCartRepository.findById(id).get().getUser().getId()));
        return ResponseEntity.created(location).build();
        //유저 장바구니로 이동
     }
