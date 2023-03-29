@@ -4,6 +4,8 @@ import com.example.Starbucks.Mail.dto.EmailDto;
 import com.example.Starbucks.config.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -103,13 +105,15 @@ public class MailServiceImpl implements MailService{
         return ePw; // 메일로 보냈던 인증 코드를 서버로 반환
     }
 
-    public String verifyEmail(String key) throws ChangeSetPersister.NotFoundException{
+    public ResponseEntity<?> verifyEmail(String key) throws ChangeSetPersister.NotFoundException{
         String userEmail = redisUtil.getData(key);
         if(userEmail == null){
-            throw new ChangeSetPersister.NotFoundException();
+//            throw new ChangeSetPersister.NotFoundException();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 요청이 만료되었습니다.");
         }
         redisUtil.deleteData(key);
-        return ePw;
+//        return ePw;
+        return ResponseEntity.ok("인증되었습니다.");
     }
 
 
