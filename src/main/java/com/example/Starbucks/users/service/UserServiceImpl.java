@@ -108,6 +108,7 @@ public class UserServiceImpl implements UserService{
 
             return response.success("로그인에 성공했습니다.");
         } catch(Exception e) {
+            System.out.println(e.getMessage());
             return response.fail("로그인에 실패하였습니다.", HttpStatus.BAD_REQUEST);
         }
     }
