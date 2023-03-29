@@ -17,6 +17,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 
 @RestController
 @RequestMapping("api/v1/users")
@@ -75,12 +78,12 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Validated @RequestBody UserRequestDto.Login login, Errors errors) {
+    public ResponseEntity<?> login(@Validated @RequestBody UserRequestDto.Login login, Errors errors, HttpServletResponse httpServletResponse) {
         // validation check
         if (errors.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(errors));
         }
-        return userService.login(login);
+        return userService.login(login, httpServletResponse);
     }
 
     @Operation(summary = "Access 토큰 재발급", description = "Access토큰과 Refresh토큰을 통해 Access토큰을 재발급 합니다.", tags = { "유저" })
@@ -103,12 +106,12 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@Validated @RequestBody UserRequestDto.Logout logout, Errors errors) {
+    public ResponseEntity<?> logout(HttpServletRequest httpServletRequest) {
         // validation check
-        if (errors.hasErrors()) {
-            return response.invalidFields(Helper.refineErrors(errors));
-        }
-        return userService.logout(logout);
+//        if (errors.hasErrors()) {
+//            return response.invalidFields(Helper.refineErrors(errors));
+//        }
+        return userService.logout(httpServletRequest);
     }
 
     @Operation(summary = "Admin 권한 부여", description = "Admin 권한 부여", tags = { "유저" })
