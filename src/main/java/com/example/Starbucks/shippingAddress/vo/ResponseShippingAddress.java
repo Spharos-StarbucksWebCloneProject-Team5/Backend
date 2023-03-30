@@ -11,8 +11,6 @@ import lombok.*;
 public class ResponseShippingAddress {
     private Long id;
 
-    private Long userId;
-
     private String nickname;
 
     private String  receiver;

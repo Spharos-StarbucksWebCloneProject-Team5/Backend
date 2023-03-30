@@ -17,6 +17,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,8 +44,8 @@ public class PaymentController {
             @ApiResponse(responseCode = "200", description = "OK"),
     })
     @PostMapping("")
-    public ResponseEntity<Void> addPayment(@RequestBody @Valid RequestPayment requestPayment) {
-        iPaymentService.addPayment(requestPayment);
+    public ResponseEntity<Void> addPayment(HttpServletRequest httpServletRequest, @RequestBody @Valid RequestPayment requestPayment) {
+        iPaymentService.addPayment(httpServletRequest,requestPayment);
         return ResponseEntity.ok().build();
     }
 

@@ -9,8 +9,6 @@ import javax.validation.constraints.*;
 @Setter
 public class RequestCart {
     @NotNull
-    private Long userId;
-    @NotNull
     private Long productId;
     @NotNull @Min(0) @Max(5)
     private Integer count;

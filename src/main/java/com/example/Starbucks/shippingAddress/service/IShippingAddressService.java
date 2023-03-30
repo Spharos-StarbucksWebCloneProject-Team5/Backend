@@ -4,13 +4,14 @@ import com.example.Starbucks.shippingAddress.model.ShippingAddress;
 import com.example.Starbucks.shippingAddress.vo.RequestShippingAddress;
 import com.example.Starbucks.shippingAddress.vo.ResponseShippingAddress;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface IShippingAddressService {
 
-    void addShippingAddress(ShippingAddress shippingAddress);
+    void addShippingAddress(HttpServletRequest httpServletRequest,RequestShippingAddress requestShippingAddress);
     ResponseShippingAddress getShippingAddress(Long shippingId);
-    List<ResponseShippingAddress> getAllShippingAddress(Long userId);
+    List<ResponseShippingAddress> getAllShippingAddress(HttpServletRequest httpServletRequest);
     void updateShippingAddress(Long shippingId, RequestShippingAddress requestShippingAddress);
     void deleteShippingAddress(Long shippingId);
 }

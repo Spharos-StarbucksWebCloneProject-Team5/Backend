@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -25,8 +26,8 @@ public class ShippingAddressController {
             @ApiResponse(responseCode = "200", description = "OK"),
     })
     @PostMapping("")
-    public ResponseEntity<?> addShippingAddress(@RequestBody ShippingAddress shippingAddress){
-        iShippingAddressService.addShippingAddress(shippingAddress);
+    public ResponseEntity<?> addShippingAddress(HttpServletRequest httpServletRequest, @RequestBody RequestShippingAddress requestShippingAddress){
+        iShippingAddressService.addShippingAddress(httpServletRequest,requestShippingAddress);
         ResponseEntity.ok();
         return null;
     }
@@ -44,9 +45,9 @@ public class ShippingAddressController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<ResponseShippingAddress>> getAllShippingAddress(@PathVariable Long userId){
-        return ResponseEntity.ok(iShippingAddressService.getAllShippingAddress(userId));
+    @GetMapping("")
+    public ResponseEntity<List<ResponseShippingAddress>> getAllShippingAddress(HttpServletRequest httpServletRequest){
+        return ResponseEntity.ok(iShippingAddressService.getAllShippingAddress(httpServletRequest));
     }
 
     @Operation(summary = "배송지 수정 요청", description = "배송지 정보를 수정합니다.", tags = { "배송지" })

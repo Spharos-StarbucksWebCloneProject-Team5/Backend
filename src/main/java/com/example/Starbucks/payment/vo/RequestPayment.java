@@ -11,8 +11,6 @@ import javax.validation.constraints.*;
 public class RequestPayment {
     //받아올 것들
 
-    private Long userId;
-
     private Long productId;
 
     private Integer productCount;
