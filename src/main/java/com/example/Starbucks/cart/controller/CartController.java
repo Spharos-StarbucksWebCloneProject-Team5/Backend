@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,8 +34,8 @@ public class CartController {
     @Operation(summary = "장바구니 담기", description = "장바구니에 상품 추가하기", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
     @PostMapping("")
-    public ResponseEntity<Void> addCart(HttpServletRequest httpServletRequest,@RequestBody @Valid RequestCart requestCart){
-        iCartService.addCart(httpServletRequest,requestCart);
+    public ResponseEntity<Void> addCart(Authentication authenticationt,@RequestBody @Valid RequestCart requestCart){
+        iCartService.addCart(authenticationt,requestCart);
         return ResponseEntity.ok().build();
         //상태만 반환
     }
@@ -62,15 +63,15 @@ public class CartController {
     @Operation(summary = "유저 장바구니목록", description = "유저 장바구니 목록 확인", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
     @GetMapping("/get")
-    public ResponseEntity<List<CartDto>> getByUserId(HttpServletRequest httpServletRequest){
-        return ResponseEntity.ok(iCartService.getByUserId(httpServletRequest));
+    public ResponseEntity<List<CartDto>> getByUserId(Authentication authenticationt){
+        return ResponseEntity.ok(iCartService.getByUserId(authenticationt));
     }
 
     @Operation(summary = "장바구니 전체삭제", description = "유저가 담은 장바구니 상품 전체 삭제", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CartDto.class)))
     @PutMapping("/delete")
-    public ResponseEntity<Void> allDeleteCart(HttpServletRequest httpServletRequest){
-        iCartService.allDeleteCart(httpServletRequest);
+    public ResponseEntity<Void> allDeleteCart(Authentication authenticationt){
+        iCartService.allDeleteCart(authenticationt);
         URI location = URI.create(String.format("/get"));
         return ResponseEntity.created(location).build();
         //유저 장바구니로 이동
