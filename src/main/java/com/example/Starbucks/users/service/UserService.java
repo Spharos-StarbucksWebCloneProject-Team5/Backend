@@ -19,7 +19,7 @@ public interface UserService {
 
     public ResponseEntity<?> login(UserRequestDto.Login login, HttpServletResponse httpServletResponse);
 
-    public ResponseEntity<?> reissue(UserRequestDto.Reissue reissue);
+    public ResponseEntity<?> reissue(String accessToken, String refreshToken, HttpServletResponse httpServletResponse);
     public ResponseEntity<?> logout(HttpServletRequest httpServletRequest);
 
     public ResponseEntity<?> authority();

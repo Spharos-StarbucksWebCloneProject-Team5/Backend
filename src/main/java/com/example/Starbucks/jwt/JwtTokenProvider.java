@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 2 *1000L;              // 30분
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 60 * 1000L;    // 7일
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 60 * 60 * 1000L;              // 1 시간
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 60 * 60 * 24 * 1000L;    // 1일
 
     private final Key key;
 
