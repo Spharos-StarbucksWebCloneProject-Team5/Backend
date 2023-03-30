@@ -38,19 +38,19 @@ public class CategoryListServiceImpl implements ICategoryListService {
     private final IMiddleCategoryRepository iMiddleCategoryRepository;
 
     @Override
-    public ResponsePage searchByCategory(Integer mainCategoryId, Integer middleCategoryId, Integer pageNum, Pageable pageable) {
+    public ResponsePage searchByCategory(Integer category, Integer subCategory, Integer pageNum, Pageable pageable) {
         pageable = PageRequest.of(pageNum, PageNum.PAGE_SIZE.getValue());
         RedisTemplate<Object, Object> redisTemplate = redisRepositoryConfig.searchRedisTemplate();
-        if (middleCategoryId == null) {
-            String key = "category:" + mainCategoryId + ":" + pageNum;
+        if (subCategory == null) {
+            String key = "category:" + category + ":" + pageNum;
             if (redisTemplate.opsForList().size(key) == 0) {
-                executeCache(key, categoryListRepository.searchByMainCategory(mainCategoryId, pageable), redisTemplate);
+                executeCache(key, categoryListRepository.searchByMainCategory(category, pageable), redisTemplate);
             }
             return getCache(key);
         }
-        String key = "category:" + mainCategoryId + "-" + middleCategoryId + ":" + pageNum;
+        String key = "category:" + category + "-" + subCategory + ":" + pageNum;
         if (redisTemplate.opsForList().size(key) == 0) {
-            executeCache(key, categoryListRepository.searchByCategories(mainCategoryId, middleCategoryId, pageable), redisTemplate);
+            executeCache(key, categoryListRepository.searchByCategories(category, subCategory, pageable), redisTemplate);
         }
         return getCache(key);
     }

@@ -20,6 +20,19 @@ import java.util.List;
 public class MainCategoryController {
     private final MainCategoryService mainCategoryService;
 
+    @Operation(summary = "메인 카테고리 All 사이드바", description = "사이드바에 필요한 모든 메인 카테고리 가져오기", tags = { "카테고리" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = ResponseMainCategory.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/side")
+    public ResponseEntity<List<ResponseMainCategory.Side>> getAllSideMainCategories() {
+        return ResponseEntity.ok(mainCategoryService.getAllSideMainCategories());
+    }
+
     @Operation(summary = "메인 카테고리 All", description = "모든 메인 카테고리 가져오기", tags = { "카테고리" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
@@ -32,6 +45,7 @@ public class MainCategoryController {
     public ResponseEntity<List<ResponseMainCategory>> getAllMainCategories() {
         return ResponseEntity.ok(mainCategoryService.getAllMainCategories());
     }
+
     @Operation(summary = "메인 카테고리 추가", description = "카테고리 추가하기", tags = { "관리자" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",

@@ -16,13 +16,29 @@ public class MainCategoryImpl implements MainCategoryService{
     private final MainCategoryRepository mainCategoryRepository;
 
     @Override
-    public List<ResponseMainCategory> getAllMainCategories() {
+    public List<ResponseMainCategory.Side> getAllSideMainCategories() {
         return mainCategoryRepository.findAll().stream()
-                .map(element -> ResponseMainCategory.builder()
+                .map(element -> ResponseMainCategory.Side.builder()
                         .id(element.getId())
                         .name(element.getName())
                         .thumbNail(element.getThumbNail())
                         .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ResponseMainCategory> getAllMainCategories() {
+        List<ResponseMainCategory> responseMainCategories = mainCategoryRepository.findAll().stream()
+                .map(element -> ResponseMainCategory.builder()
+                        .id(element.getId())
+                        .name(element.getName())
+                        .key("category")
+                        .build()).collect(Collectors.toList());
+        responseMainCategories.add(0, ResponseMainCategory.builder()
+                        .id(0)
+                        .name("전체")
+                        .key("category")
+                .build());
+        return responseMainCategories;
     }
 
     @Override

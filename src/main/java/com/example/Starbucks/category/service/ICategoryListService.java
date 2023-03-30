@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface ICategoryListService {
 
-    ResponsePage searchByCategory(Integer mainCategoryId, Integer middleCategoryInteger, Integer pageNum, Pageable pageable);
+    ResponsePage searchByCategory(Integer category, Integer subCategory, Integer pageNum, Pageable pageable);
     ResponsePage searchCache(String keyword, int pageNum, Pageable pageable);
     List<ResponseSearch> searchCache2(String keyword, Long lastProductId);
     CategoryList addCategoryList(RequestCategoryList requestCategoryList);

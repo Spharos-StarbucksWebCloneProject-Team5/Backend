@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,11 +38,33 @@ public class MiddleCategoryServiceImpl implements IMiddleCategoryService{
 
     @Override
     public List<ResponseMiddleCategory> getAllMiddleCategory() {
-        return iMiddleCategoryRepository.findAll().stream()
-                .map(element -> ResponseMiddleCategory.builder()
-                        .id(element.getId())
-                        .name(element.getName())
-                        .mainCategoryId(element.getMainCategory().getId())
-                        .build()).collect(Collectors.toList());
+        List<MiddleCategory> middleCategories = iMiddleCategoryRepository.findAll();
+        List<ResponseMiddleCategory> responseMiddleCategories = new ArrayList<>();
+        List<ResponseMiddleCategory.Data> data = new ArrayList<>();
+        Integer mainIdx = 1;
+        String name = middleCategories.get(0).getMainCategory().getName();
+        for (MiddleCategory middleCategory : middleCategories) {
+            if (mainIdx != middleCategory.getMainCategory().getId()) {
+                responseMiddleCategories.add(ResponseMiddleCategory.builder()
+                        .id(mainIdx)
+                        .name(name)
+                        .data(data)
+                        .build());
+                mainIdx = middleCategory.getMainCategory().getId();
+                name = middleCategory.getMainCategory().getName();
+                data = new ArrayList<>();
+            }
+            data.add(ResponseMiddleCategory.Data.builder()
+                    .id(middleCategory.getId())
+                    .name(middleCategory.getName())
+                    .key("subCategory")
+                    .build());
+        }
+        responseMiddleCategories.add(ResponseMiddleCategory.builder()
+                .id(mainIdx)
+                .name(name)
+                .data(data)
+                .build());
+        return responseMiddleCategories;
     }
 }

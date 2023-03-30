@@ -27,7 +27,7 @@ public class CategoryListController {
 
     private final ICategoryListService iCategoryListService;
 
-    @Operation(summary = "카테고리 검색", description = "mainCategoryId, middleCategoryId에 따른 카테고리 검색", tags = {"검색"})
+    @Operation(summary = "카테고리 검색", description = "대분류 이름, 중분류 아이디에 따른 검색", tags = {"검색"})
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(schema = @Schema(implementation = ResponseSearch.class))),
@@ -37,11 +37,11 @@ public class CategoryListController {
     })
     @GetMapping
     public ResponseEntity<ResponsePage> searchByCategories
-            (@Param("main") Integer main,
-             @Param("middle") Integer middle,
+            (@Param("category") Integer category,
+             @Param("subCategory") Integer subCategory,
              @Param("pageNum") Integer pageNum,
              @PageableDefault(page = 1, size = 8, sort = "name", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(iCategoryListService.searchByCategory(main, middle, pageNum, pageable));
+        return ResponseEntity.ok(iCategoryListService.searchByCategory(category, subCategory, pageNum, pageable));
     }
 
     @Operation(summary = "키워드 검색", description = "캐시 저장하여 keyword 검색 결과 가져오기(JPQL 사용)", tags = {"검색"})

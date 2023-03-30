@@ -12,5 +12,15 @@ import lombok.NoArgsConstructor;
 public class ResponseMainCategory {
     private Integer id;
     private String name;
-    private String thumbNail;
+    private String key;
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Side {
+        private Integer id;
+        private String name;
+        private String thumbNail;
+    }
 }
