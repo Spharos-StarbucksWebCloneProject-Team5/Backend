@@ -2,6 +2,8 @@ package com.example.Starbucks.category.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,5 +12,15 @@ import lombok.*;
 public class ResponseMiddleCategory {
     private Integer id;
     private String name;
-    private Integer mainCategoryId;//대분류
+    private List<Data> data;
+
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    public static class Data {
+        private Integer id;
+        private String name;
+        private String key;
+    }
 }
