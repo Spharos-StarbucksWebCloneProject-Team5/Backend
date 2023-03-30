@@ -13,26 +13,26 @@ import java.util.List;
 
 
 public interface CategoryListRepository extends JpaRepository<CategoryList, Long>, JpaSpecificationExecutor<CategoryList> {
-    @Query(value = "select p.id, p.name, p.price, p.thumbnail\n" +
+    @Query(value = "select p.id, p.name, p.price, p.thumbnail, c.main_category_id, c.middle_category_id\n" +
             "from product p\n" +
             "left outer join\n" +
             "category_list c\n" +
             "on p.id = c.id\n" +
-            "where main_category_id = :mainCategoryId and middle_category_id = :middleCategoryId"
-            , countQuery = "select count(*) from category_list c where main_category_id = :mainCategoryId and middle_category_id = :middleCategoryId"
+            "where main_category_id = :category and middle_category_id = :subCategory"
+            , countQuery = "select count(*) from category_list c where main_category_id = :category and middle_category_id = :subCategory"
             , nativeQuery = true)
     Page<IProduct> searchByCategories
-            (@Param("mainCategoryId") Integer mainCategoryId, @Param("middleCategoryId") Integer middleCategoryId, Pageable pageable);
+            (@Param("category") Integer category, @Param("subCategory") Integer subCategory, Pageable pageable);
 
-    @Query(value = "select p.id, p.name, p.price, p.thumbnail\n" +
+    @Query(value = "select p.id, p.name, p.price, p.thumbnail, c.main_category_id, c.middle_category_id\n" +
             "from product p\n" +
             "left outer join\n" +
             "category_list c\n" +
             "on p.id = c.id\n" +
-            "where main_category_id = :mainCategoryId"
-            , countQuery = "select count(*) from category_list c where main_category_id = :mainCategoryId"
+            "where main_category_id = :category"
+            , countQuery = "select count(*) from category_list c where main_category_id = :category"
             , nativeQuery = true)
-    Page<IProduct> searchByMainCategory(@Param("mainCategoryId") Integer mainCategoryId, Pageable pageable);
+    Page<IProduct> searchByMainCategory(@Param("category") Integer category, Pageable pageable);
 
     @Query(value = "select p.id, p.name, p.price, p.thumbnail " +
             "from product p " +

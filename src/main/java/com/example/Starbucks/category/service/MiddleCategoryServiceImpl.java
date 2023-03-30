@@ -42,7 +42,6 @@ public class MiddleCategoryServiceImpl implements IMiddleCategoryService{
         List<ResponseMiddleCategory> responseMiddleCategories = new ArrayList<>();
         List<ResponseMiddleCategory.Data> data = new ArrayList<>();
         Integer mainIdx = 1;
-        Integer middleIdx = 1;
         String name = middleCategories.get(0).getMainCategory().getName();
         for (MiddleCategory middleCategory : middleCategories) {
             if (mainIdx != middleCategory.getMainCategory().getId()) {
@@ -52,16 +51,14 @@ public class MiddleCategoryServiceImpl implements IMiddleCategoryService{
                         .data(data)
                         .build());
                 mainIdx = middleCategory.getMainCategory().getId();
-                middleIdx = 1;
                 name = middleCategory.getMainCategory().getName();
                 data = new ArrayList<>();
             }
             data.add(ResponseMiddleCategory.Data.builder()
-                    .id(middleIdx)
+                    .id(middleCategory.getId())
                     .name(middleCategory.getName())
                     .key("subCategory")
                     .build());
-            middleIdx += 1;
         }
         responseMiddleCategories.add(ResponseMiddleCategory.builder()
                 .id(mainIdx)
