@@ -6,7 +6,6 @@ import com.example.Starbucks.cart.model.Cart;
 import com.example.Starbucks.cart.repository.ICartRepository;
 import com.example.Starbucks.cart.service.ICartService;
 import com.example.Starbucks.cart.vo.RequestCart;
-import com.example.Starbucks.cart.vo.RequestSelecetDelets;
 import com.example.Starbucks.cart.vo.RequestUpdateCart;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
