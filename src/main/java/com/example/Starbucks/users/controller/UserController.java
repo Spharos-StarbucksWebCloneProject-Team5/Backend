@@ -92,12 +92,12 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST")
     })
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(@Validated @RequestBody UserRequestDto.Reissue reissue, Errors errors) {
+    public ResponseEntity<?> reissue(@RequestHeader("accessToken") String accessToken, @RequestHeader("refreshToken") String refreshToken, HttpServletResponse httpServletResponse) {
         // validation check
-        if (errors.hasErrors()) {
-            return response.invalidFields(Helper.refineErrors(errors));
-        }
-        return userService.reissue(reissue);
+//        if (errors.hasErrors()) {
+//            return response.invalidFields(Helper.refineErrors(errors));
+//        }
+        return userService.reissue(accessToken, refreshToken, httpServletResponse);
     }
 
     @Operation(summary = "로그아웃 요청", description = "로그아웃 요청이 오면 토큰이 유효한지 검증하고, 로그아웃 처리", tags = { "유저" })
