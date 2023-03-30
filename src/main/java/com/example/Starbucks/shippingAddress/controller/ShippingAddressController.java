@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +27,8 @@ public class ShippingAddressController {
             @ApiResponse(responseCode = "200", description = "OK"),
     })
     @PostMapping("")
-    public ResponseEntity<?> addShippingAddress(HttpServletRequest httpServletRequest, @RequestBody RequestShippingAddress requestShippingAddress){
-        iShippingAddressService.addShippingAddress(httpServletRequest,requestShippingAddress);
+    public ResponseEntity<?> addShippingAddress(Authentication authentication, @RequestBody RequestShippingAddress requestShippingAddress){
+        iShippingAddressService.addShippingAddress(authentication,requestShippingAddress);
         ResponseEntity.ok();
         return null;
     }
@@ -46,8 +47,8 @@ public class ShippingAddressController {
             @ApiResponse(responseCode = "200", description = "OK"),
     })
     @GetMapping("")
-    public ResponseEntity<List<ResponseShippingAddress>> getAllShippingAddress(HttpServletRequest httpServletRequest){
-        return ResponseEntity.ok(iShippingAddressService.getAllShippingAddress(httpServletRequest));
+    public ResponseEntity<List<ResponseShippingAddress>> getAllShippingAddress(Authentication authentication){
+        return ResponseEntity.ok(iShippingAddressService.getAllShippingAddress(authentication));
     }
 
     @Operation(summary = "배송지 수정 요청", description = "배송지 정보를 수정합니다.", tags = { "배송지" })

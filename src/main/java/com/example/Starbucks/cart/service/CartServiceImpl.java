@@ -30,8 +30,8 @@ public class CartServiceImpl implements ICartService{
     private final CategoryListRepository categoryListRepository;
 
     @Override
-    public void addCart(Authentication authenticationt, RequestCart requestCart) {
-        Long userId = userRepository.findByEmail(authenticationt.getName()).get().getId();
+    public void addCart(Authentication authentication, RequestCart requestCart) {
+        Long userId = userRepository.findByEmail(authentication.getName()).get().getId();
         //장바구니에 담았던 상품일 시 수량 추가
         Optional<Cart> cart = iCartRepository.findByUserIdAndProductId(userId, requestCart.getProductId());
         log.info("{}",cart);
@@ -73,8 +73,8 @@ public class CartServiceImpl implements ICartService{
     }
 
     @Override
-    public void allDeleteCart(Authentication authenticationt) {
-        List<Cart> carts = iCartRepository.findAllByUserId(userRepository.findByEmail(authenticationt.getName()).get().getId());
+    public void allDeleteCart(Authentication authentication) {
+        List<Cart> carts = iCartRepository.findAllByUserId(userRepository.findByEmail(authentication.getName()).get().getId());
         for(Cart cart : carts){
             iCartRepository.save(Cart.builder()
                     .id(cart.getId())
@@ -87,8 +87,8 @@ public class CartServiceImpl implements ICartService{
     }
 
     @Override
-    public List<CartDto> getByUserId(Authentication authenticationt) {
-        List<CartDto> userCarts = iCartRepository.findAllByUserId(userRepository.findByEmail(authenticationt.getName()).get().getId()).stream()
+    public List<CartDto> getByUserId(Authentication authentication) {
+        List<CartDto> userCarts = iCartRepository.findAllByUserId(userRepository.findByEmail(authentication.getName()).get().getId()).stream()
                 .filter(cart -> cart.getNow() == (Boolean)true)
                 .map(cart -> CartDto.builder()
                         .cartId(cart.getId())

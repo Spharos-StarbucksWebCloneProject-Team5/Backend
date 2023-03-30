@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,8 +45,8 @@ public class PaymentController {
             @ApiResponse(responseCode = "200", description = "OK"),
     })
     @PostMapping("")
-    public ResponseEntity<Void> addPayment(HttpServletRequest httpServletRequest, @RequestBody @Valid RequestPayment requestPayment) {
-        iPaymentService.addPayment(httpServletRequest,requestPayment);
+    public ResponseEntity<Void> addPayment(Authentication authentication, @RequestBody @Valid RequestPayment requestPayment) {
+        iPaymentService.addPayment(authentication,requestPayment);
         return ResponseEntity.ok().build();
     }
 
@@ -74,9 +75,9 @@ public class PaymentController {
             @ApiResponse(responseCode = "200", description = "OK"),
     })
     @ResponseBody
-    @GetMapping("shipping/{userId}") //배송상태
-    public ResponseEntity<UserShippingDto> getShippingStatus(@PathVariable Long userId){
-        return ResponseEntity.ok(iPaymentService.getShippingStatus(userId));
+    @GetMapping("/shipping") //배송상태
+    public ResponseEntity<UserShippingDto> getShippingStatus(Authentication authentication){
+        return ResponseEntity.ok(iPaymentService.getShippingStatus(authentication));
     }
 
     @Operation(summary = "주문내역 요청", description = "주문내역을 가져옵니다.", tags = { "주문" })
@@ -84,9 +85,9 @@ public class PaymentController {
             @ApiResponse(responseCode = "200", description = "OK"),
     })
     @ResponseBody
-    @GetMapping("/get/{userId}") //주문내역
-    public ResponseEntity<List<PaymentDto>> getPayment(@PathVariable Long userId, @RequestBody RequestPaymentList requestPaymentList){
-        return ResponseEntity.ok(iPaymentService.getPayment(userId, requestPaymentList));
+    @GetMapping("/get") //주문내역
+    public ResponseEntity<List<PaymentDto>> getPayment(Authentication authentication, @RequestBody RequestPaymentList requestPaymentList){
+        return ResponseEntity.ok(iPaymentService.getPayment(authentication, requestPaymentList));
     }
 
     @Operation(summary = "카트 상품 결제", description = "고객 카트 상품 한번에 결제하기.", tags = { "주문" })

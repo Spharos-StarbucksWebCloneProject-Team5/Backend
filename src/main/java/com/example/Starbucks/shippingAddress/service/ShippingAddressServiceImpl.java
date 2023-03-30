@@ -23,9 +23,7 @@ public class ShippingAddressServiceImpl implements IShippingAddressService{
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     @Override
-    public void addShippingAddress(HttpServletRequest httpServletRequest, RequestShippingAddress requestShippingAddress) {
-        String accessToken = httpServletRequest.getHeader("accessToken");
-        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+    public void addShippingAddress(Authentication authentication, RequestShippingAddress requestShippingAddress) {
         Long userId = userRepository.findByEmail(authentication.getName()).get().getId();
         if((Boolean)requestShippingAddress.getChoiceMain()){
             iShippingAddressRepository.mainChange(userId);
@@ -64,9 +62,7 @@ public class ShippingAddressServiceImpl implements IShippingAddressService{
     }
 
     @Override
-    public List<ResponseShippingAddress> getAllShippingAddress(HttpServletRequest httpServletRequest) {
-        String accessToken = httpServletRequest.getHeader("accessToken");
-        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+    public List<ResponseShippingAddress> getAllShippingAddress(Authentication authentication) {
         Long userId = userRepository.findByEmail(authentication.getName()).get().getId();
         List<ResponseShippingAddress> responseShippingAddresses = iShippingAddressRepository.findAllByUserId(userId).stream()
                 .map(shippingAddress -> ResponseShippingAddress.builder()

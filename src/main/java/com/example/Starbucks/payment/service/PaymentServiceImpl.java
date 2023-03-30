@@ -40,9 +40,7 @@ public class PaymentServiceImpl implements IPaymentService {
     private final IShippingAddressRepository iShippingAddressRepository;
 
     @Override
-    public void addPayment(HttpServletRequest httpServletRequest, RequestPayment requestPayment) {
-        String accessToken = httpServletRequest.getHeader("accessToken");
-        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+    public void addPayment(Authentication authentication, RequestPayment requestPayment) {
         Long userId = userRepository.findByEmail(authentication.getName()).get().getId();
         iPaymentRepository.save(Payment.builder()
                         .user(userRepository.findById(userId).get())
@@ -88,7 +86,8 @@ public class PaymentServiceImpl implements IPaymentService {
     }
 
     @Override
-    public UserShippingDto getShippingStatus(Long userId) {
+    public UserShippingDto getShippingStatus(Authentication authentication) {
+        Long userId = userRepository.findByEmail(authentication.getName()).get().getId();
         List<Payment> userPayment = iPaymentRepository.findAllByUserId(userId).stream()
                 .filter(payment -> payment.getPayStatus() !=0 && LocalDate.now().atTime(0,0,0).minusMonths(3).isBefore(payment.getCreateDate()))
                 .collect(Collectors.toList());
@@ -106,7 +105,8 @@ public class PaymentServiceImpl implements IPaymentService {
     }
 
     @Override
-    public List<PaymentDto> getPayment(Long userId, RequestPaymentList requestPaymentList) {
+    public List<PaymentDto> getPayment(Authentication authentication, RequestPaymentList requestPaymentList) {
+        Long userId = userRepository.findByEmail(authentication.getName()).get().getId();
         List<PaymentDto> userPaymentDto = iPaymentRepository.findAllByUserId(userId).stream()
                 .filter(payment -> payment.getCreateDate().isAfter(requestPaymentList.getStartDate().atTime(0,0,0))
                         && payment.getCreateDate().isBefore(requestPaymentList.getEndDate().atTime(23,59,59)))
