@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService{
         User user = User.builder()
                 .email(signUp.getEmail())
                 .password(passwordEncoder.encode(signUp.getPassword()))
+                .name(signUp.getName())
                 .roles(Collections.singletonList(Authority.ROLE_USER.name()))
                 .build();
         userRepository.save(user);
@@ -81,8 +82,8 @@ public class UserServiceImpl implements UserService{
     }
 
     public ResponseEntity<?> login(UserRequestDto.Login login, HttpServletResponse httpServletResponse) {
-
-        if (userRepository.findByEmail(login.getEmail()).orElse(null) == null) {
+        Optional<User> user = userRepository.findByEmail(login.getEmail());
+        if (user.isPresent() == false) {
             return response.fail("로그인에 실패하였습니다.", HttpStatus.BAD_REQUEST);
         }
 
@@ -106,7 +107,9 @@ public class UserServiceImpl implements UserService{
             httpServletResponse.addHeader("accessToken", tokenInfo.getAccessToken());
             httpServletResponse.addHeader("refreshToken", tokenInfo.getRefreshToken());
 
-            return response.success("로그인에 성공했습니다.");
+            return response.success(UserResponseDto.userName.builder()
+                    .name(user.get().getName())
+                    .build(), "로그인에 성공했습니다.", HttpStatus.OK);
         } catch(Exception e) {
             return response.fail("로그인에 실패하였습니다.", HttpStatus.BAD_REQUEST);
         }

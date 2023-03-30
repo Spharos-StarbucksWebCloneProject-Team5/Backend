@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public class UserResponseDto {
     @Builder
@@ -18,5 +19,13 @@ public class UserResponseDto {
         private String refreshToken;
         @Schema(description = "RefreshToken 만료시간")
         private Long refreshTokenExpirationTime;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class userName {
+        private String name;
     }
 }
