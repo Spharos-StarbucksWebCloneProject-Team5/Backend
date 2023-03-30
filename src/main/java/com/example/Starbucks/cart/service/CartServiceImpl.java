@@ -5,7 +5,6 @@ import com.example.Starbucks.cart.dto.CartUpdateDto;
 import com.example.Starbucks.cart.model.Cart;
 import com.example.Starbucks.cart.repository.ICartRepository;
 import com.example.Starbucks.cart.vo.RequestCart;
-import com.example.Starbucks.cart.vo.RequestSelecetDelets;
 import com.example.Starbucks.cart.vo.RequestUpdateCart;
 import com.example.Starbucks.category.repository.CategoryListRepository;
 import com.example.Starbucks.jwt.JwtTokenProvider;
