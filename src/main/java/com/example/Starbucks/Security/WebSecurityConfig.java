@@ -67,6 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.addAllowedMethod("*");
         configuration.addExposedHeader("Authorization");
         configuration.addExposedHeader("refreshToken");
+        configuration.addExposedHeader("accessToken");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
