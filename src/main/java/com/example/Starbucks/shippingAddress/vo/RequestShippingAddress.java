@@ -11,8 +11,6 @@ import javax.persistence.*;
 @Setter
 public class RequestShippingAddress {
 
-    private Long userId;
-
     private String nickname;
 
     private String  receiver;

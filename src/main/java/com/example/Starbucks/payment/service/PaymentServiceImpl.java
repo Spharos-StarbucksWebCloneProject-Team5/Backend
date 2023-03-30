@@ -2,6 +2,7 @@ package com.example.Starbucks.payment.service;
 
 import com.example.Starbucks.cart.model.Cart;
 import com.example.Starbucks.cart.repository.ICartRepository;
+import com.example.Starbucks.jwt.JwtTokenProvider;
 import com.example.Starbucks.payment.dto.PaymentDto;
 import com.example.Starbucks.payment.dto.PaymentShippingDto;
 import com.example.Starbucks.payment.dto.ResponseBest;
@@ -14,9 +15,11 @@ import com.example.Starbucks.shippingAddress.repository.IShippingAddressReposito
 import com.example.Starbucks.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -33,12 +36,16 @@ public class PaymentServiceImpl implements IPaymentService {
     private final IProductRepository iProductRepository;
     private final UserRepository userRepository;
     private final ICartRepository iCartRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     private final IShippingAddressRepository iShippingAddressRepository;
 
     @Override
-    public void addPayment(RequestPayment requestPayment) {
+    public void addPayment(HttpServletRequest httpServletRequest, RequestPayment requestPayment) {
+        String accessToken = httpServletRequest.getHeader("accessToken");
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+        Long userId = userRepository.findByEmail(authentication.getName()).get().getId();
         iPaymentRepository.save(Payment.builder()
-                        .user(userRepository.findById(requestPayment.getUserId()).get())
+                        .user(userRepository.findById(userId).get())
                         .product(iProductRepository.findById(requestPayment.getProductId()).get())
                         .productCount(requestPayment.getProductCount())
                         .shippingAddress(iShippingAddressRepository.findById(requestPayment.getShippingAddressId()).get())
