@@ -12,6 +12,15 @@ public class UserRequestDto {
 
         private String email;
         private String password;
+        private String name;
+    }
+
+    @Getter
+    @Setter
+    public static class PasswordModify {
+
+        private String email;
+        private String password;
     }
 
     @Getter
@@ -36,7 +45,6 @@ public class UserRequestDto {
     @Setter
     public static class Logout {
         private String accessToken;
-
         private String refreshToken;
     }
 }

@@ -1,6 +1,6 @@
 package com.example.Starbucks.users.model;
 
-import com.example.Starbucks.utility.BaseTimeEntity;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +34,8 @@ public class User extends BaseTimeEntity implements UserDetails {
     private String password;
 
     private String address;
+
+    private String Oauth;
 
     @Column
     @ElementCollection(fetch = FetchType.EAGER)

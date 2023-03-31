@@ -13,6 +13,6 @@ public class RequestCreateCoupon {
     private String name;
     private Integer discount;
     private Date end_date;
-    private int status;
-    private int type;
+    private Integer status;
+    private Integer type;
 }

@@ -1,15 +1,12 @@
 package com.example.Starbucks.product.model;
 
-import com.example.Starbucks.utility.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +15,7 @@ public class ProductImageList extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
     private String image;

@@ -2,6 +2,7 @@ package com.example.Starbucks.event.dto;
 
 import com.example.Starbucks.event.model.Event;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -13,22 +14,18 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventDto {
-
+    @Schema(description = "진행이벤트순서")
     private Long id;
 
+    @Schema(description = "이벤트 아이디")
+    private Long eventId;
+
+    @Schema(description = "이벤트명")
     private String name;
 
+    @Schema(description = "이벤트 설명")
     private String description;
 
-    private String title_image;
-
-    private String info_image;
-
-    private Date start_date;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private Date end_date;
-    @NotBlank
-    private boolean isNow;
-
-
+    @Schema(description = "이벤트 대표이미지")
+    private String titleImage;
 }

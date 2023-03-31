@@ -1,16 +1,17 @@
-package com.example.Starbucks.coupon.vo;
+package com.example.Starbucks.payment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseUserCouponList {
+public class ResponseBest {
     private Long id;
-    private Long userId;
-    private Long couponId;
+    private String name;
+    private Integer price;
+    private String thumbnail;
 }

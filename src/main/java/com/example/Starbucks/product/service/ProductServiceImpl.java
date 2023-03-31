@@ -1,19 +1,27 @@
 package com.example.Starbucks.product.service;
 
-import com.example.Starbucks.event.model.Event;
-import com.example.Starbucks.event.vo.RequestEvent;
+import com.example.Starbucks.category.dto.ResponsePage;
+import com.example.Starbucks.category.dto.ResponseSearch;
+import com.example.Starbucks.category.service.CategoryListServiceImpl;
+import com.example.Starbucks.category.service.ICategoryListService;
+import com.example.Starbucks.config.RedisRepositoryConfig;
+import com.example.Starbucks.enums.PageNum;
+import com.example.Starbucks.enums.Redis;
+import com.example.Starbucks.product.dto.ResponseProductList;
 import com.example.Starbucks.product.model.Product;
-import com.example.Starbucks.product.model.ProductImageList;
 import com.example.Starbucks.product.repository.IProductRepository;
 import com.example.Starbucks.product.vo.RequestProduct;
 import com.example.Starbucks.product.vo.ResponseProduct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -21,11 +29,19 @@ import java.util.List;
 public class ProductServiceImpl implements IProductService{
 
     private final IProductRepository iProductRepository;
+    private final RedisRepositoryConfig redisRepositoryConfig;
+    private final ICategoryListService iCategoryListService;
 
     @Override
     public void addProduct(RequestProduct requestProduct) {
-        ModelMapper modelMapper = new ModelMapper();
-        Product product = modelMapper.map(requestProduct, Product.class);
+
+        Product product = Product.builder()
+                .name(requestProduct.getName())
+                .price(requestProduct.getPrice())
+                .description(requestProduct.getDescription())
+                .thumbnail(requestProduct.getThumbnail())
+                .count(requestProduct.getCount())
+                .build();
         iProductRepository.save(product);
     }
 
@@ -38,37 +54,45 @@ public class ProductServiceImpl implements IProductService{
                 .price(product.getPrice())
                 .description(product.getDescription())
                 .thumbnail(product.getThumbnail())
-                .isShow(product.isShow())
+                .count(product.getCount())
                 .build();
         return responseProduct;
     }
 
     @Override
-    public List<ResponseProduct> getAllProduct() {
-        List<Product> productList = iProductRepository.findAll();
-        List<ResponseProduct> responseProductList =new ArrayList<>();
-        for(int i=0;i<productList.size();i++){
-            responseProductList.add(ResponseProduct.builder()
-                    .id(productList.get(i).getId())
-                    .name(productList.get(i).getName())
-                    .price(productList.get(i).getPrice())
-                    .description(productList.get(i).getDescription())
-                    .thumbnail(productList.get(i).getThumbnail())
-                    .isShow(productList.get(i).isShow())
-                    .build()
-            );
+    public ResponsePage getAllProduct(int pageNum, Pageable pageable) {
+        RedisTemplate<Object, Object> redisTemplate = redisRepositoryConfig.searchRedisTemplate();
+        RedisTemplate<Object, Object> redisTemplate2 = redisRepositoryConfig.pageTemplate();
+        String key = "ProductAll:" + pageNum;
+        if (redisTemplate.opsForList().size(key) == 0) {
+            pageable = PageRequest.of(pageNum, PageNum.PAGE_SIZE.getValue());
+            iCategoryListService.executeCache(key, iProductRepository.getAllProduct(pageable), redisTemplate);
         }
-        return responseProductList;
+        return iCategoryListService.getCache(key);
+    }
+
+    @Override
+    public List<ResponseSearch> getAllProduct2(Long productId) {
+        return iProductRepository.getAllProduct(productId).stream().map(
+                element-> ResponseSearch.builder()
+                        .productId(element.getId())
+                        .productName(element.getName())
+                        .price(element.getPrice())
+                        .thumbnail(element.getThumbnail())
+                        .build()).collect(Collectors.toList());
     }
 
     @Override
     public void updateProduct(Long id, RequestProduct requestProduct){
-        Product product = iProductRepository.findById(id).get();
-        product.setName(requestProduct.getName());
-        product.setDescription(requestProduct.getDescription());
-        product.setThumbnail(requestProduct.getThumbnail());
-        product.setPrice(requestProduct.getPrice());
-        product.setShow(requestProduct.isShow());
+        Product product = Product.builder()
+                .id(id)
+                .name(requestProduct.getName())
+                .price(requestProduct.getPrice())
+                .description(requestProduct.getDescription())
+                .thumbnail(requestProduct.getThumbnail())
+                .count(requestProduct.getCount())
+                .build();
+
 
         iProductRepository.save(product);
     }

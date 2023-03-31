@@ -1,4 +1,4 @@
-package com.example.Starbucks.utility;
+package com.example.Starbucks.users.model.utility;
 
 import lombok.Getter;
 import lombok.Setter;

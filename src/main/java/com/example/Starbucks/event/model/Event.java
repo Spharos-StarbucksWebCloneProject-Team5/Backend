@@ -1,17 +1,15 @@
 package com.example.Starbucks.event.model;
 
-import com.example.Starbucks.utility.BaseTimeEntity;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sun.istack.NotNull;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,20 +17,28 @@ public class Event extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "이벤트아이디")
     private Long id;
 
+    @Schema(description = "이벤트명")
     private String name;
 
+    @Schema(description = "이벤트상세설명")
     private String description;
 
-    private String title_image;
+    @Schema(description = "이벤트대표이미지")
+    private String titleImage;
 
-    private String info_image;
+    @Schema(description = "이벤트이미지 정보")
+    private String infoImage;
 
-    private Date start_date;
+    @Schema(description = "이벤트 시작일")
+    private Date startDate;
 
-    private Date end_date;
+    @Schema(description = "이벤트 종료일")
+    private Date endDate;
 
-    private boolean isNow;
+    @Schema(description = "이벤트 노출여부")
+    private Boolean now;
 
 }

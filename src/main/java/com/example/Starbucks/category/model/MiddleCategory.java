@@ -1,15 +1,13 @@
 package com.example.Starbucks.category.model;
 
-import com.example.Starbucks.utility.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +18,6 @@ public class MiddleCategory extends BaseTimeEntity {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MainCategory mainCategory;//대분류
 }

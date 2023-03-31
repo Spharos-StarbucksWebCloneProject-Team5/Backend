@@ -1,21 +1,23 @@
 package com.example.Starbucks.cart.service;
 
+import com.example.Starbucks.cart.dto.CartDto;
+import com.example.Starbucks.cart.dto.CartUpdateDto;
 import com.example.Starbucks.cart.model.Cart;
 import com.example.Starbucks.cart.repository.ICartRepository;
 import com.example.Starbucks.cart.vo.RequestCart;
 import com.example.Starbucks.cart.vo.RequestUpdateCart;
-import com.example.Starbucks.cart.vo.ResponseUserCart;
-import com.example.Starbucks.category.model.CategoryList;
+import com.example.Starbucks.category.repository.CategoryListRepository;
+import com.example.Starbucks.jwt.JwtTokenProvider;
 import com.example.Starbucks.product.repository.IProductRepository;
 import com.example.Starbucks.users.repository.UserRepository;
-import com.example.Starbucks.users.vo.ResponseUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.implementation.bytecode.collection.ArrayLength;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -24,70 +26,94 @@ public class CartServiceImpl implements ICartService{
     private final ICartRepository iCartRepository;
     private final UserRepository userRepository;
     private final IProductRepository iProductRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final CategoryListRepository categoryListRepository;
 
     @Override
-    public void addCart(RequestCart requestCart) {
-        //
-        boolean pc = iCartRepository.existsByUserIdAndProductId(requestCart.getUserId(), requestCart.getProductId());
-        Cart cart;
-        if(pc){
-            cart = iCartRepository.findByUserIdAndProductId(requestCart.getUserId(), requestCart.getProductId());
-            cart.setCount(cart.getCount() + requestCart.getCount());
-        }
-        else{
-            cart = Cart.builder()
-                    .user(userRepository.findById(requestCart.getUserId()).get())
+    public void addCart(Authentication authentication, RequestCart requestCart) {
+        Long userId = userRepository.findByEmail(authentication.getName()).get().getId();
+        //장바구니에 담았던 상품일 시 수량 추가
+        Optional<Cart> cart = iCartRepository.findByUserIdAndProductId(userId, requestCart.getProductId());
+        log.info("{}",cart);
+        if(cart.isPresent()){
+            iCartRepository.save(Cart.builder()
+                            .id(cart.get().getId())
+                            .user(cart.get().getUser())
+                            .product(cart.get().getProduct())
+                            .count(cart.get().getCount() + requestCart.getCount())
+                            .now(true)
+                    .build());
+        } else {
+            iCartRepository.save(Cart.builder()
+                    .user(userRepository.findById(userId).get())
                     .product(iProductRepository.findById(requestCart.getProductId()).get())
                     .count(requestCart.getCount())
-                    .build();
+                    .now(true)
+                    .build());
         }
-        cart.setCancel(true);
-        iCartRepository.save(cart);
     }
 
     @Override
-    public void updateCart(RequestUpdateCart requestUpdateCart){
-        Cart cart = iCartRepository.findById(requestUpdateCart.getId()).get();
-        cart.setCount(requestUpdateCart.getCount());
+    public void updateCart(Long id, RequestUpdateCart requestUpdateCart){
+        Cart cart = iCartRepository.findById(id).get();
+        cart.updateCount(requestUpdateCart.getCount());
         iCartRepository.save(cart);
     }
 
     @Override
     public void deleteCart(Long id) {
         Cart cart = iCartRepository.findById(id).get();
-        cart.setCount(0);
-        cart.setCancel(false);
-        iCartRepository.save(cart);
+        iCartRepository.save(Cart.builder()
+                .id(cart.getId())
+                .user(cart.getUser())
+                .product(cart.getProduct())
+                .count(0)
+                .now(false)
+                .build());
     }
+
     @Override
-    public void allDeleteCart(Long userId) {
-        List<Cart> carts = iCartRepository.findAllByUserId(userId);
+    public void allDeleteCart(Authentication authentication) {
+        List<Cart> carts = iCartRepository.findAllByUserId(userRepository.findByEmail(authentication.getName()).get().getId());
         for(Cart cart : carts){
-            cart.setCount(0);
-            cart.setCancel(false);
-            iCartRepository.save(cart);
+            iCartRepository.save(Cart.builder()
+                    .id(cart.getId())
+                    .user(cart.getUser())
+                    .product(cart.getProduct())
+                    .count(0)
+                    .now(false)
+                    .build());
         }
     }
 
     @Override
-    public List<ResponseUserCart> getByUserId(Long userId) {
-        List<Cart> carts = iCartRepository.findAllByUserId(userId);
-        List<ResponseUserCart> userCarts = new ArrayList<>();
-        for (Cart cart : carts){
-            ResponseUserCart responseUserCart = ResponseUserCart.builder()
-                    .productId(cart.getProduct().getId())
-                    .productName(cart.getProduct().getName())
-                    .productPrice(cart.getProduct().getPrice())
-                    .productThumbnail(cart.getProduct().getThumbnail())
-                    .count(cart.getCount())
-                    .build();
-            userCarts.add(responseUserCart);
-        }
+    public List<CartDto> getByUserId(Authentication authentication) {
+        List<CartDto> userCarts = iCartRepository.findAllByUserId(userRepository.findByEmail(authentication.getName()).get().getId()).stream()
+                .filter(cart -> cart.getNow() == (Boolean)true)
+                .map(cart -> CartDto.builder()
+                        .cartId(cart.getId())
+                        .mainCategoryId(categoryListRepository.findByProductId(cart.getProduct().getId()).getMainCategory().getId())
+                        .productId(cart.getProduct().getId())
+                        .productName(cart.getProduct().getName())
+                        .productPrice(cart.getProduct().getPrice())
+                        .productThumbnail(cart.getProduct().getThumbnail())
+                        .count(cart.getCount())
+                        .build())
+                .collect(Collectors.toList());
         return userCarts;
     }
 
-//    @Override
-//    public List<Cart> getAll() {
-//        return iCartRepository.findAll();
-//    }
+    @Override
+    public CartUpdateDto getCart(Long id) {
+        Cart cart = iCartRepository.findById(id).get();
+        return CartUpdateDto.builder()
+                .productId(cart.getProduct().getId())
+                .productName(cart.getProduct().getName())
+                .productPrice(cart.getProduct().getPrice())
+                .productThumbnail(cart.getProduct().getThumbnail())
+                .count(cart.getCount())
+                .build();
+    }
+
+
 }

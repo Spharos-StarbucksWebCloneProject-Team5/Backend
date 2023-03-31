@@ -64,8 +64,12 @@ public class ProductImageListServiceImpl implements IProductImageListService{
 
     @Override
     public void updateProductImageList(Long id, RequestProductImageList requestProductImageList){
-        ProductImageList productImageList = iProductImageListRepository.findById(id).get();
-        productImageList.setImage(requestProductImageList.getImage());
+        //ProductImageList productImageList = iProductImageListRepository.findById(id).get();
+        ProductImageList productImageList = ProductImageList.builder()
+                .id(id)
+                .image(requestProductImageList.getImage())
+                .build();
+
 
         iProductImageListRepository.save(productImageList);
     }

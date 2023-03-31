@@ -1,11 +1,10 @@
 package com.example.Starbucks.event.model;
 
-import com.example.Starbucks.product.model.Product;
-import com.example.Starbucks.utility.BaseTimeEntity;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Getter
@@ -15,9 +14,13 @@ import javax.validation.constraints.NotEmpty;
 public class EventImageList extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "이벤트이미지 아이디")
     private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
+    @Schema(description = "이벤트 정보")
     private Event event;
 
+    @Schema(description = "이벤트 이미지")
     private String image;
 }

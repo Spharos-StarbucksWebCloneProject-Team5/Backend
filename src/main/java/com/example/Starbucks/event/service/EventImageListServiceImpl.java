@@ -1,22 +1,19 @@
 package com.example.Starbucks.event.service;
 
 
-import com.example.Starbucks.event.model.Event;
+import com.example.Starbucks.event.dto.EventImageListDto;
 import com.example.Starbucks.event.model.EventImageList;
-import com.example.Starbucks.event.model.EventProduct;
 import com.example.Starbucks.event.repository.IEventImageListRepository;
 import com.example.Starbucks.event.repository.IEventRepository;
-import com.example.Starbucks.event.vo.RequestEvent;
 import com.example.Starbucks.event.vo.RequestEventImageList;
-import com.example.Starbucks.event.vo.ResponseEvent;
-import com.example.Starbucks.event.vo.ResponseEventImageList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -37,29 +34,30 @@ public class EventImageListServiceImpl implements IEventImageListService {
         iEventImageListRepository.save(eventImageList);
     }
     @Override
-    public List<ResponseEventImageList> getByEventId(Long eventId) {
-        List<ResponseEventImageList> responseEventImageList
-                = iEventImageListRepository.findAllByEventId(eventId).stream()
-                        .map(element -> ResponseEventImageList.builder()
-                                .id(element.getId())
-                                .eventId(element.getEvent().getId())
-                                .image(element.getImage())
-                                .build()).collect(Collectors.toList());
-
-        return responseEventImageList;
+    public ResponseEntity<?> getByEventId(Long eventId) {
+        Optional<EventImageList> eventImageList = iEventImageListRepository.findByEventId(eventId);
+        if(eventImageList.isPresent()){
+            EventImageListDto eventImageListDto = EventImageListDto.builder()
+                    .id(eventImageList.get().getId())
+                    .eventId(eventImageList.get().getEvent().getId())
+                    .description(eventImageList.get().getEvent().getDescription())
+                    .image(eventImageList.get().getImage())
+                    .build();
+            return ResponseEntity.ok(eventImageListDto);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
     }
 
     @Override
-    public List<ResponseEventImageList> getAll() {
-        //List<EventImageList> eventImageList = iEventImageListRepository.findAll();
-        List<ResponseEventImageList> responseEventImageList = iEventImageListRepository.findAll().stream()
-                .map(element -> ResponseEventImageList.builder()
+    public List<EventImageListDto> getAll() {
+        List<EventImageListDto> eventImageListDto = iEventImageListRepository.findAll().stream()
+                .map(element -> EventImageListDto.builder()
                         .id(element.getId())
                         .eventId(element.getEvent().getId())
                         .image(element.getImage())
                         .build()).collect(Collectors.toList());
 
-        return responseEventImageList;
+        return eventImageListDto;
     }
 
     @Override

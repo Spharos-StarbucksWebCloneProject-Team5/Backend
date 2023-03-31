@@ -1,10 +1,7 @@
 package com.example.Starbucks.category.model;
 
-import com.example.Starbucks.utility.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.Starbucks.users.model.utility.BaseTimeEntity;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,8 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-@Data
+@Getter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class MainCategory extends BaseTimeEntity {
@@ -22,5 +20,6 @@ public class MainCategory extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    private String thumbNail;
 
 }
