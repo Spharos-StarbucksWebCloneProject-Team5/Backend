@@ -54,9 +54,9 @@ public class PaymentController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
-    @PutMapping("/cancel")
-    public ResponseEntity<Void> cancelPayment(@RequestBody @Valid RequestPaymentCancel requestPaymentCancel){
-        iPaymentService.cancelPayment(requestPaymentCancel);
+    @PutMapping("/cancel/{id}")
+    public ResponseEntity<Void> cancelPayment(@PathVariable Long id){
+        iPaymentService.cancelPayment(id);
         return ResponseEntity.ok().build();
     }
 

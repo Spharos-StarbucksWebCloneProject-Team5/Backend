@@ -15,7 +15,7 @@ import java.util.List;
 public interface IPaymentService {
     void addPayment(Authentication authentication, RequestPayment requestPayment);
     //ResponseUser getUser(Long id);
-    void cancelPayment(RequestPaymentCancel requestPaymentCancel);
+    void cancelPayment(Long id);
     void shippingPayment(PaymentShippingDto paymentShippingDto);
     UserShippingDto getShippingStatus(Authentication authentication);
     List<PaymentDto> getPayment(Authentication authentication, RequestPaymentList requestPaymentList);
