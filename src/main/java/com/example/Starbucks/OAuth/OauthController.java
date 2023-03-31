@@ -51,7 +51,8 @@ public class OauthController {
 
         // 회원 인지확인
         userService.check(userInfo.get("email").toString(),userInfo.get("nickname").toString());
-        return ResponseEntity.ok("");
+
+        return ResponseEntity.created(URI.create("3.36.128.190:6600")).build();
     }
     @Operation(summary = "OAuth Kakao logout", description = "OAuth Kakao logout", tags = { "유저" })
     @ApiResponses({
