@@ -5,13 +5,21 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/login")
 public class OauthController {
@@ -26,7 +34,7 @@ public class OauthController {
     })
     @ResponseBody
     @GetMapping("/kakao")
-    public ResponseEntity<String> login(@RequestParam("code") String code, HttpSession session){
+    public ResponseEntity<?> login(@RequestParam("code") String code, HttpSession session) throws URISyntaxException {
         System.out.println(code);
         String res = "accesstoken 생성 완료";
         System.out.println("code :" + code);
@@ -43,11 +51,8 @@ public class OauthController {
 
         // 회원 인지확인
         userService.check(userInfo.get("email").toString(),userInfo.get("nickname").toString());
-
-
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok("");
     }
-
     @Operation(summary = "OAuth Kakao logout", description = "OAuth Kakao logout", tags = { "유저" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
