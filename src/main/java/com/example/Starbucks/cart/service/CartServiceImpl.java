@@ -56,7 +56,7 @@ public class CartServiceImpl implements ICartService{
     @Override
     public void updateCart(Long id, RequestUpdateCart requestUpdateCart){
         Cart cart = iCartRepository.findById(id).get();
-        cart.updateCount(requestUpdateCart.getCount());
+        cart.setUpdateCount(requestUpdateCart.getCount());
         iCartRepository.save(cart);
     }
 

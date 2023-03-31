@@ -38,7 +38,7 @@ public class Cart extends BaseTimeEntity {
     private Boolean now;
     //삭제시 false 반환
 
-    public void updateCount(Integer count) {
+    public void setUpdateCount(Integer count) {
         this.count = count;
     }
 }

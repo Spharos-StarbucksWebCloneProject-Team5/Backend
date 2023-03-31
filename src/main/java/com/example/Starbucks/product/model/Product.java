@@ -23,5 +23,9 @@ public class Product extends BaseTimeEntity {
     private String description;
     private String thumbnail;
     private Integer count;
+    public void setUpdateCount(Integer count) {
+        this.count = count;
+    }
+
     //private Boolean sh;
 }
