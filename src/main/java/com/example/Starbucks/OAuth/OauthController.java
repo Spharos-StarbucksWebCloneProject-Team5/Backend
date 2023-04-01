@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +36,7 @@ public class OauthController {
     })
     @ResponseBody
     @GetMapping("/kakao")
-    public ResponseEntity<?> login(@RequestParam("code") String code, HttpSession session) throws URISyntaxException {
+    public ModelAndView login(@RequestParam("code") String code, HttpSession session) throws URISyntaxException {
         System.out.println(code);
         String res = "accesstoken 생성 완료";
         System.out.println("code :" + code);
@@ -51,8 +53,7 @@ public class OauthController {
 
         // 회원 인지확인
         userService.check(userInfo.get("email").toString(),userInfo.get("nickname").toString());
-
-        return ResponseEntity.created(URI.create("3.36.128.190:6600")).build();
+        return new ModelAndView("redirect:/main");
     }
     @Operation(summary = "OAuth Kakao logout", description = "OAuth Kakao logout", tags = { "유저" })
     @ApiResponses({
@@ -67,6 +68,5 @@ public class OauthController {
         return "로그아웃완료";
     }
 
-
-
 }
+
