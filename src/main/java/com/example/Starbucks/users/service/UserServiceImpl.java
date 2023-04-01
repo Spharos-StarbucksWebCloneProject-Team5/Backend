@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final Response response;
     private final PasswordEncoder passwordEncoder;
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService{
                             .email(user.getEmail())
                             .password(passwordEncoder.encode(passwordModify.getPassword()))
                             .build());
-        }else{
+        } else {
             return response.fail("가입되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST);
         }
         return response.success("비밀번호 수정이 완료되었습니다.");
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService{
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = login.toAuthentication();
 
-        try{
+        try {
             // 2. 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
             // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
@@ -110,7 +110,38 @@ public class UserServiceImpl implements UserService{
             return response.success(UserResponseDto.userName.builder()
                     .name(user.get().getName())
                     .build(), "로그인에 성공했습니다.", HttpStatus.OK);
-        } catch(Exception e) {
+        } catch (Exception e) {
+            return response.fail("로그인에 실패하였습니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<?> kakaoLogin(String email, HttpServletResponse httpServletResponse) {
+        Optional<User> user = userRepository.findByEmail(email);
+
+        log.info("log 1");
+        // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
+        // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, null);
+
+        try {
+            // 2. 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
+            // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+            // 3. 인증 정보를 기반으로 JWT 토큰 생성
+            UserResponseDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+
+            // 4. RefreshToken Redis 저장 (expirationTime 설정을 통해 자동 삭제 처리)
+            redisTemplate.opsForValue()
+                    .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+
+            httpServletResponse.addHeader("accessToken", tokenInfo.getAccessToken());
+            httpServletResponse.addHeader("refreshToken", tokenInfo.getRefreshToken());
+
+            return response.success(UserResponseDto.userName.builder()
+                    .name(user.get().getName())
+                    .build(), "로그인에 성공했습니다.", HttpStatus.OK);
+        } catch (Exception e) {
             return response.fail("로그인에 실패하였습니다.", HttpStatus.BAD_REQUEST);
         }
     }
@@ -125,12 +156,12 @@ public class UserServiceImpl implements UserService{
         Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
 
         // 3. Redis 에서 User email 을 기반으로 저장된 Refresh Token 값을 가져옵니다.
-        String refresh = (String)redisTemplate.opsForValue().get("RT:" + authentication.getName());
+        String refresh = (String) redisTemplate.opsForValue().get("RT:" + authentication.getName());
         // (추가) 로그아웃되어 Redis 에 RefreshToken 이 존재하지 않는 경우 처리
-        if(ObjectUtils.isEmpty(refresh)) {
+        if (ObjectUtils.isEmpty(refresh)) {
             return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
         }
-        if(!refresh.equals(refreshToken)) {
+        if (!refresh.equals(refreshToken)) {
             return response.fail("Refresh Token 정보가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
 
@@ -139,7 +170,7 @@ public class UserServiceImpl implements UserService{
 
         // 5. RefreshToken Redis 업데이트
         redisTemplate.opsForValue()
-.set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+                .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
         httpServletResponse.addHeader("accessToken", tokenInfo.getAccessToken());
         httpServletResponse.addHeader("refreshToken", tokenInfo.getRefreshToken());
@@ -187,7 +218,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResponseEntity<?> check(String email,String name){
+    public ResponseEntity<?> check(String email, String name) {
         User user;
         Optional<User> optionalUser = userRepository.findByEmail(email);
 //        String accessToken = userRequest.getAccessToken().getTokenValue();

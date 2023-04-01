@@ -1,6 +1,7 @@
 package com.example.Starbucks.users.service;
 
 //import com.example.Starbucks.users.dto.UserInfoDto;
+
 import com.example.Starbucks.users.dto.UserRequestDto;
 import com.example.Starbucks.users.model.User;
 import com.example.Starbucks.users.vo.RequestUser;
@@ -19,12 +20,15 @@ public interface UserService {
 
     public ResponseEntity<?> login(UserRequestDto.Login login, HttpServletResponse httpServletResponse);
 
+    public ResponseEntity<?> kakaoLogin(String email, HttpServletResponse httpServletResponse);
+
     public ResponseEntity<?> reissue(String accessToken, String refreshToken, HttpServletResponse httpServletResponse);
+
     public ResponseEntity<?> logout(HttpServletRequest httpServletRequest);
 
     public ResponseEntity<?> authority();
 
-    public ResponseEntity<?> check(String check,String name);
+    public ResponseEntity<?> check(String check, String name);
 
     public ResponseEntity<?> emailCheck(String email);
 
