@@ -27,6 +27,7 @@ import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -117,11 +118,15 @@ public class UserServiceImpl implements UserService {
 
     public ResponseEntity<?> kakaoLogin(String email, HttpServletResponse httpServletResponse) {
         Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent() == false) {
+            return response.fail("로그인에 실패하였습니다.", HttpStatus.BAD_REQUEST);
+        }
+        String password = "";
 
         log.info("log 1");
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, "");
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email,password);
 
         try {
             // 2. 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
