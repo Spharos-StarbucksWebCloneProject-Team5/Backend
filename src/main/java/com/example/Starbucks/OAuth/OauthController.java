@@ -36,7 +36,7 @@ public class OauthController {
     })
     @ResponseBody
     @GetMapping("/kakao")
-    public ModelAndView login(@RequestParam("code") String code, HttpServletResponse httpServletResponse) throws URISyntaxException {
+    public ModelAndView login(@RequestParam("code") String code, HttpServletResponse httpServletResponse) {
         System.out.println(code);
         String res = "accesstoken 생성 완료";
         System.out.println("code :" + code);
