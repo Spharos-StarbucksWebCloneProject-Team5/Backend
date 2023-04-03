@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -106,5 +107,31 @@ public class ShippingAddressServiceImpl implements IShippingAddressService{
     public void deleteShippingAddress(Long shippingId) {
         ShippingAddress shippingAddress = iShippingAddressRepository.findById(shippingId).get();
         iShippingAddressRepository.delete(shippingAddress);
+    }
+
+    @Override
+    public ResponseShippingAddress getMainShippingAddress(Authentication authentication) {
+        Long userId = userRepository.findByEmail(authentication.getName()).get().getId();
+        Optional<ShippingAddress> shippingAddress = iShippingAddressRepository.findByUserIdAndChoiceMain(userId,(Boolean)true);
+        if(shippingAddress.isPresent()){
+            ResponseShippingAddress responseShippingAddress = ResponseShippingAddress.builder()
+                    .id(shippingAddress.get().getId())
+                    .nickname(shippingAddress.get().getNickname())
+                    .receiver(shippingAddress.get().getReceiver())
+                    .zipCode(shippingAddress.get().getZipCode())
+                    .address(shippingAddress.get().getAddress())
+                    .detailAddress(shippingAddress.get().getDetailAddress())
+                    .shippingPhone1(shippingAddress.get().getShippingPhone1())
+                    .shippingPhone2(shippingAddress.get().getShippingPhone2())
+                    .shippingMemo(shippingAddress.get().getShippingMemo())
+                    .choiceMain(shippingAddress.get().getChoiceMain())
+                    .build();
+            return responseShippingAddress;
+        }else{
+            ResponseShippingAddress responseShippingAddress = ResponseShippingAddress.builder()
+                    .id(0L)
+                    .build();
+            return responseShippingAddress;
+        }
     }
 }

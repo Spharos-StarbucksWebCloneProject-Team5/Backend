@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 public interface IShippingAddressRepository extends JpaRepository<ShippingAddress,Long> {
     List<ShippingAddress> findAllByUserId(Long userId);
@@ -20,5 +21,8 @@ public interface IShippingAddressRepository extends JpaRepository<ShippingAddres
             "set s.choice_main = 0 " +
             "where s.user_id = :userId",nativeQuery = true)
     void mainChange(@Param("userId") Long userId);
+
+    Optional<ShippingAddress> findByUserIdAndChoiceMain(Long userId, Boolean main);
+
 
 }

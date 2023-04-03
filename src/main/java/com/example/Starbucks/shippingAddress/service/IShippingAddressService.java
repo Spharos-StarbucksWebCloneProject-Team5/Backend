@@ -3,6 +3,7 @@ package com.example.Starbucks.shippingAddress.service;
 import com.example.Starbucks.shippingAddress.model.ShippingAddress;
 import com.example.Starbucks.shippingAddress.vo.RequestShippingAddress;
 import com.example.Starbucks.shippingAddress.vo.ResponseShippingAddress;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,4 +16,5 @@ public interface IShippingAddressService {
     List<ResponseShippingAddress> getAllShippingAddress(Authentication authentication);
     void updateShippingAddress(Long shippingId, RequestShippingAddress requestShippingAddress);
     void deleteShippingAddress(Long shippingId);
+    ResponseShippingAddress getMainShippingAddress(Authentication authentication);
 }
