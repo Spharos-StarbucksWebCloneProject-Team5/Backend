@@ -36,7 +36,7 @@ public class OauthController {
     })
     @ResponseBody
     @GetMapping("/kakao")
-    public ModelAndView login(@RequestParam("code") String code, HttpServletResponse response) throws URISyntaxException {
+    public ResponseEntity<?> login(@RequestParam("code") String code, HttpServletResponse response) throws URISyntaxException {
         System.out.println(code);
         String res = "accesstoken 생성 완료";
         System.out.println("code :" + code);
@@ -53,8 +53,10 @@ public class OauthController {
 
         // 회원 인지확인
         userService.check(userInfo.get("email").toString(),userInfo.get("nickname").toString());
-        userService.kakaoLogin(userInfo.get("email").toString(),response);
-        return new ModelAndView("redirect:/main");
+//        userService.kakaoLogin(userInfo.get("email").toString(),response);
+
+//        return new ModelAndView("redirect:/main");
+        return userService.kakaoLogin(userInfo.get("email").toString(),response);
     }
     @Operation(summary = "OAuth Kakao logout", description = "OAuth Kakao logout", tags = { "유저" })
     @ApiResponses({
