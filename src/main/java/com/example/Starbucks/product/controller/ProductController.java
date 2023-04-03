@@ -37,12 +37,6 @@ public class ProductController {
         return ResponseEntity.ok(iProductService.getProduct(productId));
     }
 
-    @Operation(summary = "상품 전체 조회 요청", description = "상품 데이터 전체를 조회합니다.", tags = {"상품"})
-    @GetMapping
-    public ResponseEntity<ResponsePage> getAllProduct(@Param("pageNum") int pageNum, Pageable pageable){
-        return ResponseEntity.ok(iProductService.getAllProduct(pageNum, pageable));
-    }
-
     @Operation(summary = "상품 전체 조회 요청", description = "마지막 상품 번호로 페이지 처리 인덱싱", tags = {"상품"})
     @GetMapping("/test/")
     public ResponseEntity<List<ResponseSearch>> getAllProduct2(@Param("productId") Long productId){
