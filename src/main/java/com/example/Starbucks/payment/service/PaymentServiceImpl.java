@@ -10,19 +10,18 @@ import com.example.Starbucks.payment.dto.UserShippingDto;
 import com.example.Starbucks.payment.model.Payment;
 import com.example.Starbucks.payment.repository.IPaymentRepository;
 import com.example.Starbucks.payment.vo.*;
+import com.example.Starbucks.product.ResponseInventory;
 import com.example.Starbucks.product.model.Product;
 import com.example.Starbucks.product.repository.IProductRepository;
 import com.example.Starbucks.shippingAddress.repository.IShippingAddressRepository;
 import com.example.Starbucks.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +38,13 @@ public class PaymentServiceImpl implements IPaymentService {
     private final ICartRepository iCartRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final IShippingAddressRepository iShippingAddressRepository;
+    private final ResponseInventory responseInventory;
 
     @Override
-    public void addPayment(Authentication authentication, RequestPayment requestPayment) {
+    public ResponseEntity<?> addPayment(Authentication authentication, RequestPayment requestPayment) {
+        if(requestPayment.getProductCount() > iProductRepository.findById(requestPayment.getProductId()).get().getCount()){
+            return responseInventory.paymentFail(iProductRepository.findById(requestPayment.getProductId()).get().getCount());
+        }
         Long userId = userRepository.findByEmail(authentication.getName()).get().getId();
         iPaymentRepository.save(Payment.builder()
                         .user(userRepository.findById(userId).get())
@@ -58,6 +61,7 @@ public class PaymentServiceImpl implements IPaymentService {
         product.setUpdateCount(product.getCount()- requestPayment.getProductCount());
         iProductRepository.save(product);
         //상품 재고 수량 감소
+        return responseInventory.paymentSuccess();
     }
     @Override
     public void cancelPayment(Long id) {
@@ -82,6 +86,7 @@ public class PaymentServiceImpl implements IPaymentService {
 
     @Override
     public void shippingPayment(PaymentShippingDto paymentShippingDto) {
+        //관리자의 배송상태 변경
         Payment payment = iPaymentRepository.findById(paymentShippingDto.getPaymentId()).get();
         iPaymentRepository.save(Payment.builder()
                 .id(payment.getId())
