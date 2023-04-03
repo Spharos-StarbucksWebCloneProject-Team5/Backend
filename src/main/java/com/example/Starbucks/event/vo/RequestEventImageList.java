@@ -4,6 +4,7 @@ import com.example.Starbucks.event.model.Event;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Builder
 @Getter
@@ -11,7 +12,8 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestEventImageList {
-    @NotBlank
+
+    @NotNull
     private Long eventId;
 
     @NotBlank
