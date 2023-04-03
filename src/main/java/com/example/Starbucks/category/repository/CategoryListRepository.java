@@ -44,7 +44,7 @@ public interface CategoryListRepository extends JpaRepository<CategoryList, Long
 
     @Query(value = "SELECT p.id, p.name, p.price, p.thumbnail, p.description FROM product p \n" +
             "where p.name like %:keyword%"
-            , countQuery = "SELECT COUNT(p.id) from product p " +
+            , countQuery = "select count(p.id) from product p " +
             "where p.name like %:keyword% and p.description like %:keyword%"
             , nativeQuery = true)
     Page<IProduct> searchKeyword(@Param("keyword") String keyword, Pageable pageable);
