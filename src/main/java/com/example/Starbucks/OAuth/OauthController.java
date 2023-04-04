@@ -45,6 +45,8 @@ public class OauthController {
 
         System.out.println("userInfo = " + userInfo);
 
+
+        return ResponseEntity.ok().body(access_Token);
 //        if(userInfo.get("email") != null){
 //            session.setAttribute("userId",userInfo.get("email"));
 //            session.setAttribute("AT",access_Token);
@@ -52,8 +54,8 @@ public class OauthController {
 //        System.out.println("access_Token = " + access_Token);
 
         // 회원 인지확인
-        userService.check(userInfo.get("email").toString(),userInfo.get("nickname").toString());
-        return userService.kakaoLogin(userInfo.get("email").toString(),response);
+//        userService.check(userInfo.get("email").toString(),userInfo.get("nickname").toString());
+//        return userService.kakaoLogin(userInfo.get("email").toString(),response);
 //        return new ModelAndView("redirect:/main");
     }
     @Operation(summary = "OAuth Kakao logout", description = "OAuth Kakao logout", tags = { "유저" })

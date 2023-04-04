@@ -29,7 +29,7 @@ public class KakaoAPI {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=cb43aa57f927750603a06c79ecd1a6e3");
-            sb.append("&redirect_uri=http://3.36.128.190:6600/kakao");
+            sb.append("&redirect_uri=http://localhost:6600/kakao");
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
@@ -74,7 +74,7 @@ public class KakaoAPI {
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod("GET");
 
             //    요청에 필요한 Header에 포함될 내용
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
