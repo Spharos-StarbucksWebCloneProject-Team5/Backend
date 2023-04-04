@@ -22,6 +22,7 @@ public class KakaoAPI {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
+//            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
 
@@ -29,7 +30,7 @@ public class KakaoAPI {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=cb43aa57f927750603a06c79ecd1a6e3");
-            sb.append("&redirect_uri=http://3.36.128.190:6600");
+            sb.append("&redirect_uri=http://3.36.128.190:6600/kakao");
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
@@ -37,11 +38,12 @@ public class KakaoAPI {
             int responseCode = conn.getResponseCode();
             System.out.println("responseCode : " + responseCode);
 
+            System.out.println(3333);
             //    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             String result = "";
-
+            System.out.println(222);
             while ((line = br.readLine()) != null) {
                 result += line;
             }
@@ -50,10 +52,8 @@ public class KakaoAPI {
             //    Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
-
             accessToken = element.getAsJsonObject().get("access_token").getAsString();
             refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
-
             System.out.println("access_token : " + accessToken);
             System.out.println("refresh_token : " + refreshToken);
 
@@ -74,7 +74,7 @@ public class KakaoAPI {
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            conn.setRequestMethod("POST");
 
             //    요청에 필요한 Header에 포함될 내용
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);

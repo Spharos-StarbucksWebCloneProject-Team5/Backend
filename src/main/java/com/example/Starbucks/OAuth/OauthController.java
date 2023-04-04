@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/login")
+@Slf4j
 public class OauthController {
     private final KakaoAPI kakaoAPI;
 //    private final OAuthService oAuthService;
@@ -42,11 +44,9 @@ public class OauthController {
         System.out.println("code :" + code);
         String access_Token = kakaoAPI.getAccessToken(code);
         HashMap<String,Object> userInfo = kakaoAPI.getUserInfo(access_Token);
-
         System.out.println("userInfo = " + userInfo);
+//        return ResponseEntity.ok().body(access_Token);
 
-
-        return ResponseEntity.ok().body(access_Token);
 //        if(userInfo.get("email") != null){
 //            session.setAttribute("userId",userInfo.get("email"));
 //            session.setAttribute("AT",access_Token);
@@ -54,8 +54,8 @@ public class OauthController {
 //        System.out.println("access_Token = " + access_Token);
 
         // 회원 인지확인
-//        userService.check(userInfo.get("email").toString(),userInfo.get("nickname").toString());
-//        return userService.kakaoLogin(userInfo.get("email").toString(),response);
+        userService.check(userInfo.get("email").toString(),userInfo.get("nickname").toString());
+        return userService.kakaoLogin(userInfo.get("email").toString(),response);
 //        return new ModelAndView("redirect:/main");
     }
     @Operation(summary = "OAuth Kakao logout", description = "OAuth Kakao logout", tags = { "유저" })
