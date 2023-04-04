@@ -17,7 +17,7 @@ public interface CategoryListRepository extends JpaRepository<CategoryList, Long
             "from product p\n" +
             "left outer join\n" +
             "category_list c\n" +
-            "on p.id = c.id\n" +
+            "on p.id = c.product_id\n" +
             "where main_category_id = :category and middle_category_id = :subCategory"
             , countQuery = "select count(*) from category_list c where main_category_id = :category and middle_category_id = :subCategory"
             , nativeQuery = true)
