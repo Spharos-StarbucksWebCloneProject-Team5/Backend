@@ -6,12 +6,13 @@
 
 ## 👨‍👨‍👧‍👦 팀소개
 |------|------|------|
-|------|------|------|
-|jinyeong-afk(송진영)|KHS96(김희수)|ssooyaa(김수지)|
+|송진영|김희수|김수지|
+|[@jinyeong-afk](https://github.com/jinyeong-afk)|[@KHS96](https://github.com/KHS96)|[@ssooyaa](https://github.com/ssooyaa)|
 |- 상품 도메인</br>- 카테고리 도메인</br>- 검색 기능</br>- 페이징 처리</br>- Redis Cache|- 쿠폰 도메인</br>- 유저 도메인</br>- Spring Security</br>- OAuth2.0</br>- JWT</br>- Mail Sender</br>|- 카트 도메인</br>- 페이먼트 도메인</br>|
 
 ## ⚒개발 환경
 ### 📚사용 기술 스택
+- ![Java](https://img.shields.io/badge/Java%2011%20Code-007ACC?style=for-the-badge&logo=Java&logoColor=white)
 - Java 11
 - SpringFramework
 - REST API
