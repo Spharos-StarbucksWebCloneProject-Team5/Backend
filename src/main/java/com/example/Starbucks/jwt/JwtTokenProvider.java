@@ -1,6 +1,6 @@
 package com.example.Starbucks.jwt;
 
-import com.example.Starbucks.users.dto.UserResponseDto;
+import com.example.Starbucks.api.users.dto.UserResponseDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

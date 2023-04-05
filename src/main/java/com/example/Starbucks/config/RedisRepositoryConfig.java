@@ -1,7 +1,7 @@
 package com.example.Starbucks.config;
 
-import com.example.Starbucks.category.dto.PageValue;
-import com.example.Starbucks.category.dto.ResponseSearch;
+import com.example.Starbucks.api.category.dto.PageValue;
+import com.example.Starbucks.api.category.dto.ResponseSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.annotation.EnableCaching;
