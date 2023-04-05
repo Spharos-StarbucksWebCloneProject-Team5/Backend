@@ -7,7 +7,6 @@ import com.teamSiHyun.Starbucks.api.payment.dto.UserShippingDto;
 import com.teamSiHyun.Starbucks.api.payment.service.IPaymentService;
 import com.teamSiHyun.Starbucks.api.payment.vo.RequestCartPayment;
 import com.teamSiHyun.Starbucks.api.payment.vo.RequestPayment;
-import com.teamSiHyun.Starbucks.payment.vo.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

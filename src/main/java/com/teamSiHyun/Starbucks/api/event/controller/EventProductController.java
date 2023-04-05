@@ -5,7 +5,6 @@ import com.teamSiHyun.Starbucks.api.event.model.EventProduct;
 import com.teamSiHyun.Starbucks.api.event.service.IEventProductService;
 import com.teamSiHyun.Starbucks.api.event.vo.RequestEventProduct;
 import com.teamSiHyun.Starbucks.api.event.dto.EventProductDto;
-import com.teamSiHyun.Starbucks.event.vo.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

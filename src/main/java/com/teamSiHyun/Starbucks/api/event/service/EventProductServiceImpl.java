@@ -6,7 +6,6 @@ import com.teamSiHyun.Starbucks.api.product.repository.IProductRepository;
 import com.teamSiHyun.Starbucks.api.event.dto.EventProductDto;
 import com.teamSiHyun.Starbucks.api.event.repository.IEventProductRepository;
 import com.teamSiHyun.Starbucks.api.event.repository.IEventRepository;
-import com.teamSiHyun.Starbucks.event.vo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

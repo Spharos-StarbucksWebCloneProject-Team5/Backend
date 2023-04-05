@@ -12,7 +12,6 @@ import com.teamSiHyun.Starbucks.api.payment.dto.ResponseBest;
 import com.teamSiHyun.Starbucks.api.payment.dto.UserShippingDto;
 import com.teamSiHyun.Starbucks.api.payment.model.Payment;
 import com.teamSiHyun.Starbucks.api.payment.repository.IPaymentRepository;
-import com.teamSiHyun.Starbucks.payment.vo.*;
 import com.teamSiHyun.Starbucks.api.product.ResponseInventory;
 import com.teamSiHyun.Starbucks.api.product.repository.IProductRepository;
 import com.teamSiHyun.Starbucks.api.shippingAddress.repository.IShippingAddressRepository;
