@@ -5,8 +5,9 @@
 대형 쇼핑 웹사이트의 로직을 이해하기 위해서 프로젝트를 시작했습니다.
 
 ## 👨‍👨‍👧‍👦 팀소개
-|송진영|김희수|김수지|
+|![image](https://user-images.githubusercontent.com/77527453/230077465-eedbcd1e-953b-4598-831d-e60bf491c292.png)|![image](https://user-images.githubusercontent.com/77527453/230077505-4555456d-3a8c-42ae-bdde-ac37a72ab8e6.png)|![image](https://user-images.githubusercontent.com/77527453/230077538-54e206c1-3153-4b42-ad3b-4f49fca15845.png)|
 |:------:|:------:|:------:|
+|송진영|김희수|김수지|
 |[@jinyeong-afk](https://github.com/jinyeong-afk)|[@KHS96](https://github.com/KHS96)|[@ssooyaa](https://github.com/ssooyaa)|
 |- 상품 도메인</br>- 카테고리 도메인</br>- 검색 기능</br>- 페이징 처리</br>- Redis Cache|- 쿠폰 도메인</br>- 유저 도메인</br>- Spring Security</br>- OAuth2.0</br>- JWT</br>- Mail Sender</br>|- 카트 도메인</br>- 페이먼트 도메인</br>|
 
