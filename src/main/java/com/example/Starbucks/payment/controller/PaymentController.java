@@ -17,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 
@@ -81,8 +83,8 @@ public class PaymentController {
     })
     @ResponseBody
     @GetMapping("/get") //주문내역
-    public ResponseEntity<List<PaymentDto>> getPayment(Authentication authentication, @RequestBody RequestPaymentList requestPaymentList){
-        return ResponseEntity.ok(iPaymentService.getPayment(authentication, requestPaymentList));
+    public ResponseEntity<List<PaymentDto>> getPayment(Authentication authentication, @Param("startDate") String startDate, @Param("endDate") String endDate){
+        return ResponseEntity.ok(iPaymentService.getPayment(authentication, startDate,endDate));
     }
 
     @Operation(summary = "카트 상품 결제", description = "고객 카트 상품 한번에 결제하기.", tags = { "주문" })

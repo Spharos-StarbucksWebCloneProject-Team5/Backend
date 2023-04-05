@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public interface IPaymentService {
@@ -19,7 +21,7 @@ public interface IPaymentService {
     void cancelPayment(Long id);
     void shippingPayment(PaymentShippingDto paymentShippingDto);
     UserShippingDto getShippingStatus(Authentication authentication);
-    List<PaymentDto> getPayment(Authentication authentication, RequestPaymentList requestPaymentList);
+    List<PaymentDto> getPayment(Authentication authentication, String startDate, String endDate);
     List<ResponseBest> getBest(Integer main);
 
     void addCartPayment(RequestCartPayment requestCartPayments);

@@ -16,13 +16,18 @@ import com.example.Starbucks.product.repository.IProductRepository;
 import com.example.Starbucks.shippingAddress.repository.IShippingAddressRepository;
 import com.example.Starbucks.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -121,12 +126,16 @@ public class PaymentServiceImpl implements IPaymentService {
                 .build();
     }
 
+    @SneakyThrows
     @Override
-    public List<PaymentDto> getPayment(Authentication authentication, RequestPaymentList requestPaymentList) {
+    public List<PaymentDto> getPayment(Authentication authentication, String startDate, String  endDate){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate start = LocalDate.parse(startDate, formatter);
+        LocalDate end = LocalDate.parse(endDate, formatter);
         Long userId = userRepository.findByEmail(authentication.getName()).get().getId();
         List<PaymentDto> userPaymentDto = iPaymentRepository.findAllByUserId(userId).stream()
-                .filter(payment -> payment.getCreateDate().isAfter(requestPaymentList.getStartDate().atTime(0,0,0))
-                        && payment.getCreateDate().isBefore(requestPaymentList.getEndDate().atTime(23,59,59)))
+                .filter(payment -> payment.getCreateDate().isAfter(start.atTime(0,0,0))
+                        && payment.getCreateDate().isBefore(end.atTime(23,59,59)))
                 .map(payment -> PaymentDto.builder()
                         .date(payment.getCreateDate())
                         .payStatus(payment.getPayStatus())
