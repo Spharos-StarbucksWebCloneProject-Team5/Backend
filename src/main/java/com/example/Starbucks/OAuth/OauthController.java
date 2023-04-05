@@ -5,15 +5,27 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/login")
+@Slf4j
 public class OauthController {
     private final KakaoAPI kakaoAPI;
 //    private final OAuthService oAuthService;
@@ -26,28 +38,26 @@ public class OauthController {
     })
     @ResponseBody
     @GetMapping("/kakao")
-    public ResponseEntity<String> login(@RequestParam("code") String code, HttpSession session){
+    public ResponseEntity<?> login(@RequestParam("code") String code, HttpServletResponse response) throws URISyntaxException {
         System.out.println(code);
         String res = "accesstoken 생성 완료";
         System.out.println("code :" + code);
         String access_Token = kakaoAPI.getAccessToken(code);
         HashMap<String,Object> userInfo = kakaoAPI.getUserInfo(access_Token);
-
         System.out.println("userInfo = " + userInfo);
+//        return ResponseEntity.ok().body(access_Token);
 
-        if(userInfo.get("email") != null){
-            session.setAttribute("userId",userInfo.get("email"));
-            session.setAttribute("AT",access_Token);
-        }
+//        if(userInfo.get("email") != null){
+//            session.setAttribute("userId",userInfo.get("email"));
+//            session.setAttribute("AT",access_Token);
+//        }
 //        System.out.println("access_Token = " + access_Token);
 
         // 회원 인지확인
         userService.check(userInfo.get("email").toString(),userInfo.get("nickname").toString());
-
-
-        return ResponseEntity.ok(res);
+        return userService.kakaoLogin(userInfo.get("email").toString(),response);
+//        return new ModelAndView("redirect:/main");
     }
-
     @Operation(summary = "OAuth Kakao logout", description = "OAuth Kakao logout", tags = { "유저" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -61,6 +71,5 @@ public class OauthController {
         return "로그아웃완료";
     }
 
-
-
 }
+

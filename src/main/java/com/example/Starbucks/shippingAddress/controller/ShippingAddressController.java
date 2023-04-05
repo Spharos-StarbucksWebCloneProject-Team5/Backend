@@ -72,4 +72,13 @@ public class ShippingAddressController {
         ResponseEntity.ok();
         return null;
     }
+
+    @Operation(summary = "메인배송지 요청", description = "기본배송지를 가져옵니다.", tags = { "배송지" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+    })
+    @GetMapping("/main")
+    public ResponseEntity<ResponseShippingAddress> getMainShippingAddress(Authentication authentication){
+        return ResponseEntity.ok(iShippingAddressService.getMainShippingAddress(authentication));
+    }
 }

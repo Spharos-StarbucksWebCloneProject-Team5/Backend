@@ -30,6 +30,9 @@ public class CartDto {
     @Schema(description = "상품이미지썸네일")
     String productThumbnail;
 
+    @Schema(description = "상품 재고")
+    Integer productInventory;
+
     @Schema(description = "담은 상품 수량")
     Integer count;
 

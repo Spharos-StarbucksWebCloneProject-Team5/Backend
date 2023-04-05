@@ -12,15 +12,15 @@ import java.util.List;
 
 public interface IProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select p.id, p.name, p.price, p.thumbnail, c.main_category_Id, c.middle_category_id " +
-            "from Product p " +
+            "from product p " +
             "inner join " +
             "category_list c " +
             "on p.id = c.id"
             , countQuery = "select count(p.name) " +
-            "from Product p " +
+            "from product p " +
             "inner join " +
             "category_list c " +
-            "on p.id = c.id"
+            "on p.id = c.product_id"
             , nativeQuery = true)
     Page<IProduct> getAllProduct(Pageable pageable);
 

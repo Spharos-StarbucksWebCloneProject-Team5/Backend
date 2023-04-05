@@ -20,7 +20,7 @@ public class RequestEvent {
     private String description;
     @NotBlank
     private String titleImage;
-    @NotBlank
+
     private String infoImage;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date startDate;

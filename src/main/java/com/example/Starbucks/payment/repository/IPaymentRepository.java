@@ -14,17 +14,17 @@ import java.util.List;
 public interface IPaymentRepository extends JpaRepository<Payment, Long> {
     Payment findById(long id);
     List<Payment> findAllByUserId(Long userId);
-    @Query(value = "SELECT P.*\n" +
-            "  FROM PRODUCT AS P \n" +
-            "  JOIN \n" +
-            "( SELECT A.PRODUCT_ID\n" +
-            "  FROM PAYMENT A , CATEGORY_LIST B\n" +
-            "  WHERE A.PRODUCT_ID = B.PRODUCT_ID\n" +
-            "    AND PAY_STATUS=1\n" +
-            "    AND B.MAIN_CATEGORY_ID = :main\n" +
-            "GROUP BY A.PRODUCT_ID\n" +
-            "ORDER BY SUM(A.PRODUCT_COUNT) DESC ) C\n" +
-            "ON P.ID = C.PRODUCT_ID\n" +
-            "LIMIT 5", nativeQuery = true)
+    @Query(value = "select p.*\n" +
+            "  from product as p \n" +
+            "  join \n" +
+            "( select a.product_id\n" +
+            "  from payment a , category_list b\n" +
+            "  where a.product_id = b.product_id\n" +
+            "    and pay_status=1\n" +
+            "    and b.main_category_id = :main\n" +
+            "group by a.product_id\n" +
+            "order by sum(a.product_count) desc ) c\n" +
+            "on p.id = c.product_id\n" +
+            "limit 5", nativeQuery = true)
     List<IProduct> bestProduct(@Param("main") Integer main);
 }

@@ -13,6 +13,7 @@ import com.example.Starbucks.config.RedisRepositoryConfig;
 import com.example.Starbucks.enums.PageNum;
 import com.example.Starbucks.enums.Redis;
 import com.example.Starbucks.product.repository.IProductRepository;
+import com.example.Starbucks.product.service.IProductService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,13 @@ public class CategoryListServiceImpl implements ICategoryListService {
     public ResponsePage searchByCategory(Integer category, Integer subCategory, Integer pageNum, Pageable pageable) {
         pageable = PageRequest.of(pageNum, PageNum.PAGE_SIZE.getValue());
         RedisTemplate<Object, Object> redisTemplate = redisRepositoryConfig.searchRedisTemplate();
+        if (category == 0) {
+            String key = "ProductAll:" + pageNum;
+            if (redisTemplate.opsForList().size(key) == 0) {
+                executeCache(key, iProductRepository.getAllProduct(pageable), redisTemplate);
+            }
+            return getCache(key);
+        }
         if (subCategory == null) {
             String key = "category:" + category + ":" + pageNum;
             if (redisTemplate.opsForList().size(key) == 0) {

@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -34,9 +34,8 @@ public class CartController {
     @Operation(summary = "장바구니 담기", description = "장바구니에 상품 추가하기", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
     @PostMapping("")
-    public ResponseEntity<Void> addCart(Authentication authentication,@RequestBody @Valid RequestCart requestCart){
-        iCartService.addCart(authentication,requestCart);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> addCart(Authentication authentication,@RequestBody @Valid RequestCart requestCart){
+        return iCartService.addCart(authentication,requestCart);
         //상태만 반환
     }
 
@@ -53,10 +52,10 @@ public class CartController {
     @Operation(summary = "장바구니 수량변경", description = "장바구니 상품 수량 수정", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
     @PatchMapping("/update/{id}")//수량변경
-    public ResponseEntity<Void> updateCart(@PathVariable Long id, @RequestBody @Valid  RequestUpdateCart requestUpdateCart){
-       iCartService.updateCart(id, requestUpdateCart);
-        URI location = URI.create(String.format("/get"));
-        return ResponseEntity.created(location).build();
+    public ResponseEntity<?> updateCart(@PathVariable Long id, @RequestBody @Valid  RequestUpdateCart requestUpdateCart){
+//       iCartService.updateCart(id, requestUpdateCart);
+//        URI location = URI.create(String.format("/get"));
+        return iCartService.updateCart(id, requestUpdateCart);
        //유저 장바구니로 이동
     }
 

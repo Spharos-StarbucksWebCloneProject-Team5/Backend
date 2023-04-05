@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 @Service
 public class KakaoAPI {
-    public String getAccessToken(String authorize_code){
+    public String getAccessToken(String authorize_code) {
         String accessToken = "";
         String refreshToken = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -22,6 +22,7 @@ public class KakaoAPI {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
+//            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
 
@@ -29,19 +30,19 @@ public class KakaoAPI {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=cb43aa57f927750603a06c79ecd1a6e3");
-            sb.append("&redirect_uri=http://localhost:8080/login/kakao");
+//            sb.append("&redirect_uri=http://3.36.128.190:6600/kakao");
+            sb.append("&redirect_uri=http://localhost:6600/kakao");
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
 
             int responseCode = conn.getResponseCode();
             System.out.println("responseCode : " + responseCode);
-
             //    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             String result = "";
-
+            System.out.println(222);
             while ((line = br.readLine()) != null) {
                 result += line;
             }
@@ -50,23 +51,21 @@ public class KakaoAPI {
             //    Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
-
             accessToken = element.getAsJsonObject().get("access_token").getAsString();
             refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
-
             System.out.println("access_token : " + accessToken);
             System.out.println("refresh_token : " + refreshToken);
 
             br.close();
             bw.close();
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return accessToken;
     }
 
-    public HashMap<String, Object> getUserInfo (String access_Token) {
+    public HashMap<String, Object> getUserInfo(String access_Token) {
 
         //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
         HashMap<String, Object> userInfo = new HashMap<>();
@@ -137,7 +136,6 @@ public class KakaoAPI {
             e.printStackTrace();
         }
     }
-
 
 
 }

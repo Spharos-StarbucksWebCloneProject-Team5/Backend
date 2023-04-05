@@ -14,7 +14,6 @@ public interface IProductService {
 
     void addProduct(RequestProduct requestProduct);
     ResponseProduct getProduct(Long productId);
-    ResponsePage getAllProduct(int pageNum, Pageable pageable);
     List<ResponseSearch> getAllProduct2(Long lastProduct);
     void updateProduct(Long id, RequestProduct requestProduct);
     void deleteProduct(Long id);

@@ -4,13 +4,11 @@ import com.example.Starbucks.payment.dto.PaymentDto;
 import com.example.Starbucks.payment.dto.PaymentShippingDto;
 import com.example.Starbucks.payment.dto.ResponseBest;
 import com.example.Starbucks.payment.dto.UserShippingDto;
-import com.example.Starbucks.payment.model.Payment;
 import com.example.Starbucks.payment.service.IPaymentService;
 import com.example.Starbucks.payment.vo.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
@@ -18,9 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 
@@ -45,18 +43,17 @@ public class PaymentController {
             @ApiResponse(responseCode = "200", description = "OK"),
     })
     @PostMapping("")
-    public ResponseEntity<Void> addPayment(Authentication authentication, @RequestBody @Valid RequestPayment requestPayment) {
-        iPaymentService.addPayment(authentication,requestPayment);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> addPayment(Authentication authentication, @RequestBody @Valid RequestPayment requestPayment) {
+        return iPaymentService.addPayment(authentication,requestPayment);
     }
 
     @Operation(summary = "주문 취소 요청", description = "주문을 취소합니다.", tags = { "주문" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
-    @PutMapping("/cancel")
-    public ResponseEntity<Void> cancelPayment(@RequestBody @Valid RequestPaymentCancel requestPaymentCancel){
-        iPaymentService.cancelPayment(requestPaymentCancel);
+    @PutMapping("/cancel/{id}")
+    public ResponseEntity<Void> cancelPayment(@PathVariable Long id){
+        iPaymentService.cancelPayment(id);
         return ResponseEntity.ok().build();
     }
 
@@ -86,8 +83,8 @@ public class PaymentController {
     })
     @ResponseBody
     @GetMapping("/get") //주문내역
-    public ResponseEntity<List<PaymentDto>> getPayment(Authentication authentication, @RequestBody RequestPaymentList requestPaymentList){
-        return ResponseEntity.ok(iPaymentService.getPayment(authentication, requestPaymentList));
+    public ResponseEntity<List<PaymentDto>> getPayment(Authentication authentication, @Param("startDate") String startDate, @Param("endDate") String endDate){
+        return ResponseEntity.ok(iPaymentService.getPayment(authentication, startDate,endDate));
     }
 
     @Operation(summary = "카트 상품 결제", description = "고객 카트 상품 한번에 결제하기.", tags = { "주문" })
