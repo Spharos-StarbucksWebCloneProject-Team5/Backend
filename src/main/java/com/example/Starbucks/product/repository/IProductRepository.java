@@ -20,7 +20,7 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
             "from product p " +
             "inner join " +
             "category_list c " +
-            "on p.id = c.id"
+            "on p.id = c.product_id"
             , nativeQuery = true)
     Page<IProduct> getAllProduct(Pageable pageable);
 
