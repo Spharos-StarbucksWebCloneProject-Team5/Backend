@@ -51,3 +51,21 @@
 
 ## Client Git Repository
 [Client Git Repository](https://github.com/Spharos-StarbucksWebCloneProject-Team5/Nextjs)
+
+## 👨‍🔧기능
+|로그인|카카오로그인|
+|:------:|:-----:|
+|![로그인](https://user-images.githubusercontent.com/77527453/230073919-49697f08-ed6e-4522-9e38-e57b22f86906.gif)|![카카오로그인](https://user-images.githubusercontent.com/77527453/230074046-7367f58d-98ae-46a5-bdab-507f7f3aaa79.gif)|
+
+|회원가입|메인|
+|:------:|:-----:|
+|![회원가입](https://user-images.githubusercontent.com/77527453/230074157-b2487001-0275-43c1-bff0-1551e72603bc.gif)|![메인](https://user-images.githubusercontent.com/77527453/230074204-348f91e3-f164-4ba7-8208-936d99fda43b.gif)|
+
+|검색|주문|
+|:------:|:-----:|
+|![키워드검색](https://user-images.githubusercontent.com/77527453/230074330-c759466f-3730-423a-a770-40ced2fbaaa0.gif)|![상품결제](https://user-images.githubusercontent.com/77527453/230074261-06389cec-8007-4535-86fb-1004c4fa6d9d.gif)|
+
+|배송지|---|
+|:------:|:-----:|
+|![배송지등록](https://user-images.githubusercontent.com/77527453/230074296-908db24f-0a0d-4bf4-9f27-b4d1f5181a87.gif)|----|
+
