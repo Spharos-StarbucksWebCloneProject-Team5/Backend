@@ -44,6 +44,9 @@
 ![Miro](https://img.shields.io/badge/Miro-050038?style=for-the-badge&logo=Miro&logoColor=white)
 ![Google Sheets](https://img.shields.io/badge/Google%20Sheets-34A853?style=for-the-badge&logo=Google%20Sheets&logoColor=white)
 
+## 📚아키텍처
+![스타벅스아키텍처](https://user-images.githubusercontent.com/77527453/230251881-c97b44b2-06a7-40f1-88d5-ee03ba45680b.PNG)
+
 ## 📜ERD
 ![ERD](https://user-images.githubusercontent.com/77527453/229390743-fdfe1505-966a-4f83-964b-eb324cc8d6cc.png)
 
