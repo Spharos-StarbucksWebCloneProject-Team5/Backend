@@ -44,8 +44,7 @@ public class CartController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> deleteCart(@PathVariable Long id){
         iCartService.deleteCart(id);
-        URI location = URI.create(String.format("/get/" + iCartRepository.findById(id).get().getUser().getId()));
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.ok().build();
         //유저 장바구니로 이동
     }
 
@@ -53,8 +52,6 @@ public class CartController {
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Cart.class)))
     @PatchMapping("/update/{id}")//수량변경
     public ResponseEntity<?> updateCart(@PathVariable Long id, @RequestBody @Valid  RequestUpdateCart requestUpdateCart){
-//       iCartService.updateCart(id, requestUpdateCart);
-//        URI location = URI.create(String.format("/get"));
         return iCartService.updateCart(id, requestUpdateCart);
        //유저 장바구니로 이동
     }
@@ -71,8 +68,7 @@ public class CartController {
     @PutMapping("/delete")
     public ResponseEntity<Void> allDeleteCart(Authentication authentication){
         iCartService.allDeleteCart(authentication);
-        URI location = URI.create(String.format("/get"));
-        return ResponseEntity.created(location).build();
+        return  ResponseEntity.ok().build();
         //유저 장바구니로 이동
     }
     @Operation(summary = "장바구니 가져오기", description = "장바구니 수정페이지 정보 보기", tags = { "장바구니"})
