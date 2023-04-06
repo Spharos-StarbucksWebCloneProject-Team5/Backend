@@ -34,17 +34,28 @@ public class MailServiceImpl implements MailService{
         message.setSubject("인증 메일"); // 제목
 
         String msgg = "";
-        msgg += "<div style='margin:100px;'>";
-        msgg += "<h1> 안녕하세요</h1>";
-        msgg += "<h1> 시현조 입니다</h1>";
-        msgg += "<br>";
-        msgg += "<p>아래 코드를 회원가입 창으로 돌아가 입력해주세요<p>";
-        msgg += "<br>";
-        msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
-        msgg += "<h3 style='color:blue;'>메일 인증 코드입니다.</h3>";
+        msgg += "<div style='margin:100px; border-top:3px solid rgb(15, 153, 207)'>";
+        msgg += "<div style=\"display: flex; padding-top: 30px; width: 100%; justify-content: space-between;\">";
+        msgg += "<div>";
+        msgg += "<h1 style=\"color:  rgb(15, 153, 207)\"> 인증번호 확인 후</h1>";
+        msgg += "<h1 style=\"color:  rgb(15, 153, 207)\"> 이메일 인증을 완료해주세요.</h1>";
+        msgg += "<hr style=\"float:left ;width: 100px; border:2px solid rgb(15, 153, 207)\">";
+        msgg += "</div>";
+        msgg += "<img src=\"https://j.gifs.com/EqVvOv.gif\" style=\"width: 400px; margin-left: 200px;\">";
+        msgg += "</div>";
+        msgg += "<div>";
+        msgg += "<h2 style=\"font-size: 15px;\">안녕하세요? 시현조 입니다.</h2>";
+        msgg += "<h2 style=\"font-size: 15px;\">아래 인증코드를 입력하여 이메일 인증을 진행하세요.</h2>";
+        msgg += "</div> </br>";
+        msgg += "style='border:1px solid black; font-family:verdana; background-color: rgba(15, 153, 207, 0.7); width: 500px; margin-left: 27%; align-content: center;'>";
+        msgg += "<h3 style='color:white;'>메일 인증 코드입니다.</h3>";
         msgg += "<div style='font-size:130%'>";
-        msgg += "CODE : <strong>";
-        msgg += ePw + "</strong><div><br/> "; // 메일에 인증번호 넣기
+        msgg += "<p style=\"color:white;\">인증코드 : <strong></p>";
+        msgg += "<p style=\"color:white;\">"+ ePw + ": <strong></p>"; // 메일에 인증번호 넣기
+        msgg += "<div> </br>";
+        msgg += "</div>";
+        msgg += "</div>";
+        msgg += "</div>";
         msgg += "</div>";
         message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
         // 보내는 사람의 이메일 주소, 보내는 사람 이름
