@@ -82,7 +82,6 @@ public class UserServiceImpl implements UserService {
             return response.fail("로그인에 실패하였습니다.", HttpStatus.BAD_REQUEST);
         }
 
-        log.info("log 1");
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = login.toAuthentication();
