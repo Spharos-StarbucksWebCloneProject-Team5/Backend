@@ -55,7 +55,6 @@ public class KakaoAPI {
             refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
             System.out.println("access_token : " + accessToken);
             System.out.println("refresh_token : " + refreshToken);
-
             br.close();
             bw.close();
 
