@@ -41,4 +41,8 @@ public class Cart extends BaseTimeEntity {
     public void setUpdateCount(Integer count) {
         this.count = count;
     }
+
+    public void setUpdateNow(Boolean now) {
+        this.now = now;
+    }
 }

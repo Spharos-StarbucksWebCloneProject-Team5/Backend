@@ -43,6 +43,7 @@ public class CartServiceImpl implements ICartService{
         log.info("{}",cart.isPresent());
         if (cart.isPresent()){
             cart.get().setUpdateCount(cart.get().getCount() + requestCart.getCount());
+            cart.get().setUpdateNow(true);
             iCartRepository.save(cart.get());
             return responseInventory.cartSuccess();
         } else {
@@ -84,13 +85,9 @@ public class CartServiceImpl implements ICartService{
     public void allDeleteCart(Authentication authentication) {
         List<Cart> carts = iCartRepository.findAllByUserId(userRepository.findByEmail(authentication.getName()).get().getId());
         for(Cart cart : carts){
-            iCartRepository.save(Cart.builder()
-                    .id(cart.getId())
-                    .user(cart.getUser())
-                    .product(cart.getProduct())
-                    .count(0)
-                    .now(false)
-                    .build());
+            cart.setUpdateCount(0);
+            cart.setUpdateNow(false);
+            iCartRepository.save(cart);
         }
     }
 
