@@ -83,8 +83,13 @@ public class CartServiceImpl implements ICartService{
 
     @Override
     public void allDeleteCart(Authentication authentication) {
-        System.out.println(authentication.getName());
-        System.out.println(userRepository.findByEmail(authentication.getName()).get().getId());
+        try{
+            System.out.println(authentication.getName());
+            System.out.println(userRepository.findByEmail(authentication.getName()).get().getId());
+        }catch (Exception e){
+            System.out.println(e.getMessage()+"@@@@@@@@@@@");
+        }
+
         List<Cart> carts = iCartRepository.findAllByUserId(userRepository.findByEmail(authentication.getName()).get().getId());
         for(Cart cart : carts){
             cart.setUpdateCount(0);
