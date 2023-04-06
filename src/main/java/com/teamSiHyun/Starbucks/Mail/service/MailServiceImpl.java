@@ -47,7 +47,7 @@ public class MailServiceImpl implements MailService{
         msgg += "<h2 style=\"font-size: 15px;\">안녕하세요? 시현조 입니다.</h2>";
         msgg += "<h2 style=\"font-size: 15px;\">아래 인증코드를 입력하여 이메일 인증을 진행하세요.</h2>";
         msgg += "</div> </br>";
-        msgg += "style='border:1px solid black; font-family:verdana; background-color: rgba(15, 153, 207, 0.7); width: 500px; margin-left: 27%; align-content: center;'>";
+        msgg += "<div align='center' style='border:1px solid black; font-family:verdana; background-color: rgba(15, 153, 207, 0.7); width: 500px; margin-left: 27%; align-content: center;'>";
         msgg += "<h3 style='color:white;'>메일 인증 코드입니다.</h3>";
         msgg += "<div style='font-size:130%'>";
         msgg += "<p style=\"color:white;\">인증코드 : <strong></p>";
@@ -59,7 +59,7 @@ public class MailServiceImpl implements MailService{
         msgg += "</div>";
         message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
         // 보내는 사람의 이메일 주소, 보내는 사람 이름
-        message.setFrom(new InternetAddress("dkdlzks32@naver.com", "test"));// 보내는 사람
+        message.setFrom(new InternetAddress("dkdlzks32@naver.com", "SiHyeon"));// 보내는 사람
 
         return message;
 
