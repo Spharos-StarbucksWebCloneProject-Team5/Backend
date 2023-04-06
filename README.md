@@ -2,6 +2,9 @@
 ## ✏️프로젝트 개요
 스타벅스 클론 프로젝트
 
+### 프로젝트 기간
+2023.02.20~2023.04.07
+
 대형 쇼핑 웹사이트의 로직을 이해하기 위해서 프로젝트를 시작했습니다.
 
 ## 👨‍👨‍👧‍👦 팀소개
@@ -45,7 +48,8 @@
 ![Google Sheets](https://img.shields.io/badge/Google%20Sheets-34A853?style=for-the-badge&logo=Google%20Sheets&logoColor=white)
 
 ## 📚아키텍처
-![스타벅스아키텍처](https://user-images.githubusercontent.com/77527453/230251881-c97b44b2-06a7-40f1-88d5-ee03ba45680b.PNG)
+![스타벅스아키텍처](https://user-images.githubusercontent.com/77527453/230254907-7d53d49b-3483-4bae-a015-9a92027dd01e.PNG)
+
 
 ## 📜ERD
 ![ERD](https://user-images.githubusercontent.com/77527453/229390743-fdfe1505-966a-4f83-964b-eb324cc8d6cc.png)
