@@ -64,8 +64,9 @@ public class CartController {
 
     @Operation(summary = "장바구니 전체삭제", description = "유저가 담은 장바구니 상품 전체 삭제", tags = { "장바구니"})
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CartDto.class)))
-    @PutMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity<Void> allDeleteCart(Authentication authentication){
+        log.info(authentication.getName());
         iCartService.allDeleteCart(authentication);
         return  ResponseEntity.ok().build();
         //유저 장바구니로 이동
